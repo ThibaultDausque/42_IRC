@@ -13,7 +13,7 @@ int	main(int ac, char **av)
 	return 0;
 
 	server_pwd = av[2];
-	server_port = std::atoi(av[1]);
+	server_port = atoi(av[1]);
 
 	if (server_port < 0 || server_port > 65535)
 	{

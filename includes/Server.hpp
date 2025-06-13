@@ -5,6 +5,7 @@
 # include <netinet/in.h>
 # include <sys/socket.h>
 # include <cstdlib>
+# include <unistd.h>
 
 class Server
 {

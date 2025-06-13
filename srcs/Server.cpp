@@ -6,7 +6,7 @@
 Server::Server(std::string _pwd, unsigned int _port)
 {
 	this->_serverFd = 0;
-	this->_serverIp = NULL;
+	this->_serverIp = "toto";
 	this->_serverPwd = _pwd;
 	this->_port = _port;
 	this->_connected = 0;
@@ -20,28 +20,35 @@ Server::~Server()
 int	Server::initServer(void)
 {
 	struct sockaddr_in	serverAddress;
-	
+	int		clientSocket;
+	char	buffer[1024] = {0};
 	// AF_INET = specifies the IPv4 protocol family
 	// SOCK_STREAM = defines that the TCP type socket
 	this->_serverFd = socket(AF_INET, SOCK_STREAM, 0);
 	
 	// Structure for handling internet addresses
 	serverAddress.sin_family = AF_INET;
-	serverAdress.sin_port = htons(this->_port);
-	serverAdress.sin_addr.s_addr = INADDR_ANY;
+	serverAddress.sin_port = htons(this->_port);
+	serverAddress.sin_addr.s_addr = INADDR_ANY;
 	
 	// link a socket with an IP and a port
-	if (!bind(serverFd, (sockaddr *)&serverAddress, sizeof(serverAddress)))
-	{
-		std::cout << "Error: bind failed" << std::endl;
-		return 1;
-	}
-	if (!listen(serverFd, 5))
-	{
-		std::cout << "Error: listen failed" << std::endl;
-		return 1;
-	}
-
+	if (bind(_serverFd, (sockaddr *)&serverAddress, sizeof(serverAddress)))
+		throw std::runtime_error("Error: bind failed\n");
+	// The Server listen on 5 port max
+	if (listen(_serverFd, 5))
+		throw std::runtime_error("Error: listen failed\n");
+	// wait for a client to connect
+	std::cout << "Client Message: " << buffer << std::endl;
+	close(this->_serverFd);
 
 	return 0;
+}
+
+void	Server::runServer(void)
+{
+	int		clientSocket;
+	char	buffer[1024] = {0};
+
+	clientSocket = accept(this->_serverFd, nullptr, nullptr);
+	recv(clientSocket, buffer, sizeof(buffer), 0);
 }

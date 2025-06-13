@@ -1,8 +1,12 @@
 CC = c++
 FLAGS = -Wall -Wextra -Werror -std=c++98
-SRCS = main.cpp \
+
+SRCS = srcs/Client.cpp \
+	   srcs/Server.cpp 
+
 RM = rm -f
 OBJS_DIR = obj
+INCLUDES = -Iincludes -Isrcs
 OBJS = $(SRCS:%.cpp=$(OBJS_DIR)/%.o)
 
 NAME = ircserv
@@ -10,11 +14,11 @@ NAME = ircserv
 all:$(NAME)
 
 $(NAME): $(OBJS)
-	@$(CC) $(FLAGS) $(OBJS) -o $(NAME)
+	@$(CC) $(INCLUDES) $(FLAGS) $(OBJS) -o $(NAME)
 
 $(OBJS_DIR)/%.o:%.cpp
 	@mkdir -p $(@D)
-	$(CC) $(FLAGS) -c $< -o $@
+	$(CC) $(INCLUDES) $(FLAGS) -c $< -o $@
 
 clean:
 	@rm -rf $(OBJS_DIR)
