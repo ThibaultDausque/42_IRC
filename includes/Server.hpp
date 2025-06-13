@@ -3,6 +3,7 @@
 
 # include <iostream>
 # include <netinet/in.h>
+# include <sys/socket.h>
 # include <cstdlib>
 
 class Server
@@ -18,7 +19,8 @@ class Server
 		Server(std::string _pwd, unsigned int _port);
 		~Server();
 		int		initServer(void);
-		void	acceptConnection();
+		void	acceptConnection(void);
+		void	runServer(void);
 };
 
 #endif

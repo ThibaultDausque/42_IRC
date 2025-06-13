@@ -15,7 +15,7 @@ int	main(int ac, char **av)
 	server_pwd = av[2];
 	server_port = std::atoi(av[1]);
 
-	if (server_port < 1024 || server_port > 65535)
+	if (server_port < 0 || server_port > 65535)
 	{
 		std::cout << "Error: " << server_port << " is incorrect." << std::endl;
 		return 1;
