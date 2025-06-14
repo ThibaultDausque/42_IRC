@@ -6,6 +6,7 @@
 # include <sys/socket.h>
 # include <cstdlib>
 # include <unistd.h>
+# include <poll.h>
 
 class Server
 {
@@ -20,8 +21,9 @@ class Server
 		Server(std::string _pwd, unsigned int _port);
 		~Server();
 		int		initServer(void);
-		void	acceptConnection(void);
+		void	acceptNewClient(void);
 		void	runServer(void);
+		void	eraseClient(void);
 };
 
 #endif

@@ -17,9 +17,11 @@ Server::~Server()
 
 }
 
+// USE POLL() !!!
 int	Server::initServer(void)
 {
 	struct sockaddr_in	serverAddress;
+
 	// AF_INET = specifies the IPv4 protocol family
 	// SOCK_STREAM = defines that the TCP type socket
 	this->_serverFd = socket(AF_INET, SOCK_STREAM, 0);
@@ -45,6 +47,15 @@ void	Server::runServer(void)
 	char	buffer[1024] = {0};
 
 	// wait for a client to connect
+	std::cout << "\e[1;36m╔───────────────────────────────────────────────╗" << std::endl;
+	std::cout << "\e[1;36m│   ███████╗████████╗     ██╗██████╗  ██████╗   │" << std::endl;
+	std::cout << "\e[1;36m│   ██╔════╝╚══██╔══╝     ██║██╔══██╗██╔════╝   │" << std::endl;
+	std::cout << "\e[1;36m│   █████╗     ██║        ██║██████╔╝██║        │" << std::endl;
+	std::cout << "\e[1;36m│   ██╔══╝     ██║        ██║██╔══██╗██║        │" << std::endl;
+	std::cout << "\e[1;36m│   ██║        ██║███████╗██║██║  ██║╚██████╗   │" << std::endl;
+	std::cout << "\e[1;36m│   ╚═╝        ╚═╝╚══════╝╚═╝╚═╝  ╚═╝ ╚═════╝   │" << std::endl;
+	std::cout << "\e[1;36m╚───────────────────────────────────────────────╝" << std::endl << std::endl;
+	std::cout << "\e[1;32m🚀 Server started successfully" << std::endl << std::endl;
 	clientSocket = accept(this->_serverFd, NULL, NULL);
 	recv(clientSocket, buffer, sizeof(buffer), 0);
 	std::cout << "Client Message: " << buffer << std::endl;
