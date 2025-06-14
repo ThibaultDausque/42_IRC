@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:27:00 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/11 19:03:12 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/14 16:26:35 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ FUNCTIONS
 
 bool	isCmdValid(std::string cmd)
 {
-	std::string cmds[16] = {
+	std::string cmds[15] = {
 		"USER",
 		"NICK",
 		"PASS",
@@ -57,7 +57,6 @@ bool	isCmdValid(std::string cmd)
 		"PONG",
 		"JOIN",
 		"PART",
-		"PRIVMSG",
 		"MODE",
 		"TOPIC",
 		"INVITE",
@@ -66,7 +65,7 @@ bool	isCmdValid(std::string cmd)
 		"LIST"
 	};
 
-	for (int i = 0; i < 16; i++) {
+	for (int i = 0; i < 15; i++) {
 		if (cmds[i] == cmd)
 			return true;
 	}

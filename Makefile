@@ -1,6 +1,6 @@
 CC = c++
 FLAGS = -Wall -Wextra -Werror -std=c++98
-SRCS = srcs/main.cpp srcs/Command.cpp
+SRCS = srcs/main.cpp srcs/Command.cpp srcs/Client.cpp
 RM = rm -f
 OBJS_DIR = obj
 OBJS = $(SRCS:%.cpp=$(OBJS_DIR)/%.o)
