@@ -1,7 +1,7 @@
 CC = c++
-FLAGS = -Wall -Wextra -Werror -std=c++98
+FLAGS = -Wall -Wextra -Werror -std=c++98 -g
 
-SRCS = srcs/Client.cpp \
+SRCS = srcs/main.cpp \
 	   srcs/Server.cpp 
 
 RM = rm -f

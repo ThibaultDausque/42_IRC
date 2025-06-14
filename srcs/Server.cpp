@@ -20,8 +20,6 @@ Server::~Server()
 int	Server::initServer(void)
 {
 	struct sockaddr_in	serverAddress;
-	int		clientSocket;
-	char	buffer[1024] = {0};
 	// AF_INET = specifies the IPv4 protocol family
 	// SOCK_STREAM = defines that the TCP type socket
 	this->_serverFd = socket(AF_INET, SOCK_STREAM, 0);
@@ -37,10 +35,7 @@ int	Server::initServer(void)
 	// The Server listen on 5 port max
 	if (listen(_serverFd, 5))
 		throw std::runtime_error("Error: listen failed\n");
-	// wait for a client to connect
-	std::cout << "Client Message: " << buffer << std::endl;
-	close(this->_serverFd);
-
+	
 	return 0;
 }
 
@@ -49,6 +44,9 @@ void	Server::runServer(void)
 	int		clientSocket;
 	char	buffer[1024] = {0};
 
-	clientSocket = accept(this->_serverFd, nullptr, nullptr);
+	// wait for a client to connect
+	clientSocket = accept(this->_serverFd, NULL, NULL);
 	recv(clientSocket, buffer, sizeof(buffer), 0);
+	std::cout << "Client Message: " << buffer << std::endl;
+	close(this->_serverFd);
 }
