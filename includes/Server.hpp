@@ -24,6 +24,7 @@ class Server
 		void	acceptNewClient(void);
 		void	runServer(void);
 		void	eraseClient(void);
+		void	signalHandler(int sig);
 };
 
 #endif
