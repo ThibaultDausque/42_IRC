@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:56:40 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/17 15:08:24 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/17 15:49:29 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,10 @@ void	Channel::removeClient(std::string clientNickname)
 	for (std::map<Client, bool>::iterator it = _clients.begin(); it != _clients.end(); it++) {
 		nick = it->first.getNickname();
 		if (nick == clientNickname)
+		{
 			_clients.erase(it);
+			break ;
+		}
 	}
 }
 

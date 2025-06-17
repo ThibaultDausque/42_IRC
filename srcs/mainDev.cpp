@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:23:42 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/17 14:47:11 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/17 15:52:01 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,17 @@ int	main(int ac, char **av)
 		gethostname(hostname, HOST_NAME_MAX);
 		Client client(av[1], av[2], hostname, "realname", 1);
 		std::cout << client << std::endl;
+
+		Client tpipi("tpipi", "tpipi", hostname, "realname", 1);
+		Client tdausque("tdausque", "tdausque", hostname, "realname", 1);
+		Channel	channel("#yahoo");
+		channel.addClient(tpipi, true);
+		channel.addClient(tdausque, false);
+		std::cout << "tdausque connecté : " << channel.isClientConnected("tdausque") << std::endl;
+		std::cout << "tdausque opérateur : " << channel.isClientOperator("tdausque") << std::endl;
+		std::cout << "tpipi opérateur : " << channel.isClientOperator("tpipi") << std::endl;
+		channel.removeClient("tdausque");
+		std::cout << "tdausque connecté après etre remove : " << channel.isClientConnected("tdausque") << std::endl;
 	}
 	catch(const std::exception& e)
 	{
