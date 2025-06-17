@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   mainDev.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:23:42 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/14 15:15:22 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/17 14:47:11 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include "Command.hpp"
 #include "Client.hpp"
+#include "Channel.hpp"
 
 #include <unistd.h>
 #include <limits.h>

@@ -1,10 +1,10 @@
 CC = c++
 FLAGS = -Wall -Wextra -Werror -std=c++98
-SRCS = srcs/main.cpp \
-		srcs/Command.cpp \
+SRCS = srcs/Command.cpp \
 		srcs/Client.cpp \
-		srcs/main.cpp \
-	   	srcs/Server.cpp 
+		srcs/mainDev.cpp \
+	   	srcs/Server.cpp \
+		srcs/Channel.cpp
 RM = rm -f
 OBJS_DIR = obj
 INCLUDES = -Iincludes -Isrcs

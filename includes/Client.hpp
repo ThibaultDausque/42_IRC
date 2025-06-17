@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 12:52:11 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/14 15:32:20 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/17 15:13:21 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ class Client
 					return "Invalid Character Exception";
 				}
 		};
+
+		bool operator<(const Client &other) const;
 
 		~Client(void);
 	private :

@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 13:01:39 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/14 16:26:58 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/17 15:14:12 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,11 @@ int			Client::getFD(void) const
 /*--------------
 FUNCTIONS MEMBER
 ----------------*/
+
+bool Client::operator<(const Client &other) const
+{
+	return (this->_nickname < other._nickname);
+}
 
 /*-------
 FUNCTIONS
