@@ -7,6 +7,7 @@
 # include <cstdlib>
 # include <unistd.h>
 # include <poll.h>
+# include "Client.hpp"
 
 class Server
 {
@@ -16,7 +17,8 @@ class Server
 		std::string		_serverPwd;
 		unsigned int	_port;
 		bool			_connected;
-	
+		std::map<Client, bool>	_clients;
+
 	public:
 		Server(std::string _pwd, unsigned int _port);
 		~Server();
