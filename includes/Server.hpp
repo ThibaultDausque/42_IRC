@@ -7,7 +7,11 @@
 # include <cstdlib>
 # include <unistd.h>
 # include <poll.h>
+<<<<<<< HEAD
 # include <vector>
+=======
+# include "Client.hpp"
+>>>>>>> 0823fff47c846eefe786660e38131534922e6470
 
 class Server
 {
@@ -17,7 +21,8 @@ class Server
 		std::string		_serverPwd;
 		unsigned int	_port;
 		bool			_connected;
-	
+		std::map<Client, bool>	_clients;
+
 	public:
 		Server(std::string _pwd, unsigned int _port);
 		~Server();
@@ -25,6 +30,7 @@ class Server
 		void	acceptNewClient(void);
 		void	runServer(void);
 		void	eraseClient(void);
+		void	signalHandler(int sig);
 };
 
 #endif

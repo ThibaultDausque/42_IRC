@@ -37,7 +37,7 @@ int	Server::initServer(void)
 	// The Server listen on 5 port max
 	if (listen(_serverFd, 5))
 		throw std::runtime_error("Error: listen failed\n");
-	
+
 	return 0;
 }
 
@@ -63,6 +63,10 @@ void	Server::runServer(void)
 	std::cout << "\e[1;36m│   ╚═╝        ╚═╝╚══════╝╚═╝╚═╝  ╚═╝ ╚═════╝   │" << std::endl;
 	std::cout << "\e[1;36m╚───────────────────────────────────────────────╝" << std::endl;
 	std::cout << "\e[1;32m🚀 Server started successfully" << std::endl << std::endl;
+	
+	if (poll(tab.data(), tab.size(), -1))
+		throw std::runtime_error("Error: poll failed\n");
+
 	clientSocket = accept(this->_serverFd, NULL, NULL);
 	recv(clientSocket, buffer, sizeof(buffer), 0);
 	std::cout << "Client Message: " << buffer << std::endl;
