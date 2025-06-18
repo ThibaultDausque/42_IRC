@@ -46,6 +46,7 @@ void	Server::runServer(void)
 	int		clientSocket;
 	char	buffer[1024] = {0};
 	std::vector<pollfd>	tab;
+	bool	run = false;
 
 	pollfd	server_pollfd;
 	server_pollfd.fd = this->_serverFd;
@@ -64,12 +65,33 @@ void	Server::runServer(void)
 	std::cout << "\e[1;36m╚───────────────────────────────────────────────╝" << std::endl;
 	std::cout << "\e[1;32m🚀 Server started successfully" << std::endl << std::endl;
 	
-	if (poll(tab.data(), tab.size(), -1))
-		throw std::runtime_error("Error: poll failed\n");
-
-	clientSocket = accept(this->_serverFd, NULL, NULL);
-	recv(clientSocket, buffer, sizeof(buffer), 0);
-	std::cout << "Client Message: " << buffer << std::endl;
-	
+	while (run == false)
+	{
+		if (poll(tab.data(), tab.size(), -1) == -1)
+			throw(std::runtime_error("Error: poll failed\n"));
+		if (tab[0].revents & POLLIN)
+		{
+			clientSocket = accept(this->_serverFd, NULL, NULL);
+			if (clientSocket == -1)
+				throw(std::runtime_error("Error: client has not been accepted\n"));
+			std::cout << "client connected !" << std::endl;
+			pollfd	client_pollfd;
+			client_pollfd.fd = clientSocket;
+			client_pollfd.events = POLLIN;
+			server_pollfd.revents = 0;
+			tab.push_back(client_pollfd);
+		}
+		for (size_t i = 1; i < tab.size(); i++)
+		{
+			if (tab[i].revents & POLLIN)
+			{
+				recv(clientSocket, buffer, sizeof(buffer), 0);
+				std::cout << "Message received !" << std::endl;
+				std::cout << "Client Message: " << buffer << std::endl;
+				run = true;
+			}
+		}
+	}
 	close(this->_serverFd);
 }
+

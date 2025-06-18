@@ -7,11 +7,9 @@
 # include <cstdlib>
 # include <unistd.h>
 # include <poll.h>
-<<<<<<< HEAD
 # include <vector>
-=======
 # include "Client.hpp"
->>>>>>> 0823fff47c846eefe786660e38131534922e6470
+# include <map>
 
 class Server
 {
