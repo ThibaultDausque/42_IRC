@@ -1,6 +1,7 @@
 #include "Server.hpp"
 #include <functional>
 #include <netinet/in.h>
+#include <stdexcept>
 #include <sys/socket.h>
 
 Server::Server(std::string _pwd, unsigned int _port)
@@ -17,7 +18,6 @@ Server::~Server()
 
 }
 
-// USE POLL() !!!
 int	Server::initServer(void)
 {
 	struct sockaddr_in	serverAddress;
@@ -45,6 +45,13 @@ void	Server::runServer(void)
 {
 	int		clientSocket;
 	char	buffer[1024] = {0};
+	std::vector<pollfd>	tab;
+
+	pollfd	server_pollfd;
+	server_pollfd.fd = this->_serverFd;
+	server_pollfd.events = POLLIN;
+	server_pollfd.revents = 0;
+	tab.push_back(server_pollfd);
 
 	// wait for a client to connect
 	std::cout << "\e[1;36m╔───────────────────────────────────────────────╗" << std::endl;
@@ -54,10 +61,11 @@ void	Server::runServer(void)
 	std::cout << "\e[1;36m│   ██╔══╝     ██║        ██║██╔══██╗██║        │" << std::endl;
 	std::cout << "\e[1;36m│   ██║        ██║███████╗██║██║  ██║╚██████╗   │" << std::endl;
 	std::cout << "\e[1;36m│   ╚═╝        ╚═╝╚══════╝╚═╝╚═╝  ╚═╝ ╚═════╝   │" << std::endl;
-	std::cout << "\e[1;36m╚───────────────────────────────────────────────╝" << std::endl << std::endl;
+	std::cout << "\e[1;36m╚───────────────────────────────────────────────╝" << std::endl;
 	std::cout << "\e[1;32m🚀 Server started successfully" << std::endl << std::endl;
 	clientSocket = accept(this->_serverFd, NULL, NULL);
 	recv(clientSocket, buffer, sizeof(buffer), 0);
 	std::cout << "Client Message: " << buffer << std::endl;
+	
 	close(this->_serverFd);
 }

@@ -7,6 +7,7 @@
 # include <cstdlib>
 # include <unistd.h>
 # include <poll.h>
+# include <vector>
 
 class Server
 {

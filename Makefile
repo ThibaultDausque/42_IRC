@@ -3,7 +3,6 @@ FLAGS = -Wall -Wextra -Werror -std=c++98
 SRCS = srcs/main.cpp \
 		srcs/Command.cpp \
 		srcs/Client.cpp \
-		srcs/main.cpp \
 	   	srcs/Server.cpp 
 RM = rm -f
 OBJS_DIR = obj
