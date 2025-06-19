@@ -19,7 +19,7 @@ class Server
 		std::string		_serverPwd;
 		unsigned int	_port;
 		bool			_connected;
-		std::map<Client, bool>	_clients;
+		std::vector<Client>	_clients;
 
 	public:
 		Server(std::string _pwd, unsigned int _port);

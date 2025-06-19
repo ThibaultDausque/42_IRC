@@ -1,8 +1,5 @@
 #include "Server.hpp"
-#include <functional>
-#include <netinet/in.h>
-#include <stdexcept>
-#include <sys/socket.h>
+#include <string>
 
 Server::Server(std::string _pwd, unsigned int _port)
 {
@@ -41,12 +38,18 @@ int	Server::initServer(void)
 	return 0;
 }
 
-void	Server::runServer(void)
+void	Server::runServer()
 {
 	int		clientSocket;
 	char	buffer[1024] = {0};
 	std::vector<pollfd>	tab;
 	bool	run = false;
+
+	// initialise client
+	std::string nickname = "toto";
+	std::string	username = "titi";
+	std::string	hostname = "tata";
+	std::string realname = "tutu";
 
 	pollfd	server_pollfd;
 	server_pollfd.fd = this->_serverFd;
@@ -54,7 +57,6 @@ void	Server::runServer(void)
 	server_pollfd.revents = 0;
 	tab.push_back(server_pollfd);
 
-	// wait for a client to connect
 	std::cout << "\e[1;36m╔───────────────────────────────────────────────╗" << std::endl;
 	std::cout << "\e[1;36m│   ███████╗████████╗     ██╗██████╗  ██████╗   │" << std::endl;
 	std::cout << "\e[1;36m│   ██╔════╝╚══██╔══╝     ██║██╔══██╗██╔════╝   │" << std::endl;
@@ -72,14 +74,16 @@ void	Server::runServer(void)
 		if (tab[0].revents & POLLIN)
 		{
 			clientSocket = accept(this->_serverFd, NULL, NULL);
+			Client cli(nickname, username, hostname, realname, clientSocket);
 			if (clientSocket == -1)
 				throw(std::runtime_error("Error: client has not been accepted\n"));
 			std::cout << "client connected !" << std::endl;
 			pollfd	client_pollfd;
 			client_pollfd.fd = clientSocket;
 			client_pollfd.events = POLLIN;
-			server_pollfd.revents = 0;
+			client_pollfd.revents = 0;
 			tab.push_back(client_pollfd);
+			_clients.push_back(cli);
 		}
 		for (size_t i = 1; i < tab.size(); i++)
 		{
@@ -88,7 +92,7 @@ void	Server::runServer(void)
 				recv(clientSocket, buffer, sizeof(buffer), 0);
 				std::cout << "Message received !" << std::endl;
 				std::cout << "Client Message: " << buffer << std::endl;
-				run = true;
+				break ;
 			}
 		}
 	}

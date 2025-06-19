@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 13:01:39 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/14 16:26:58 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/19 13:41:36 by tdausque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,24 @@
 CONSTRUCTORS AND DESTRUCTOR
 ---------------------------*/
 
-Client::Client(std::string nn, std::string un, std::string hn, std::string rn, int FD)
+Client::Client(std::string& nickname, std::string& username, std::string& hostname, std::string& realname, int FD)
 {
 	// si c'est vide c'est une not enough param
-	if (nn.length() > 9 || nn.length() < 1)
+	if (nickname.length() > 9 || nickname.length() < 1)
 		throw std::length_error("Length Error : Nickname Length Must Be Between 1-9 Characters.");
-	if (hasInvalidChar(nn))
+	if (hasInvalidChar(nickname))
 		throw Client::HasInvalidCharacterException();
-	if (un.length() < 1)
+	if (username.length() < 1)
 		throw std::length_error("Length Error : Username Length Must Be Between 1-9 Characters.");
-	if (hasNonAlphanumCharacter(un))
+	if (hasNonAlphanumCharacter(username))
 		throw Client::HasInvalidCharacterException();
-	if (un.length() > 9)
-		un = un.substr(0, 9);
-	_nickname = nn;
+	if (username.length() > 9)
+		username = username.substr(0, 9);
+	_nickname = nickname;
 	_username.push_back('~');
-	_username.append(un);
-	_hostname = hn;
-	_realname = rn;
+	_username.append(username);
+	_hostname = hostname;
+	_realname = realname;
 	_FD = FD;
 }
 
@@ -86,7 +86,7 @@ std::ostream &operator<<(std::ostream &os, const Client &client)
 	return os;
 }
 
-bool	hasInvalidChar(std::string str)
+bool	hasInvalidChar(std::string& str)
 {
 	std::string invalidChar = " ,*?!@.";
 	std::string invalidFirstChar = "$:#&~%+";
@@ -107,7 +107,7 @@ bool	hasInvalidChar(std::string str)
 	return (false);
 }
 
-bool	hasNonAlphanumCharacter(std::string str)
+bool	hasNonAlphanumCharacter(std::string& str)
 {
 	for (std::size_t i = 0; i < str.length(); i++) {
 		if (!isalnum(str[i]))

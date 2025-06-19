@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 12:52:11 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/14 15:32:20 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/19 13:41:46 by tdausque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 class Client
 {
 	public :
-		Client(std::string nn, std::string un, std::string hn, std::string rn, int FD);
-
+		Client(std::string& nickname, std::string& username, std::string& hostname, std::string& realname, int FD);
+		
 		std::string getNickname(void) const;
 		std::string getUsername(void) const;
 		std::string getHostname(void) const;
@@ -48,7 +48,7 @@ class Client
 
 std::ostream &operator<<(std::ostream &os, const Client &client);
 
-bool	hasInvalidChar(std::string str);
-bool	hasNonAlphanumCharacter(std::string str);
+bool	hasInvalidChar(std::string& str);
+bool	hasNonAlphanumCharacter(std::string& str);
 
 #endif
