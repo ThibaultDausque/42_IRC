@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:56:40 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/17 15:49:29 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/19 14:08:13 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,13 @@
 CONSTRUCTORS AND DESTRUCTOR
 ---------------------------*/
 
-Channel::Channel(std::string name) : _name(name) {}
+Channel::Channel(std::string name)
+{
+	if (name[0] != '#' && name[0] != '&')
+		throw Channel::InvalidChannelNameException();
+	// continuer ici
+	this->_name = name;
+}
 
 Channel::~Channel(void) {}
 
@@ -24,9 +30,9 @@ Channel::~Channel(void) {}
 GETTERS
 -------*/
 
-std::map<Client, bool> Channel::getClients(void)
+std::map<User, bool> Channel::getUsers(void)
 {
-	return (this->_clients);
+	return (this->_users);
 }
 
 std::string	Channel::getName(void)
@@ -38,42 +44,74 @@ std::string	Channel::getName(void)
 FUNCTIONS MEMBER
 ----------------*/
 
-void	Channel::addClient(Client client, bool isOperator)
-{
-	this->_clients.insert(std::pair<Client, bool>(client, isOperator));
-}
-
-void	Channel::removeClient(std::string clientNickname)
+bool	Channel::isUserConnected(std::string userNickname)
 {
 	std::string nick; 
-	for (std::map<Client, bool>::iterator it = _clients.begin(); it != _clients.end(); it++) {
+	for (std::map<User, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
 		nick = it->first.getNickname();
-		if (nick == clientNickname)
+		if (nick == userNickname)
+			return (true);
+	}
+	return (false);
+}
+
+bool	Channel::isUserOperator(std::string userNickname)
+{
+	std::string nick; 
+	for (std::map<User, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
+		nick = it->first.getNickname();
+		if (nick == userNickname && it->second)
+			return (true);
+	}
+	return (false);
+}
+
+void	Channel::addUser(User user, bool isOperator)
+{
+	this->_users.insert(std::pair<User, bool>(user, isOperator));
+}
+
+bool	Channel::removeUser(std::string origin, std::string userNickname)
+{
+	if (!isUserOperator(origin))
+		throw Channel::UserIsNotOperatorException();
+	std::string nick;
+	for (std::map<User, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
+		nick = it->first.getNickname();
+		if (nick == userNickname)
 		{
-			_clients.erase(it);
-			break ;
+			_users.erase(it);
+			return (true);
 		}
 	}
-}
-
-bool	Channel::isClientConnected(std::string clientNickname)
-{
-	std::string nick; 
-	for (std::map<Client, bool>::iterator it = _clients.begin(); it != _clients.end(); it++) {
-		nick = it->first.getNickname();
-		if (nick == clientNickname)
-			return (true);
-	}
 	return (false);
 }
 
-bool	Channel::isClientOperator(std::string clientNickname)
+void	Channel::giveUserOperator(std::string origin, std::string userNickname)
 {
-	std::string nick; 
-	for (std::map<Client, bool>::iterator it = _clients.begin(); it != _clients.end(); it++) {
+	if (!isUserOperator(origin))
+		throw Channel::UserIsNotOperatorException();
+	std::string nick;
+	for (std::map<User, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
 		nick = it->first.getNickname();
-		if (nick == clientNickname && it->second)
-			return (true);
+		if (nick == userNickname)
+			it->second = true; 
 	}
-	return (false);
+}
+
+void	Channel::takeUserOperator(std::string origin, std::string userNickname)
+{
+	if (!isUserOperator(origin))
+		throw Channel::UserIsNotOperatorException();
+	std::string nick;
+	for (std::map<User, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
+		nick = it->first.getNickname();
+		if (nick == userNickname)
+			it->second = false; 
+	}
+}
+
+int	Channel::getChannelSize(void)
+{
+	return (this->_users.size());
 }

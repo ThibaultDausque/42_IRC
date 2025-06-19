@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Client.hpp                                         :+:      :+:    :+:   */
+/*   User.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,18 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CLIENT_HPP
-# define CLIENT_HPP
+#ifndef USER_HPP
+# define USER_HPP
 
 # include <string>
 # include <stdexcept> 
 # include <iostream>
 # include <ctype.h>
 
-class Client
+class User
 {
 	public :
-		Client(std::string nn, std::string un, std::string hn, std::string rn, int FD);
+		User(std::string nn, std::string un, std::string hn, std::string rn, int FD);
 
 		std::string getNickname(void) const;
 		std::string getUsername(void) const;
@@ -37,9 +37,9 @@ class Client
 				}
 		};
 
-		bool operator<(const Client &other) const;
+		bool operator<(const User &other) const;
 
-		~Client(void);
+		~User(void);
 	private :
 		std::string _nickname;
 		std::string _username;
@@ -48,7 +48,7 @@ class Client
 		int         _FD;
 };
 
-std::ostream &operator<<(std::ostream &os, const Client &client);
+std::ostream &operator<<(std::ostream &os, const User &user);
 
 bool	hasInvalidChar(std::string str);
 bool	hasNonAlphanumCharacter(std::string str);

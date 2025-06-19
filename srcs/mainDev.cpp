@@ -6,13 +6,13 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:23:42 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/17 15:52:01 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/19 14:09:31 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include "Command.hpp"
-#include "Client.hpp"
+#include "User.hpp"
 #include "Channel.hpp"
 
 #include <unistd.h>
@@ -43,19 +43,21 @@ int	main(int ac, char **av)
 	{
 		char hostname[HOST_NAME_MAX];
 		gethostname(hostname, HOST_NAME_MAX);
-		Client client(av[1], av[2], hostname, "realname", 1);
-		std::cout << client << std::endl;
+		User user(av[1], "ADOMINUSREXL9", hostname, "realname", 1);
+		std::cout << user << std::endl;
 
-		Client tpipi("tpipi", "tpipi", hostname, "realname", 1);
-		Client tdausque("tdausque", "tdausque", hostname, "realname", 1);
-		Channel	channel("#yahoo");
-		channel.addClient(tpipi, true);
-		channel.addClient(tdausque, false);
-		std::cout << "tdausque connecté : " << channel.isClientConnected("tdausque") << std::endl;
-		std::cout << "tdausque opérateur : " << channel.isClientOperator("tdausque") << std::endl;
-		std::cout << "tpipi opérateur : " << channel.isClientOperator("tpipi") << std::endl;
-		channel.removeClient("tdausque");
-		std::cout << "tdausque connecté après etre remove : " << channel.isClientConnected("tdausque") << std::endl;
+		User tpipi("tpipi", "tpipi", hostname, "realname", 1);
+		User tdausque("tdausque", "tdausque", hostname, "realname", 1);
+		Channel	channel(av[2]);
+		std::cout << "channel size : " << channel.getChannelSize() << std::endl;
+		channel.addUser(tpipi, true);
+		channel.addUser(tdausque, false);
+		std::cout << "tdausque connecté : " << channel.isUserConnected("tdausque") << std::endl;
+		std::cout << "tdausque opérateur : " << channel.isUserOperator("tdausque") << std::endl;
+		std::cout << "tpipi opérateur : " << channel.isUserOperator("tpipi") << std::endl;
+		std::cout << "channel size : " << channel.getChannelSize() << std::endl;
+		channel.removeUser("tpipi", "tdausque");
+		std::cout << "tdausque connecté après etre remove : " << channel.isUserConnected("tdausque") << std::endl;
 	}
 	catch(const std::exception& e)
 	{

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Client.cpp                                         :+:      :+:    :+:   */
+/*   User.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,23 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Client.hpp"
+#include "User.hpp"
 
 /*-------------------------
 CONSTRUCTORS AND DESTRUCTOR
 ---------------------------*/
 
-Client::Client(std::string nn, std::string un, std::string hn, std::string rn, int FD)
+User::User(std::string nn, std::string un, std::string hn, std::string rn, int FD)
 {
 	// si c'est vide c'est une not enough param
 	if (nn.length() > 9 || nn.length() < 1)
 		throw std::length_error("Length Error : Nickname Length Must Be Between 1-9 Characters.");
 	if (hasInvalidChar(nn))
-		throw Client::HasInvalidCharacterException();
+		throw User::HasInvalidCharacterException();
 	if (un.length() < 1)
 		throw std::length_error("Length Error : Username Length Must Be Between 1-9 Characters.");
 	if (hasNonAlphanumCharacter(un))
-		throw Client::HasInvalidCharacterException();
+		throw User::HasInvalidCharacterException();
 	if (un.length() > 9)
 		un = un.substr(0, 9);
 	_nickname = nn;
@@ -37,33 +37,33 @@ Client::Client(std::string nn, std::string un, std::string hn, std::string rn, i
 	_FD = FD;
 }
 
-Client::~Client(void) {}
+User::~User(void) {}
 
 /*-----
 GETTERS
 -------*/
 
-std::string Client::getNickname(void) const
+std::string User::getNickname(void) const
 {
 	return (this->_nickname);
 }
 
-std::string Client::getUsername(void) const
+std::string User::getUsername(void) const
 {
 	return (this->_username);
 }
 
-std::string Client::getHostname(void) const
+std::string User::getHostname(void) const
 {
 	return (this->_hostname);
 }
 
-std::string Client::getRealname(void) const
+std::string User::getRealname(void) const
 {
 	return (this->_realname);
 }
 
-int			Client::getFD(void) const
+int			User::getFD(void) const
 {
 	return (this->_FD);
 }
@@ -72,7 +72,7 @@ int			Client::getFD(void) const
 FUNCTIONS MEMBER
 ----------------*/
 
-bool Client::operator<(const Client &other) const
+bool User::operator<(const User &other) const
 {
 	return (this->_nickname < other._nickname);
 }
@@ -81,13 +81,13 @@ bool Client::operator<(const Client &other) const
 FUNCTIONS
 ---------*/
 
-std::ostream &operator<<(std::ostream &os, const Client &client)
+std::ostream &operator<<(std::ostream &os, const User &User)
 {
-	os << "Nickname : " << client.getNickname() <<
-		"\nUsername : " << client.getUsername() <<
-		"\nHostname : " << client.getHostname() <<
-		"\nRealname : " << client.getRealname() <<
-		"\nFD : " << client.getFD();
+	os << "Nickname : " << User.getNickname() <<
+		"\nUsername : " << User.getUsername() <<
+		"\nHostname : " << User.getHostname() <<
+		"\nRealname : " << User.getRealname() <<
+		"\nFD : " << User.getFD();
 	return os;
 }
 
