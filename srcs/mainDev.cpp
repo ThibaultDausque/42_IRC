@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:23:42 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/19 14:09:31 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/20 15:47:03 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 
 #include <unistd.h>
 #include <limits.h>
+
+int executeJoin(User origin, std::map<std::string, Channel> &channels, std::string cmdline);
 
 int	main(int ac, char **av)
 {
@@ -43,21 +45,23 @@ int	main(int ac, char **av)
 	{
 		char hostname[HOST_NAME_MAX];
 		gethostname(hostname, HOST_NAME_MAX);
-		User user(av[1], "ADOMINUSREXL9", hostname, "realname", 1);
+		User user(av[1], "AdominusRexL9", hostname, "realname", 1);
 		std::cout << user << std::endl;
 
 		User tpipi("tpipi", "tpipi", hostname, "realname", 1);
 		User tdausque("tdausque", "tdausque", hostname, "realname", 1);
-		Channel	channel(av[2]);
-		std::cout << "channel size : " << channel.getChannelSize() << std::endl;
+
+		Channel	channel(av[2], "", "", "");
 		channel.addUser(tpipi, true);
 		channel.addUser(tdausque, false);
-		std::cout << "tdausque connecté : " << channel.isUserConnected("tdausque") << std::endl;
-		std::cout << "tdausque opérateur : " << channel.isUserOperator("tdausque") << std::endl;
-		std::cout << "tpipi opérateur : " << channel.isUserOperator("tpipi") << std::endl;
-		std::cout << "channel size : " << channel.getChannelSize() << std::endl;
-		channel.removeUser("tpipi", "tdausque");
-		std::cout << "tdausque connecté après etre remove : " << channel.isUserConnected("tdausque") << std::endl;
+
+		std::map<std::string, Channel>	channels;
+		std::vector<User> users;
+
+		channels.insert(std::pair<std::string, Channel>(channel.getName(), channel));
+		users.push_back(tpipi);
+		users.push_back(tdausque);
+		executeJoin(tpipi, channels, line);
 	}
 	catch(const std::exception& e)
 	{

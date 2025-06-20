@@ -21,13 +21,13 @@
 class User
 {
 	public :
-		User(std::string nn, std::string un, std::string hn, std::string rn, int FD);
+		User(std::string nn, std::string un, std::string hn, std::string rn, int socket);
 
 		std::string getNickname(void) const;
 		std::string getUsername(void) const;
 		std::string getHostname(void) const;
 		std::string getRealname(void) const;
-		int         getFD(void) const;
+		int         getSocket(void) const;
 
 		class HasInvalidCharacterException : public std::exception
 		{
@@ -45,12 +45,12 @@ class User
 		std::string _username;
 		std::string _hostname;
 		std::string _realname;
-		int         _FD;
+		int         _socket;
 };
 
 std::ostream &operator<<(std::ostream &os, const User &user);
 
 bool	hasInvalidChar(std::string str);
-bool	hasNonAlphanumCharacter(std::string str);
+bool	hasNonAlphanumCharacter(std::string &str);
 
 #endif

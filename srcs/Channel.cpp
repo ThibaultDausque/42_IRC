@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:56:40 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/19 14:08:13 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/20 14:46:36 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,18 @@
 CONSTRUCTORS AND DESTRUCTOR
 ---------------------------*/
 
-Channel::Channel(std::string name)
+Channel::Channel(std::string name, std::string topic, std::string modes, std::string key)
 {
 	if (name[0] != '#' && name[0] != '&')
 		throw Channel::InvalidChannelNameException();
-	// continuer ici
+	for (std::size_t i = 0; i < name.length(); i++) {
+		if (name[i] == ' ' || name[i] == ',' || name[i] == 7)
+			throw Channel::InvalidChannelNameException();
+	}
+	this->_topic = topic;
 	this->_name = name;
+	this->_modes = modes;
+	this->_key = key;
 }
 
 Channel::~Channel(void) {}
@@ -38,6 +44,36 @@ std::map<User, bool> Channel::getUsers(void)
 std::string	Channel::getName(void)
 {
 	return (this->_name);
+}
+
+std::string	Channel::getTopic(void)
+{
+	return (this->_topic);
+}
+
+std::string	Channel::getModes(void)
+{
+	return (this->_modes);
+}
+
+std::string	Channel::getKey(void)
+{
+	return (this->_key);
+}
+
+
+/*-----
+SETTERS
+-------*/
+
+void	Channel::changeTopic(std::string newTopic)
+{
+	this->_topic = newTopic;
+}
+
+void	Channel::setKey(std::string newKey)
+{
+	this->_key = newKey;
 }
 
 /*--------------
@@ -109,6 +145,18 @@ void	Channel::takeUserOperator(std::string origin, std::string userNickname)
 		if (nick == userNickname)
 			it->second = false; 
 	}
+}
+
+void	Channel::changeMode(std::string modeToAdd)
+{
+	(void)modeToAdd;
+	// faire en meme temps que la commande mode
+	return ;
+}
+
+bool	Channel::isChannelProtected(void)
+{
+	return (this->_modes.find('k') != std::string::npos);
 }
 
 int	Channel::getChannelSize(void)

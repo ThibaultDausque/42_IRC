@@ -16,7 +16,7 @@
 CONSTRUCTORS AND DESTRUCTOR
 ---------------------------*/
 
-User::User(std::string nn, std::string un, std::string hn, std::string rn, int FD)
+User::User(std::string nn, std::string un, std::string hn, std::string rn, int socket)
 {
 	// si c'est vide c'est une not enough param
 	if (nn.length() > 9 || nn.length() < 1)
@@ -34,7 +34,7 @@ User::User(std::string nn, std::string un, std::string hn, std::string rn, int F
 	_username.append(un);
 	_hostname = hn;
 	_realname = rn;
-	_FD = FD;
+	_socket = socket;
 }
 
 User::~User(void) {}
@@ -63,9 +63,9 @@ std::string User::getRealname(void) const
 	return (this->_realname);
 }
 
-int			User::getFD(void) const
+int			User::getSocket(void) const
 {
-	return (this->_FD);
+	return (this->_socket);
 }
 
 /*--------------
@@ -81,13 +81,13 @@ bool User::operator<(const User &other) const
 FUNCTIONS
 ---------*/
 
-std::ostream &operator<<(std::ostream &os, const User &User)
+std::ostream &operator<<(std::ostream &os, const User &user)
 {
-	os << "Nickname : " << User.getNickname() <<
-		"\nUsername : " << User.getUsername() <<
-		"\nHostname : " << User.getHostname() <<
-		"\nRealname : " << User.getRealname() <<
-		"\nFD : " << User.getFD();
+	os << "Nickname : " << user.getNickname() <<
+		"\nUsername : " << user.getUsername() <<
+		"\nHostname : " << user.getHostname() <<
+		"\nRealname : " << user.getRealname() <<
+		"\nFD : " << user.getSocket();
 	return os;
 }
 
@@ -112,11 +112,12 @@ bool	hasInvalidChar(std::string str)
 	return (false);
 }
 
-bool	hasNonAlphanumCharacter(std::string str)
+bool	hasNonAlphanumCharacter(std::string &str)
 {
+	bool	res = false;
 	for (std::size_t i = 0; i < str.length(); i++) {
-		if (!isalnum(str[i]))
-			return (true);
+		if (!isalnum(str[i]) && str[i] != '.' && str[i] != '_' && str[i] != '-')
+			res = true;
 	}
-	return (false);
+	return (res);
 }
