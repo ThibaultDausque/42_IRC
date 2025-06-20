@@ -10,6 +10,7 @@
 # include <vector>
 # include "Client.hpp"
 # include <map>
+# include <string.h>
 
 class Server
 {

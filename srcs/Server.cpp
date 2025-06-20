@@ -28,12 +28,14 @@ int	Server::initServer(void)
 	serverAddress.sin_port = htons(this->_port);
 	serverAddress.sin_addr.s_addr = INADDR_ANY;
 	
+	int		yes = 1;
+	setsockopt(this->_serverFd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(yes));
 	// link a socket with an IP and a port
 	if (bind(_serverFd, (sockaddr *)&serverAddress, sizeof(serverAddress)))
-		throw std::runtime_error("Error: bind failed\n");
+		throw(std::runtime_error("Error: bind failed\n"));
 	// The Server listen on 5 port max
 	if (listen(_serverFd, 5))
-		throw std::runtime_error("Error: listen failed\n");
+		throw(std::runtime_error("Error: listen failed\n"));
 
 	return 0;
 }
@@ -44,6 +46,7 @@ void	Server::runServer()
 	char	buffer[1024] = {0};
 	std::vector<pollfd>	tab;
 	bool	run = false;
+	int		bytes;
 
 	// initialise client
 	std::string nickname = "toto";
@@ -89,10 +92,11 @@ void	Server::runServer()
 		{
 			if (tab[i].revents & POLLIN)
 			{
-				recv(clientSocket, buffer, sizeof(buffer), 0);
+				bytes = recv(clientSocket, buffer, sizeof(buffer), 0);
 				std::cout << "Message received !" << std::endl;
 				std::cout << "Client Message: " << buffer << std::endl;
-				break ;
+				std::string	welcome = ":tdausque!~@nerd-9AE5B52D.unyc.it JOIN #test\r\n";
+	   			send(clientSocket, welcome.c_str(), welcome.size(), 0);
 			}
 		}
 	}
