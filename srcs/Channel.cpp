@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:56:40 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/23 16:53:37 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/23 17:16:30 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,10 @@ void	Channel::addUser(User user, bool isOperator)
 	std::string	joinMsg = ":"+fullname+" JOIN "+this->_name+"\r\n";
 
 	this->_users.insert(std::pair<User, bool>(user, isOperator));
-	//send(user.getSocket(), joinMsg.c_str(), joinMsg.size(), 0);
+	// for (std::map<User, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
+	// 	User tmp = it->first;
+	// 	send(tmp.getSocket(), joinMsg.c_str(), joinMsg.size(), 0);
+	// }
 	std::cout << "\n" << joinMsg << "\n" << std::endl;
 	if (doesChannelHaveATopic()) {
 		std::stringstream ss;
