@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:26:24 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/23 15:25:55 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/23 15:27:45 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int executeJoin(User origin, std::map<std::string, Channel> &channels, std::stri
 				if ((*chan).isChannelProtected() && (params.size() <= 2 || (keysParam.size() <= i || (*chan).getKey() != keysParam[i])))
 					std::cout << "\n" << errBadChannelKey << "\n" << std::endl;
 					//send(origin.getSocket(), errBadChannelKey.c_str(), errBadChannelKey.size(), 0);
-				else if ((*chan).getChannelSize() == (*chan).getUserLimit())
+				else if ((*chan).getChannelSize() >= (*chan).getUserLimit())
 					std::cout << "\n" << errChannelIsFull << "\n" << std::endl;
 					//send(origin.getSocket(), errChannelIsFull.c_str(), errChannelIsFull.size(), 0);
 				else if ((*chan).onInviteMode() && !origin.isInvitedTo(chanName))
