@@ -6,32 +6,15 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:26:24 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/23 14:47:57 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/23 15:25:55 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "User.hpp"
 #include "Channel.hpp"
+#include "NumericReply.hpp"
 
-#include <iostream>
-#include <iterator>
 #include <sstream>
-#include <string>
-#include <vector>
-#include <sys/types.h>
-#include <sys/socket.h>
-
-#define SERVER_HOSTNAME ":42.42_irc.fr"
-#define ERR_NEEDMOREPARAM_NB " 461 "
-#define ERR_NEEDMOREPARAM " :Not enough parameters\r\n"
-#define ERR_NOSUCHCHANNEL_NB " 403 "
-#define ERR_NOSUCHCHANNEL " :No such channel\r\n"
-#define ERR_BADCHANNELKEY_NB " 475 "
-#define ERR_BADCHANNELKEY " :Cannot join channel (+k)\r\n"
-#define ERR_CHANNELISFULL_NB " 471 "
-#define ERR_CHANNELISFULL " :Cannot join channel (+l)\r\n"
-#define ERR_INVITEONLYCHAN_NB " 473 "
-#define ERR_INVITEONLYCHAN " :Cannot join channel (+i)\r\n"
 
 std::string	makeErrorMessage(std::string errornb, std::string str1, std::string str2, std::string error)
 {
