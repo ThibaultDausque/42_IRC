@@ -72,6 +72,22 @@ int			User::getSocket(void) const
 FUNCTIONS MEMBER
 ----------------*/
 
+void	User::addAnInvitation(std::string channelName)
+{
+	this->_inviteList.push_back(channelName);
+}
+
+bool	User::isInvitedTo(std::string channelName)
+{
+	std::string caca = (channelName);
+	std::vector<std::string>::iterator it;
+	for (it = _inviteList.begin(); it != _inviteList.end(); ++it) {
+		if (*it == channelName)
+			return (true);
+	}
+	return (false);
+}
+
 bool User::operator<(const User &other) const
 {
 	return (this->_nickname < other._nickname);

@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:26:24 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/23 12:53:59 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/23 14:47:57 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,23 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 
-#define ERR_NEEDMOREPARAM_NB ":42.42_irc.fr 461 "
-#define ERR_NEEDMOREPARAM " JOIN :Not enough parameters\r\n"
-#define ERR_NOSUCHCHANNEL_NB ":42.42_irc.fr 403 "
+#define SERVER_HOSTNAME ":42.42_irc.fr"
+#define ERR_NEEDMOREPARAM_NB " 461 "
+#define ERR_NEEDMOREPARAM " :Not enough parameters\r\n"
+#define ERR_NOSUCHCHANNEL_NB " 403 "
 #define ERR_NOSUCHCHANNEL " :No such channel\r\n"
-#define ERR_BADCHANNELKEY_NB ":42.42_irc.fr 475 "
+#define ERR_BADCHANNELKEY_NB " 475 "
 #define ERR_BADCHANNELKEY " :Cannot join channel (+k)\r\n"
+#define ERR_CHANNELISFULL_NB " 471 "
+#define ERR_CHANNELISFULL " :Cannot join channel (+l)\r\n"
+#define ERR_INVITEONLYCHAN_NB " 473 "
+#define ERR_INVITEONLYCHAN " :Cannot join channel (+i)\r\n"
+
+std::string	makeErrorMessage(std::string errornb, std::string str1, std::string str2, std::string error)
+{
+	std::string fullmsg = SERVER_HOSTNAME+errornb+str1+" "+str2+error;
+	return (fullmsg);
+}
 
 static bool	doesChannelExist(std::map<std::string, Channel> &channels, std::string chanName)
 {
@@ -56,13 +67,12 @@ static std::vector<std::string>	getVector(std::string strToSplit, char delimiter
 
 int executeJoin(User origin, std::map<std::string, Channel> &channels, std::string cmdline)
 {
-	std::string	fullname = ":"+origin.getNickname()+"!"+origin.getUsername()+"@"+origin.getHostname();
-	std::string errNeedMoreParams = ERR_NEEDMOREPARAM_NB+origin.getNickname()+ERR_NEEDMOREPARAM;
 	std::string	chanName;
+	std::string errNeedMoreParams = makeErrorMessage(ERR_NEEDMOREPARAM_NB, origin.getNickname(), "JOIN", ERR_NEEDMOREPARAM);
 	
-	std::vector<std::string> params = getVector(cmdline, ' ');
 	std::vector<std::string> keysParam;
 	std::vector<std::string> channelsParam;
+	std::vector<std::string> params = getVector(cmdline, ' ');
 
 	if (params.size() == 1)
 		std::cout << "\n" << errNeedMoreParams << "\n" << std::endl;
@@ -75,47 +85,34 @@ int executeJoin(User origin, std::map<std::string, Channel> &channels, std::stri
 		
 		for (size_t i = 0; i < channelsParam.size(); i++) {
 			chanName = channelsParam[i];
-			std::string	joinMsg = fullname+" JOIN "+chanName+"\r\n";
-			std::string errNoSuchChannel = ERR_NOSUCHCHANNEL_NB+origin.getNickname()+" "+chanName+ERR_NOSUCHCHANNEL;
-			std::string errBadChannelKey = ERR_BADCHANNELKEY_NB+origin.getNickname()+" "+chanName+ERR_BADCHANNELKEY;
+			std::string errNoSuchChannel = makeErrorMessage(ERR_NOSUCHCHANNEL_NB, origin.getNickname(), chanName, ERR_NOSUCHCHANNEL);
+			std::string errBadChannelKey = makeErrorMessage(ERR_BADCHANNELKEY_NB, origin.getNickname(), chanName, ERR_BADCHANNELKEY);
+			std::string errChannelIsFull = makeErrorMessage(ERR_CHANNELISFULL_NB, origin.getNickname(), chanName, ERR_CHANNELISFULL);
+			std::string errInviteOnlyChan = makeErrorMessage(ERR_INVITEONLYCHAN_NB, origin.getNickname(), chanName, ERR_INVITEONLYCHAN);
 			
 			if (doesChannelExist(channels, chanName))
 			{
 				Channel *chan = &channels.at(chanName);
 
-				if ((*chan).isChannelProtected())
-				{
-					if (params.size() > 2) {
-						if (keysParam.size() <= i || (*chan).getKey() != keysParam[i])
-							std::cout << "\n" << errBadChannelKey << "\n" << std::endl;
-							//send(origin.getSocket(), errBadChannelKey.c_str(), errBadChannelKey.size(), 0);
-						else
-						{
-							(*chan).addUser(origin, false);
-							//send(origin.getSocket(), joinMsg.c_str(), joinMsg.size(), 0);
-							std::cout << "\n" << joinMsg << "\n" << std::endl;
-						}
-					}
-					else
-						std::cout << "\n" << errBadChannelKey << "\n" << std::endl;
-						//send(origin.getSocket(), errBadChannelKey.c_str(), errBadChannelKey.size(), 0);
-				}
+				if ((*chan).isChannelProtected() && (params.size() <= 2 || (keysParam.size() <= i || (*chan).getKey() != keysParam[i])))
+					std::cout << "\n" << errBadChannelKey << "\n" << std::endl;
+					//send(origin.getSocket(), errBadChannelKey.c_str(), errBadChannelKey.size(), 0);
+				else if ((*chan).getChannelSize() == (*chan).getUserLimit())
+					std::cout << "\n" << errChannelIsFull << "\n" << std::endl;
+					//send(origin.getSocket(), errChannelIsFull.c_str(), errChannelIsFull.size(), 0);
+				else if ((*chan).onInviteMode() && !origin.isInvitedTo(chanName))
+					std::cout << "\n" << errInviteOnlyChan << "\n" << std::endl;
+					//send(origin.getSocket(), errInviteOnlyChan.c_str(), errInviteOnlyChan.size(), 0);
 				else
-				{
 					(*chan).addUser(origin, false);
-					std::cout << "\n" << joinMsg << "\n" << std::endl;
-					//send(origin.getSocket(), joinMsg.c_str(), joinMsg.size(), 0);
-				}
 			}
 			else
 			{
 				try
 				{
-					Channel channel(chanName, "", "", "");
+					Channel channel(chanName);
 					channel.addUser(origin, true);
 					channels.insert(std::pair<std::string, Channel>(channel.getName(), channel));
-					//send(origin.getSocket(), joinMsg.c_str(), joinMsg.size(), 0);
-					std::cout << "\n" << joinMsg << "\n" << std::endl;
 				}
 				catch(const std::exception& e)
 				{

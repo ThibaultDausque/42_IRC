@@ -17,6 +17,7 @@
 # include <stdexcept> 
 # include <iostream>
 # include <ctype.h>
+# include <vector>
 
 class User
 {
@@ -37,15 +38,19 @@ class User
 				}
 		};
 
+		void		addAnInvitation(std::string channelName);
+		bool		isInvitedTo(std::string channelName);
+
 		bool operator<(const User &other) const;
 
 		~User(void);
 	private :
-		std::string _nickname;
-		std::string _username;
-		std::string _hostname;
-		std::string _realname;
-		int         _socket;
+		std::string 				_nickname;
+		std::string 				_username;
+		std::string 				_hostname;
+		std::string 				_realname;
+		int         				_socket;
+		std::vector<std::string>	_inviteList;
 };
 
 std::ostream &operator<<(std::ostream &os, const User &user);

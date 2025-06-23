@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:49:41 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/20 14:35:35 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/23 13:59:57 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,14 @@
 
 # include <map>
 # include <string>
+# include <sys/socket.h>
 # include "User.hpp"
 
 class   Channel
 {
 	public :
-		Channel(std::string name, std::string topic, std::string modes, std::string key);
+		Channel(std::string name);
+		Channel(std::string name, std::string topic, std::string modes, std::string key, int limit);
 
 		// GETTERS
 		std::map<User, bool>	getUsers(void);
@@ -28,10 +30,12 @@ class   Channel
 		std::string				getTopic(void);
 		std::string				getModes(void);
 		std::string				getKey(void);
+		int			getUserLimit(void);
 
 		// SETTERS
 		void					changeTopic(std::string newTopic);
 		void					setKey(std::string newKey);
+		void					setUserLimit(int newUserLimit);
 
 		// EXCEPTIONS
 		class InvalidChannelNameException : public std::exception
@@ -63,6 +67,7 @@ class   Channel
 		// MODES
 		void					changeMode(std::string modeToAdd);
 		bool					isChannelProtected(void);
+		bool					onInviteMode(void);
 
 		// OTHERS
 		int						getChannelSize(void);
@@ -74,6 +79,7 @@ class   Channel
 		std::string				_topic;
 		std::string				_modes;
 		std::string				_key;
+		int			_userLimit;
 };
 
 #endif

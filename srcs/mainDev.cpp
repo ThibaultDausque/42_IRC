@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:23:42 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/23 12:56:08 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/23 15:07:09 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ int	main(int ac, char **av)
 		char hostname[HOST_NAME_MAX];
 		gethostname(hostname, HOST_NAME_MAX);
 		User user(av[1], "AdominusRexL9", hostname, "realname", 1);
-		std::cout << "\n" << user << "\n" << std::endl;
+		user.addAnInvitation(av[2]);
 
 		User tpipi("tpipi", "tpipi", hostname, "realname", 1);
 		User tdausque("tdausque", "tdausque", hostname, "realname", 1);
 
-		Channel	channel(av[2], "", "k", "key");
+		Channel	channel(av[2], "", "kli", "key", 3);
 		channel.addUser(tpipi, true);
 		channel.addUser(tdausque, false);
 

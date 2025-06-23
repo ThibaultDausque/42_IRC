@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:56:40 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/20 14:46:36 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/23 15:03:24 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 CONSTRUCTORS AND DESTRUCTOR
 ---------------------------*/
 
-Channel::Channel(std::string name, std::string topic, std::string modes, std::string key)
+Channel::Channel(std::string name)
 {
 	if (name[0] != '#' && name[0] != '&')
 		throw Channel::InvalidChannelNameException();
@@ -24,10 +24,26 @@ Channel::Channel(std::string name, std::string topic, std::string modes, std::st
 		if (name[i] == ' ' || name[i] == ',' || name[i] == 7)
 			throw Channel::InvalidChannelNameException();
 	}
-	this->_topic = topic;
 	this->_name = name;
+	this->_topic = "";
+	this->_modes = "";
+	this->_key = "";
+	this->_userLimit = -1;
+}
+
+Channel::Channel(std::string name, std::string topic, std::string modes, std::string key, int limit)
+{
+	if (name[0] != '#' && name[0] != '&')
+		throw Channel::InvalidChannelNameException();
+	for (std::size_t i = 0; i < name.length(); i++) {
+		if (name[i] == ' ' || name[i] == ',' || name[i] == 7)
+			throw Channel::InvalidChannelNameException();
+	}
+	this->_name = name;
+	this->_topic = topic;
 	this->_modes = modes;
 	this->_key = key;
+	this->_userLimit = limit;
 }
 
 Channel::~Channel(void) {}
@@ -61,6 +77,10 @@ std::string	Channel::getKey(void)
 	return (this->_key);
 }
 
+int	Channel::getUserLimit(void)
+{
+	return (this->_userLimit);
+}
 
 /*-----
 SETTERS
@@ -74,6 +94,11 @@ void	Channel::changeTopic(std::string newTopic)
 void	Channel::setKey(std::string newKey)
 {
 	this->_key = newKey;
+}
+
+void	Channel::setUserLimit(int newUserLimit)
+{
+	this->_userLimit = newUserLimit;
 }
 
 /*--------------
@@ -104,7 +129,12 @@ bool	Channel::isUserOperator(std::string userNickname)
 
 void	Channel::addUser(User user, bool isOperator)
 {
+	std::string	fullname = ":"+user.getNickname()+"!"+user.getUsername()+"@"+user.getHostname();
+	std::string	joinMsg = fullname+" JOIN "+this->_name+"\r\n";
+
 	this->_users.insert(std::pair<User, bool>(user, isOperator));
+	//send(user.getSocket(), joinMsg.c_str(), joinMsg.size(), 0);
+	std::cout << "\n" << joinMsg << "\n" << std::endl;
 }
 
 bool	Channel::removeUser(std::string origin, std::string userNickname)
@@ -157,6 +187,11 @@ void	Channel::changeMode(std::string modeToAdd)
 bool	Channel::isChannelProtected(void)
 {
 	return (this->_modes.find('k') != std::string::npos);
+}
+
+bool	Channel::onInviteMode(void)
+{
+	return (this->_modes.find('i') != std::string::npos);
 }
 
 int	Channel::getChannelSize(void)
