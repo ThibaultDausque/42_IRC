@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:26:24 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/23 15:27:45 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/23 16:01:09 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,6 @@
 #include "NumericReply.hpp"
 
 #include <sstream>
-
-std::string	makeErrorMessage(std::string errornb, std::string str1, std::string str2, std::string error)
-{
-	std::string fullmsg = SERVER_HOSTNAME+errornb+str1+" "+str2+error;
-	return (fullmsg);
-}
 
 static bool	doesChannelExist(std::map<std::string, Channel> &channels, std::string chanName)
 {
@@ -40,7 +34,6 @@ static std::vector<std::string>	getVector(std::string strToSplit, char delimiter
 	std::istringstream stream(strToSplit);
 	std::vector<std::string> tokens;
 	std::string token;
-	std::string	chanName;
 
 	while (std::getline(stream, token, delimiter)) {
 		tokens.push_back(token);
@@ -51,14 +44,14 @@ static std::vector<std::string>	getVector(std::string strToSplit, char delimiter
 int executeJoin(User origin, std::map<std::string, Channel> &channels, std::string cmdline)
 {
 	std::string	chanName;
-	std::string errNeedMoreParams = makeErrorMessage(ERR_NEEDMOREPARAM_NB, origin.getNickname(), "JOIN", ERR_NEEDMOREPARAM);
-	
+	std::string errNeedMoreParam = ERR_NEEDMOREPARAM(origin.getNickname(), "JOIN");
+
 	std::vector<std::string> keysParam;
 	std::vector<std::string> channelsParam;
 	std::vector<std::string> params = getVector(cmdline, ' ');
 
 	if (params.size() == 1)
-		std::cout << "\n" << errNeedMoreParams << "\n" << std::endl;
+		std::cout << "\n" << errNeedMoreParam << "\n" << std::endl;
 		//send(origin.getSocket(), errNeedMoreParams.c_str(), errNeedMoreParams.size(), 0);
 	else if (params.size() > 1)
 	{
@@ -68,17 +61,17 @@ int executeJoin(User origin, std::map<std::string, Channel> &channels, std::stri
 		
 		for (size_t i = 0; i < channelsParam.size(); i++) {
 			chanName = channelsParam[i];
-			std::string errNoSuchChannel = makeErrorMessage(ERR_NOSUCHCHANNEL_NB, origin.getNickname(), chanName, ERR_NOSUCHCHANNEL);
-			std::string errBadChannelKey = makeErrorMessage(ERR_BADCHANNELKEY_NB, origin.getNickname(), chanName, ERR_BADCHANNELKEY);
-			std::string errChannelIsFull = makeErrorMessage(ERR_CHANNELISFULL_NB, origin.getNickname(), chanName, ERR_CHANNELISFULL);
-			std::string errInviteOnlyChan = makeErrorMessage(ERR_INVITEONLYCHAN_NB, origin.getNickname(), chanName, ERR_INVITEONLYCHAN);
+			std::string errNoSuchChannel = ERR_NOSUCHCHANNEL(origin.getNickname(), chanName);
+			std::string errBadChannelKey = ERR_BADCHANNELKEY(origin.getNickname(), chanName);
+			std::string errChannelIsFull = ERR_CHANNELISFULL(origin.getNickname(), chanName);
+			std::string errInviteOnlyChan = ERR_INVITEONLYCHAN(origin.getNickname(), chanName);
 			
 			if (doesChannelExist(channels, chanName))
 			{
 				Channel *chan = &channels.at(chanName);
 
 				if ((*chan).isChannelProtected() && (params.size() <= 2 || (keysParam.size() <= i || (*chan).getKey() != keysParam[i])))
-					std::cout << "\n" << errBadChannelKey << "\n" << std::endl;
+					std::cout << "\n" << errNoSuchChannel << "\n" << std::endl;
 					//send(origin.getSocket(), errBadChannelKey.c_str(), errBadChannelKey.size(), 0);
 				else if ((*chan).getChannelSize() >= (*chan).getUserLimit())
 					std::cout << "\n" << errChannelIsFull << "\n" << std::endl;
