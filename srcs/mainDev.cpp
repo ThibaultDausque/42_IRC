@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:23:42 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/20 15:47:03 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/23 12:56:08 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ int	main(int ac, char **av)
 		char hostname[HOST_NAME_MAX];
 		gethostname(hostname, HOST_NAME_MAX);
 		User user(av[1], "AdominusRexL9", hostname, "realname", 1);
-		std::cout << user << std::endl;
+		std::cout << "\n" << user << "\n" << std::endl;
 
 		User tpipi("tpipi", "tpipi", hostname, "realname", 1);
 		User tdausque("tdausque", "tdausque", hostname, "realname", 1);
 
-		Channel	channel(av[2], "", "", "");
+		Channel	channel(av[2], "", "k", "key");
 		channel.addUser(tpipi, true);
 		channel.addUser(tdausque, false);
 
@@ -61,7 +61,18 @@ int	main(int ac, char **av)
 		channels.insert(std::pair<std::string, Channel>(channel.getName(), channel));
 		users.push_back(tpipi);
 		users.push_back(tdausque);
-		executeJoin(tpipi, channels, line);
+		executeJoin(user, channels, line);
+
+		std::map<User, bool> userstmp;
+		for (std::map<std::string, Channel>::iterator it = channels.begin(); it != channels.end(); ++it) {
+			std::cout << it->first << " : " << std::endl;
+			std::cout << "Nombre de personne dans le channel : " << it->second.getChannelSize() << std::endl;
+			userstmp = it->second.getUsers();
+			for (std::map<User, bool>::iterator ite = userstmp.begin(); ite != userstmp.end(); ++ite) {
+				std::cout << "- " << ite->first.getNickname() << std::endl;
+			}
+			std::cout << std::endl;
+		}
 	}
 	catch(const std::exception& e)
 	{
