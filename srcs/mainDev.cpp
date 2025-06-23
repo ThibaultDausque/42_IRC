@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:23:42 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/23 15:07:09 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/23 16:48:18 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	main(int ac, char **av)
 		Channel	channel(av[2], "", "kli", "key", 3);
 		channel.addUser(tpipi, true);
 		channel.addUser(tdausque, false);
+		channel.changeTopic("Salut les ptits loups c'est Calistou", tpipi);
 
 		std::map<std::string, Channel>	channels;
 		std::vector<User> users;

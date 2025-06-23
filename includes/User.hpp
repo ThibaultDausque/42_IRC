@@ -40,6 +40,7 @@ class User
 
 		void		addAnInvitation(std::string channelName);
 		bool		isInvitedTo(std::string channelName);
+		std::string	getFullName(void);
 
 		bool operator<(const User &other) const;
 

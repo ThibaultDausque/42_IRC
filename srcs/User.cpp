@@ -88,6 +88,12 @@ bool	User::isInvitedTo(std::string channelName)
 	return (false);
 }
 
+std::string	User::getFullName(void)
+{
+	std::string fullname = this->getNickname()+"!"+this->getUsername()+"@"+this->getHostname();
+	return (fullname);
+}
+
 bool User::operator<(const User &other) const
 {
 	return (this->_nickname < other._nickname);

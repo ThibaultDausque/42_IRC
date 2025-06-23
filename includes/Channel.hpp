@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:49:41 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/23 13:59:57 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/23 16:45:07 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,11 @@
 # include <map>
 # include <string>
 # include <sys/socket.h>
+# include <ctime>
+# include <sstream>
+
 # include "User.hpp"
+# include "NumericReply.hpp"
 
 class   Channel
 {
@@ -30,12 +34,14 @@ class   Channel
 		std::string				getTopic(void);
 		std::string				getModes(void);
 		std::string				getKey(void);
-		int			getUserLimit(void);
+		int						getUserLimit(void);
+		std::time_t				getLastTimeTopicChange(void);
+		std::string				getLastUserToChangeTopic(void);
 
 		// SETTERS
-		void					changeTopic(std::string newTopic);
+		void					changeTopic(std::string newTopic, User newUser);
 		void					setKey(std::string newKey);
-		void					setUserLimit(int newUserLimit);
+		void					setUserLimit(int newUserLimit);				
 
 		// EXCEPTIONS
 		class InvalidChannelNameException : public std::exception
@@ -70,6 +76,7 @@ class   Channel
 		bool					onInviteMode(void);
 
 		// OTHERS
+		bool					doesChannelHaveATopic(void);
 		int						getChannelSize(void);
 
 		~Channel(void);
@@ -79,7 +86,9 @@ class   Channel
 		std::string				_topic;
 		std::string				_modes;
 		std::string				_key;
-		int			_userLimit;
+		int						_userLimit;
+		std::time_t				_lastTopicChange;
+		std::string				_lastUserToChangeTopic;
 };
 
 #endif
