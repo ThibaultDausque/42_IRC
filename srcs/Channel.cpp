@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:56:40 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/23 17:16:30 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/25 01:16:49 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,11 +149,11 @@ void	Channel::addUser(User user, bool isOperator)
 	std::string	joinMsg = ":"+fullname+" JOIN "+this->_name+"\r\n";
 
 	this->_users.insert(std::pair<User, bool>(user, isOperator));
-	// for (std::map<User, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
-	// 	User tmp = it->first;
-	// 	send(tmp.getSocket(), joinMsg.c_str(), joinMsg.size(), 0);
-	// }
-	std::cout << "\n" << joinMsg << "\n" << std::endl;
+	for (std::map<User, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
+		User tmp = it->first;
+		std::cout << "\n" << joinMsg << "\n" << std::endl;
+		//send(tmp.getSocket(), joinMsg.c_str(), joinMsg.size(), 0);
+	}
 	if (doesChannelHaveATopic()) {
 		std::stringstream ss;
 		ss << this->_lastTopicChange;
@@ -168,10 +168,8 @@ void	Channel::addUser(User user, bool isOperator)
 	}
 }
 
-bool	Channel::removeUser(std::string origin, std::string userNickname)
+bool	Channel::removeUser(std::string userNickname)
 {
-	if (!isUserOperator(origin))
-		throw Channel::UserIsNotOperatorException();
 	std::string nick;
 	for (std::map<User, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
 		nick = it->first.getNickname();
@@ -184,10 +182,8 @@ bool	Channel::removeUser(std::string origin, std::string userNickname)
 	return (false);
 }
 
-void	Channel::giveUserOperator(std::string origin, std::string userNickname)
+void	Channel::giveUserOperator(std::string userNickname)
 {
-	if (!isUserOperator(origin))
-		throw Channel::UserIsNotOperatorException();
 	std::string nick;
 	for (std::map<User, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
 		nick = it->first.getNickname();
@@ -196,10 +192,8 @@ void	Channel::giveUserOperator(std::string origin, std::string userNickname)
 	}
 }
 
-void	Channel::takeUserOperator(std::string origin, std::string userNickname)
+void	Channel::takeUserOperator(std::string userNickname)
 {
-	if (!isUserOperator(origin))
-		throw Channel::UserIsNotOperatorException();
 	std::string nick;
 	for (std::map<User, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
 		nick = it->first.getNickname();

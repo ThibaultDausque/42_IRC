@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:26:24 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/23 16:51:25 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/25 01:22:20 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,28 @@ static std::vector<std::string>	getVector(std::string strToSplit, char delimiter
 	return tokens;
 }
 
+static void	removeUserFromEveryChannel(std::map<std::string, Channel> &channels, User origin)
+{
+	std::string				originNickname = origin.getNickname();
+	std::string				originFullname = origin.getFullName();
+	std::string				partMsg;
+	std::map<User, bool>	userList;
+
+	for (std::map<std::string, Channel>::iterator chanIt = channels.begin(); chanIt != channels.end(); chanIt++) {
+		userList = chanIt->second.getUsers();
+		partMsg = ":"+originFullname+" PART "+chanIt->second.getName()+"\r\n";
+
+		if (chanIt->second.isUserConnected(originNickname)) {
+			for (std::map<User, bool>::iterator userIt = userList.begin(); userIt != userList.end(); userIt++) {
+				User tmp = userIt->first;
+				std::cout << partMsg << std::endl;
+				//send(tmp.getSocket(), partMsg.c_str(), partMsg.size(), 0);
+				chanIt->second.removeUser(originNickname);
+			}
+		}
+	}
+}
+
 int executeJoin(User origin, std::map<std::string, Channel> &channels, std::string cmdline)
 {
 	std::string	chanName;
@@ -59,6 +81,8 @@ int executeJoin(User origin, std::map<std::string, Channel> &channels, std::stri
 		if (params.size() > 2)
 			keysParam = getVector(params[2], ',');
 		
+		if (channelsParam[0] == "0" && channelsParam.size() == 1)
+			removeUserFromEveryChannel(channels, origin);
 		for (size_t i = 0; i < channelsParam.size(); i++) {
 			chanName = channelsParam[i];
 			std::string errNoSuchChannel = ERR_NOSUCHCHANNEL(origin.getNickname(), chanName);

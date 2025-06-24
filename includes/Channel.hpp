@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:49:41 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/23 16:45:07 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/25 01:03:40 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,23 +52,15 @@ class   Channel
 				}
 		};
 
-		class UserIsNotOperatorException : public std::exception
-		{
-			public:
-				const char* what() const throw() {
-					return "User Is Not Operator Exception";
-				}
-		};
-
 		// USERS RELATED FUNCTIONS
 		bool					isUserConnected(std::string userNickname);
 		bool					isUserOperator(std::string userNickname);
 		void					addUser(User user, bool isOperator);
-		bool					removeUser(std::string origin, std::string userNickname);
+		bool					removeUser(std::string userNickname);
 
 		// OPERATORS RELATED FUNCTIONS
-		void					giveUserOperator(std::string origin, std::string userNickname);
-		void					takeUserOperator(std::string origin, std::string userNickname);
+		void					giveUserOperator(std::string userNickname);
+		void					takeUserOperator(std::string userNickname);
 
 		// MODES
 		void					changeMode(std::string modeToAdd);
