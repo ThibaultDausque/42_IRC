@@ -40,6 +40,20 @@ int	Server::initServer(void)
 	return 0;
 }
 
+void	parseBuffer(const char *buff)
+{
+	std::string	message;
+	std::string	user;
+	int		i;
+
+	i = 0;
+	while (buff[i])
+	{
+		
+		i++;
+	}
+}
+
 void	Server::runServer()
 {
 	int		clientSocket;
@@ -88,15 +102,18 @@ void	Server::runServer()
 			tab.push_back(client_pollfd);
 			_clients.push_back(cli);
 		}
+
+		// std::string	join = ":tdausque!~@nerd-9AE5B52D.unyc.it JOIN #test\r\n";
 		for (size_t i = 1; i < tab.size(); i++)
 		{
 			if (tab[i].revents & POLLIN)
 			{
 				bytes = recv(clientSocket, buffer, sizeof(buffer), 0);
 				std::cout << "Message received !" << std::endl;
-				std::cout << "Client Message: " << buffer << std::endl;
-				std::string	welcome = ":tdausque!~@nerd-9AE5B52D.unyc.it JOIN #test\r\n";
-	   			send(clientSocket, welcome.c_str(), welcome.size(), 0);
+				std::cout << "Client Message: " << "$ " << buffer << " $" << std::endl;
+				std::string	welcome = "Hello World!\r\n";
+				memset(buff, 0, sizeof(buff));
+				send(clientSocket, welcome.c_str(), welcome.size(), 0);
 			}
 		}
 	}
