@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:27:00 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/23 13:50:21 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/27 21:12:09 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,29 @@ bool	isCmdValid(std::string cmd)
 			return true;
 	}
 	return false;
+}
+
+bool	doesChannelExist(std::map<std::string, Channel> &channels, std::string chanName)
+{
+	try
+	{
+		channels.at(chanName);
+		return (true);
+	}
+	catch(const std::exception& e)
+	{
+		return (false);
+	}
+}
+
+std::vector<std::string>	getVector(std::string strToSplit, char delimiter)
+{
+	std::istringstream stream(strToSplit);
+	std::vector<std::string> tokens;
+	std::string token;
+
+	while (std::getline(stream, token, delimiter)) {
+		tokens.push_back(token);
+	}
+	return tokens;
 }

@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:49:41 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/25 01:03:40 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/27 21:47:29 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ class   Channel
 		void					changeMode(std::string modeToAdd);
 		bool					isChannelProtected(void);
 		bool					onInviteMode(void);
+		bool					onLimiteMode(void);
 
 		// OTHERS
 		bool					doesChannelHaveATopic(void);

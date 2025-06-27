@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:21:20 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/11 19:02:38 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/27 21:13:17 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 
 # include <string>
 # include <vector>
+# include <map>
+
+# include "Channel.hpp"
+# include "User.hpp"
 
 class Command
 {
@@ -31,6 +35,8 @@ class Command
 		std::vector<std::string>	args;
 };
 
-bool		isCmdValid(std::string cmd);
+bool						isCmdValid(std::string cmd);
+bool						doesChannelExist(std::map<std::string, Channel> &channels, std::string chanName);
+std::vector<std::string>	getVector(std::string strToSplit, char delimiter);
 
 #endif

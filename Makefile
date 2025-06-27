@@ -5,7 +5,8 @@ SRCS = srcs/Command.cpp \
 		srcs/mainDev.cpp \
 	   	srcs/Server.cpp \
 		srcs/Channel.cpp \
-		srcs/join.cpp
+		srcs/join.cpp \
+		srcs/names.cpp
 RM = rm -f
 OBJS_DIR = obj
 INCLUDES = -Iincludes -Isrcs

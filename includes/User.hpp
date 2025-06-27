@@ -50,7 +50,7 @@ class User
 		std::string 				_username;
 		std::string 				_hostname;
 		std::string 				_realname;
-		int         				_socket;
+		int							_socket;
 		std::vector<std::string>	_inviteList;
 };
 
