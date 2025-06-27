@@ -40,18 +40,32 @@ int	Server::initServer(void)
 	return 0;
 }
 
-void	parseBuffer(const char *buff)
+std::string	Server::parseNick(const char *buff)
 {
 	std::string	message;
-	std::string	user;
+	std::string	nickname;
+	char	nick[5] = "NICK";
 	int		i;
+	int		j;
 
 	i = 0;
+	j = 0;
 	while (buff[i])
 	{
-		
+		if (buff[i] == nick[j])
+			j++;
+		else
+			j = 0;
+		if (nick[j] == '\0')
+			break ;
 		i++;
 	}
+	i++;
+	while (buff[i] == ' ')
+		i++;
+	while (buff[i] && buff[i] != '\n' && buff[i] != '\0')
+		nickname.push_back(buff[i++]);
+	return nickname;
 }
 
 void	Server::runServer()
@@ -63,7 +77,7 @@ void	Server::runServer()
 	int		bytes;
 
 	// initialise client
-	std::string nickname = "toto";
+	std::string nickname;
 	std::string	username = "titi";
 	std::string	hostname = "tata";
 	std::string realname = "tutu";
@@ -90,11 +104,12 @@ void	Server::runServer()
 			throw(std::runtime_error("Error: poll failed\n"));
 		if (tab[0].revents & POLLIN)
 		{
+			nickname = parseNick(buffer);
 			clientSocket = accept(this->_serverFd, NULL, NULL);
 			Client cli(nickname, username, hostname, realname, clientSocket);
 			if (clientSocket == -1)
 				throw(std::runtime_error("Error: client has not been accepted\n"));
-			std::cout << "client connected !" << std::endl;
+			// std::cout << "client connected !" << std::endl;
 			pollfd	client_pollfd;
 			client_pollfd.fd = clientSocket;
 			client_pollfd.events = POLLIN;
@@ -109,11 +124,12 @@ void	Server::runServer()
 			if (tab[i].revents & POLLIN)
 			{
 				bytes = recv(clientSocket, buffer, sizeof(buffer), 0);
-				std::cout << "Message received !" << std::endl;
-				std::cout << "Client Message: " << "$ " << buffer << " $" << std::endl;
+				parseNick(buffer);
+				std::cout << buffer << std::endl;
 				std::string	welcome = "Hello World!\r\n";
-				memset(buff, 0, sizeof(buff));
-				send(clientSocket, welcome.c_str(), welcome.size(), 0);
+				std::cout << parseNick(buffer) << std::endl;
+				memset(buffer, 0, sizeof(buffer));
+				// send(clientSocket, welcome.c_str(), welcome.size(), 0);
 			}
 		}
 	}
