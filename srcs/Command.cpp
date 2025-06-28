@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:27:00 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/23 13:50:21 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/28 12:24:25 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,43 @@ bool	isCmdValid(std::string cmd)
 			return true;
 	}
 	return false;
+}
+
+bool	doesChannelExist(std::map<std::string, Channel> &channels, std::string chanName)
+{
+	try
+	{
+		channels.at(chanName);
+		return (true);
+	}
+	catch(const std::exception& e)
+	{
+		return (false);
+	}
+}
+
+std::vector<std::string>	getVector(std::string strToSplit, char delimiter)
+{
+	std::istringstream stream(strToSplit);
+	std::vector<std::string> tokens;
+	std::string token;
+
+	while (std::getline(stream, token, delimiter)) {
+		tokens.push_back(token);
+	}
+	return tokens;
+}
+
+bool	userConnectedOnAnyChannel(std::map<std::string, Channel> &channels, User &user)
+{
+	std::map<User, bool>	userList;
+	
+	for (std::map<std::string, Channel>::iterator it = channels.begin(); it != channels.end(); it++) {
+		userList = it->second.getUsers();
+		for (std::map<User, bool>::iterator userIt = userList.begin(); userIt != userList.end(); userIt++) {
+			if (userIt->first.getNickname() == user.getNickname())
+				return (true);
+		}
+	}
+	return (false);
 }

@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:49:41 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/25 01:03:40 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/28 00:34:09 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ class   Channel
 		// USERS RELATED FUNCTIONS
 		bool					isUserConnected(std::string userNickname);
 		bool					isUserOperator(std::string userNickname);
-		void					addUser(User user, bool isOperator);
+		void					addUser(User &user, bool isOperator);
 		bool					removeUser(std::string userNickname);
 
 		// OPERATORS RELATED FUNCTIONS
@@ -66,6 +66,7 @@ class   Channel
 		void					changeMode(std::string modeToAdd);
 		bool					isChannelProtected(void);
 		bool					onInviteMode(void);
+		bool					onLimiteMode(void);
 
 		// OTHERS
 		bool					doesChannelHaveATopic(void);

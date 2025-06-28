@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:56:40 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/25 01:16:49 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/28 00:34:25 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ bool	Channel::isUserOperator(std::string userNickname)
 	return (false);
 }
 
-void	Channel::addUser(User user, bool isOperator)
+void	Channel::addUser(User &user, bool isOperator)
 {
 	std::string	fullname = user.getFullName();
 	std::string	joinMsg = ":"+fullname+" JOIN "+this->_name+"\r\n";
@@ -151,7 +151,7 @@ void	Channel::addUser(User user, bool isOperator)
 	this->_users.insert(std::pair<User, bool>(user, isOperator));
 	for (std::map<User, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
 		User tmp = it->first;
-		std::cout << "\n" << joinMsg << "\n" << std::endl;
+		std::cout << joinMsg << std::endl;
 		//send(tmp.getSocket(), joinMsg.c_str(), joinMsg.size(), 0);
 	}
 	if (doesChannelHaveATopic()) {
@@ -162,10 +162,11 @@ void	Channel::addUser(User user, bool isOperator)
 		std::string	rplTopic = RPL_TOPIC(user.getNickname(), this->_name, this->_topic);
 		std::string	rplTopicWhoTime = RPL_TOPICWHOTIME(user.getNickname(), this->_name, this->_lastUserToChangeTopic, lastChange);
 		//send(user.getSocket(), rplTopic.c_str(), rplTopic.size(), 0);
-		std::cout << "\n" << rplTopic << "\n" << std::endl;
+		std::cout << rplTopic << std::endl;
 		//send(user.getSocket(), rplTopicWhoTime.c_str(), rplTopicWhoTime.size(), 0);
-		std::cout << "\n" << rplTopicWhoTime << "\n" << std::endl;
+		std::cout << rplTopicWhoTime << std::endl;
 	}
+	user.deleteAnInvitation(this->_name);
 }
 
 bool	Channel::removeUser(std::string userNickname)
@@ -217,6 +218,11 @@ bool	Channel::isChannelProtected(void)
 bool	Channel::onInviteMode(void)
 {
 	return (this->_modes.find('i') != std::string::npos);
+}
+
+bool	Channel::onLimiteMode(void)
+{
+	return (this->_modes.find('l') != std::string::npos);
 }
 
 bool	Channel::doesChannelHaveATopic(void)

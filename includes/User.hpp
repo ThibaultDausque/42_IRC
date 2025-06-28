@@ -42,6 +42,7 @@ class User
 		};
 
 		void		addAnInvitation(std::string channelName);
+		void		deleteAnInvitation(std::string channelName);
 		bool		isInvitedTo(std::string channelName);
 		std::string	getFullName(void);
 
@@ -53,7 +54,7 @@ class User
 		std::string 				_username;
 		std::string 				_hostname;
 		std::string 				_realname;
-		int         				_socket;
+		int							_socket;
 		std::vector<std::string>	_inviteList;
 };
 

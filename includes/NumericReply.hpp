@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:24:32 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/23 16:32:33 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/27 22:24:57 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 # define ERR_CHANNELISFULL(nick, channel) SERVER_HOSTNAME" 471 "+nick+" "+channel+" :Cannot join channel (+l)\r\n"
 # define ERR_INVITEONLYCHAN(nick, channel) SERVER_HOSTNAME" 473 "+nick+" "+channel+" :Cannot join channel (+l)\r\n"
 
-# define RPL_TOPIC(nick, channel, topic) SERVER_HOSTNAME" 332 "+nick+" "+channel+" :"+topic
-# define RPL_TOPICWHOTIME(nick, channel, fullname, setat) SERVER_HOSTNAME" 333 "+nick+" "+channel+" "+fullname+" "+setat
+# define RPL_TOPIC(nick, channel, topic) SERVER_HOSTNAME" 332 "+nick+" "+channel+" :"+topic+"\r\n"
+# define RPL_TOPICWHOTIME(nick, channel, fullname, setat) SERVER_HOSTNAME" 333 "+nick+" "+channel+" "+fullname+" "+setat+"\r\n"
+# define RPL_NAMREPLY(nick, channel) SERVER_HOSTNAME" 353 "+nick+" = "+channel+" :"
+# define RPL_ENDOFNAMES(nick, channel) SERVER_HOSTNAME" 366 "+nick+" "+channel+" :End of /NAMES list.\r\n"
+
 #endif

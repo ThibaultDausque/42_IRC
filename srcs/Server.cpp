@@ -68,6 +68,21 @@ std::string	Server::parseNick(const char *buff)
 	return nickname;
 }
 
+int	Server::parseCmd(char *buff, User user)
+{
+	if (cmd == "QUIT")
+	{
+		// erase the user
+		return 0;
+	}
+	else if (isCmdValid(cmd) && cmd == "JOIN")
+		executeJoin(user, channels, line);
+	else if (isCmdValid(cmd) && cmd == "NAMES")
+		executeNames(user, channels, line, &users);
+	return 1;
+}
+
+
 void	Server::runServer()
 {
 	int		clientSocket;
@@ -126,6 +141,8 @@ void	Server::runServer()
 				bytes = recv(clientSocket, buffer, sizeof(buffer), 0);
 				std::cout << buffer << std::endl;
 				nickname = parseNick(buffer);
+				if (!parseCmd(buffer))
+					break ;
 				_clients[j++].setNickname(nickname);
 				std::cout << _clients[0].getNickname() << std::endl;
 				std::string	welcome = "Hello World!\r\n";
