@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:26:24 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/28 01:00:47 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/28 12:17:52 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 #include <sstream>
 
-int executeNames(User &origin, std::map<std::string, Channel> &channels, std::string cmdline);
+int executeNames(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User> *users);
 
 static void	removeUserFromEveryChannel(std::map<std::string, Channel> &channels, User &origin)
 {
@@ -96,7 +96,7 @@ int executeJoin(User &origin, std::map<std::string, Channel> &channels, std::str
 							//send(origin.getSocket(), errInviteOnlyChan.c_str(), errInviteOnlyChan.size(), 0);
 						else {
 							(*chan).addUser(origin, false);
-							executeNames(origin, channels, "NAMES "+chanName);
+							executeNames(origin, channels, "NAMES "+chanName, NULL);
 						}
 					}
 				}
@@ -107,7 +107,7 @@ int executeJoin(User &origin, std::map<std::string, Channel> &channels, std::str
 						Channel channel(chanName);
 						channel.addUser(origin, true);
 						channels.insert(std::pair<std::string, Channel>(channel.getName(), channel));
-						executeNames(origin, channels, "NAMES "+chanName);
+						executeNames(origin, channels, "NAMES "+chanName, NULL);
 					}
 					catch(const std::exception& e)
 					{

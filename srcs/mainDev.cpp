@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:23:42 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/28 00:44:51 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/28 12:27:29 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include "Channel.hpp"
 
 int executeJoin(User &origin, std::map<std::string, Channel> &channels, std::string cmdline);
+int executeNames(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User> *users);
 
 int	main(int ac, char **av)
 {
@@ -57,6 +58,7 @@ int	main(int ac, char **av)
 		channels.insert(std::pair<std::string, Channel>(channel.getName(), channel));
 		users.push_back(tpipi);
 		users.push_back(tdausque);
+		users.push_back(user);
 
 		// BOUCLE DE COMMANDES
 		while (true) {
@@ -69,8 +71,10 @@ int	main(int ac, char **av)
 			// chercher si les messages de base doivent etre parse d'une certaine maniere
 			if (cmd == "QUIT")
 				break ;
-			if (isCmdValid(cmd))
+			else if (isCmdValid(cmd) && cmd == "JOIN")
 				executeJoin(user, channels, line);
+			else if (isCmdValid(cmd) && cmd == "NAMES")
+				executeNames(user, channels, line, &users);
 			else
 				std::cout << ">> La commande " << cmd << " n'est pas valide !" << std::endl;
 

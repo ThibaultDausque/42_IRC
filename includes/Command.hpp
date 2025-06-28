@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:21:20 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/27 21:13:17 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/28 11:30:22 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,6 @@ class Command
 bool						isCmdValid(std::string cmd);
 bool						doesChannelExist(std::map<std::string, Channel> &channels, std::string chanName);
 std::vector<std::string>	getVector(std::string strToSplit, char delimiter);
+bool						userConnectedOnAnyChannel(std::map<std::string, Channel> &channels, User &user);
 
 #endif

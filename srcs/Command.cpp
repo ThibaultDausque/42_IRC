@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:27:00 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/27 21:12:09 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/28 12:24:25 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,18 @@ std::vector<std::string>	getVector(std::string strToSplit, char delimiter)
 		tokens.push_back(token);
 	}
 	return tokens;
+}
+
+bool	userConnectedOnAnyChannel(std::map<std::string, Channel> &channels, User &user)
+{
+	std::map<User, bool>	userList;
+	
+	for (std::map<std::string, Channel>::iterator it = channels.begin(); it != channels.end(); it++) {
+		userList = it->second.getUsers();
+		for (std::map<User, bool>::iterator userIt = userList.begin(); userIt != userList.end(); userIt++) {
+			if (userIt->first.getNickname() == user.getNickname())
+				return (true);
+		}
+	}
+	return (false);
 }
