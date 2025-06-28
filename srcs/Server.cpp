@@ -77,10 +77,10 @@ void	Server::runServer()
 	int		bytes;
 
 	// initialise client
-	std::string nickname;
-	std::string	username = "titi";
-	std::string	hostname = "tata";
-	std::string realname = "tutu";
+	std::string nickname = "null";
+	std::string	username = "null";
+	std::string	hostname = "null";
+	std::string realname = "null";
 
 	pollfd	server_pollfd;
 	server_pollfd.fd = this->_serverFd;
@@ -104,7 +104,6 @@ void	Server::runServer()
 			throw(std::runtime_error("Error: poll failed\n"));
 		if (tab[0].revents & POLLIN)
 		{
-			nickname = parseNick(buffer);
 			clientSocket = accept(this->_serverFd, NULL, NULL);
 			Client cli(nickname, username, hostname, realname, clientSocket);
 			if (clientSocket == -1)
@@ -121,13 +120,15 @@ void	Server::runServer()
 		// std::string	join = ":tdausque!~@nerd-9AE5B52D.unyc.it JOIN #test\r\n";
 		for (size_t i = 1; i < tab.size(); i++)
 		{
+			int	j = 0;
 			if (tab[i].revents & POLLIN)
 			{
 				bytes = recv(clientSocket, buffer, sizeof(buffer), 0);
-				parseNick(buffer);
 				std::cout << buffer << std::endl;
+				nickname = parseNick(buffer);
+				_clients[j++].setNickname(nickname);
+				std::cout << _clients[0].getNickname() << std::endl;
 				std::string	welcome = "Hello World!\r\n";
-				std::cout << parseNick(buffer) << std::endl;
 				memset(buffer, 0, sizeof(buffer));
 				// send(clientSocket, welcome.c_str(), welcome.size(), 0);
 			}

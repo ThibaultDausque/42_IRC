@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 13:01:39 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/19 13:41:36 by tdausque         ###   ########.fr       */
+/*   Updated: 2025/06/28 09:45:50 by tdausque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,26 @@ std::string Client::getRealname(void) const
 int			Client::getFD(void) const
 {
 	return (this->_FD);
+}
+
+void	Client::setNickname(std::string& Nickname)
+{
+	this->_nickname = Nickname;
+}
+
+void	Client::setUsername(std::string& Username)
+{
+	this->_username = Username;
+}
+
+void	Client::setHostname(std::string& Hostname)
+{
+	this->_hostname = Hostname;
+}
+
+void	Client::setRealname(std::string& Realname)
+{
+	this->_realname = Realname;
 }
 
 /*--------------

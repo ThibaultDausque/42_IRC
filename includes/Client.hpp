@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 12:52:11 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/19 13:41:46 by tdausque         ###   ########.fr       */
+/*   Updated: 2025/06/28 09:43:27 by tdausque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@ class Client
 		std::string getUsername(void) const;
 		std::string getHostname(void) const;
 		std::string getRealname(void) const;
+		void		setNickname(std::string& Nickname);
+		void		setUsername(std::string& Username);
+		void		setHostname(std::string& Hostname);
+		void		setRealname(std::string& Realname);
 		int         getFD(void) const;
 
 		class HasInvalidCharacterException : public std::exception
