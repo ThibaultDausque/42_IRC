@@ -6,19 +6,19 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:23:42 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/27 22:18:52 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/28 00:44:51 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
+#include <unistd.h>
+#include <limits.h>
+
 #include "Command.hpp"
 #include "User.hpp"
 #include "Channel.hpp"
 
-#include <unistd.h>
-#include <limits.h>
-
-int executeJoin(User origin, std::map<std::string, Channel> &channels, std::string cmdline);
+int executeJoin(User &origin, std::map<std::string, Channel> &channels, std::string cmdline);
 
 int	main(int ac, char **av)
 {
@@ -45,7 +45,7 @@ int	main(int ac, char **av)
 		User tdausque("tdausque", "tdausque", hostname, "realname", 1);
 
 		// CREATION D'UN CHANNEL NOMMÉ GRACE AU PROMPT ET AJOUT DES DEUX USERS ET D'UN TOPIC
-		Channel	channel(av[2], "", "", "", -1);
+		Channel	channel(av[2], "", "i", "", -1);
 		channel.addUser(tpipi, true);
 		channel.addUser(tdausque, false);
 		channel.changeTopic("Salut les ptits loups c'est Calistou", tpipi);
@@ -60,6 +60,7 @@ int	main(int ac, char **av)
 
 		// BOUCLE DE COMMANDES
 		while (true) {
+			std::cout << ">> ";
 			std::getline(std::cin, line);
 
 			std::string cmd = line.substr(0, line.find(" "));

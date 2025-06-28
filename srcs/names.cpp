@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 17:28:58 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/27 22:26:44 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/28 00:35:10 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "Channel.hpp"
 #include "Command.hpp"
 
-int executeNames(User origin, std::map<std::string, Channel> &channels, std::string cmdline)
+int executeNames(User &origin, std::map<std::string, Channel> &channels, std::string cmdline)
 	{
 	std::string					chanName;
 	std::string					originNick = origin.getNickname();

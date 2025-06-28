@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:56:40 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/27 22:21:34 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/28 00:34:25 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ bool	Channel::isUserOperator(std::string userNickname)
 	return (false);
 }
 
-void	Channel::addUser(User user, bool isOperator)
+void	Channel::addUser(User &user, bool isOperator)
 {
 	std::string	fullname = user.getFullName();
 	std::string	joinMsg = ":"+fullname+" JOIN "+this->_name+"\r\n";
@@ -166,6 +166,7 @@ void	Channel::addUser(User user, bool isOperator)
 		//send(user.getSocket(), rplTopicWhoTime.c_str(), rplTopicWhoTime.size(), 0);
 		std::cout << rplTopicWhoTime << std::endl;
 	}
+	user.deleteAnInvitation(this->_name);
 }
 
 bool	Channel::removeUser(std::string userNickname)

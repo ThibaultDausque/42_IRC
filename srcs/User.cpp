@@ -77,6 +77,16 @@ void	User::addAnInvitation(std::string channelName)
 	this->_inviteList.push_back(channelName);
 }
 
+void	User::deleteAnInvitation(std::string channelName)
+{
+	for (std::vector<std::string>::iterator it = this->_inviteList.begin(); it != this->_inviteList.end(); it++) {
+		if (*it == channelName) {
+			this->_inviteList.erase(it);
+			break ;
+		}
+	}
+}
+
 bool	User::isInvitedTo(std::string channelName)
 {
 	std::string caca = (channelName);

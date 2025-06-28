@@ -39,6 +39,7 @@ class User
 		};
 
 		void		addAnInvitation(std::string channelName);
+		void		deleteAnInvitation(std::string channelName);
 		bool		isInvitedTo(std::string channelName);
 		std::string	getFullName(void);
 

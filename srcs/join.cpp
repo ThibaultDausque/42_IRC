@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:26:24 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/27 22:20:14 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/28 01:00:47 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 
 #include <sstream>
 
-int executeNames(User origin, std::map<std::string, Channel> &channels, std::string cmdline);
+int executeNames(User &origin, std::map<std::string, Channel> &channels, std::string cmdline);
 
-static void	removeUserFromEveryChannel(std::map<std::string, Channel> &channels, User origin)
+static void	removeUserFromEveryChannel(std::map<std::string, Channel> &channels, User &origin)
 {
 	std::string					originNickname = origin.getNickname();
 	std::string					originFullname = origin.getFullName();
@@ -49,7 +49,7 @@ static void	removeUserFromEveryChannel(std::map<std::string, Channel> &channels,
 	}
 }
 
-int executeJoin(User origin, std::map<std::string, Channel> &channels, std::string cmdline)
+int executeJoin(User &origin, std::map<std::string, Channel> &channels, std::string cmdline)
 {
 	Channel 	*chan;
 	std::string	chanName;
@@ -84,18 +84,20 @@ int executeJoin(User origin, std::map<std::string, Channel> &channels, std::stri
 				{
 					chan = &channels.at(chanName);
 
-					if ((*chan).isChannelProtected() && (params.size() <= 2 || (keysParam.size() <= i || (*chan).getKey() != keysParam[i])))
-						std::cout << "\n" << errBadChannelKey << "\n" << std::endl;
-						//send(origin.getSocket(), errBadChannelKey.c_str(), errBadChannelKey.size(), 0);
-					else if ((*chan).onLimiteMode() && (*chan).getChannelSize() >= (*chan).getUserLimit())
-						std::cout << "\n" << errChannelIsFull << "\n" << std::endl;
-						//send(origin.getSocket(), errChannelIsFull.c_str(), errChannelIsFull.size(), 0);
-					else if ((*chan).onInviteMode() && !origin.isInvitedTo(chanName))
-						std::cout << "\n" << errInviteOnlyChan << "\n" << std::endl;
-						//send(origin.getSocket(), errInviteOnlyChan.c_str(), errInviteOnlyChan.size(), 0);
-					else if (!(*chan).isUserConnected(originNick)) {
-						(*chan).addUser(origin, false);
-						executeNames(origin, channels, "NAMES "+chanName);
+					if (!(*chan).isUserConnected(originNick)) {
+						if ((*chan).isChannelProtected() && (params.size() <= 2 || (keysParam.size() <= i || (*chan).getKey() != keysParam[i])))
+							std::cout << "\n" << errBadChannelKey << "\n" << std::endl;
+							//send(origin.getSocket(), errBadChannelKey.c_str(), errBadChannelKey.size(), 0);
+						else if ((*chan).onLimiteMode() && (*chan).getChannelSize() >= (*chan).getUserLimit())
+							std::cout << "\n" << errChannelIsFull << "\n" << std::endl;
+							//send(origin.getSocket(), errChannelIsFull.c_str(), errChannelIsFull.size(), 0);
+						else if ((*chan).onInviteMode() && !origin.isInvitedTo(chanName))
+							std::cout << "\n" << errInviteOnlyChan << "\n" << std::endl;
+							//send(origin.getSocket(), errInviteOnlyChan.c_str(), errInviteOnlyChan.size(), 0);
+						else {
+							(*chan).addUser(origin, false);
+							executeNames(origin, channels, "NAMES "+chanName);
+						}
 					}
 				}
 				else
