@@ -30,6 +30,8 @@ class User
 		std::string getRealname(void) const;
 		int         getSocket(void) const;
 
+		void		setNickname(std::string &str);
+		
 		class HasInvalidCharacterException : public std::exception
 		{
 			public:

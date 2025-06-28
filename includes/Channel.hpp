@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:49:41 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/28 00:34:09 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/28 16:09:13 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ class   Channel
 		Channel(std::string name, std::string topic, std::string modes, std::string key, int limit);
 
 		// GETTERS
-		std::map<User, bool>	getUsers(void);
+		std::map<User*, bool>	getUsers(void);
 		std::string				getName(void);
 		std::string				getTopic(void);
 		std::string				getModes(void);
@@ -71,10 +71,11 @@ class   Channel
 		// OTHERS
 		bool					doesChannelHaveATopic(void);
 		int						getChannelSize(void);
+		std::string				convertUNIXTimeToString(void);
 
 		~Channel(void);
 	private :
-		std::map<User, bool>	_users;
+		std::map<User*, bool>	_users;
 		std::string				_name;
 		std::string				_topic;
 		std::string				_modes;

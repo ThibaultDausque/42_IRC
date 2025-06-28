@@ -63,9 +63,14 @@ std::string User::getRealname(void) const
 	return (this->_realname);
 }
 
-int			User::getSocket(void) const
+int	User::getSocket(void) const
 {
 	return (this->_socket);
+}
+
+void	User::setNickname(std::string &str)
+{
+	this->_nickname = str;
 }
 
 /*--------------

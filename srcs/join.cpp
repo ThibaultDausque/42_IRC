@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:26:24 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/28 12:17:52 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/28 15:47:29 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@
 
 #include <sstream>
 
-int executeNames(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User> *users);
+int executeNames(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User*> *users);
 
 static void	removeUserFromEveryChannel(std::map<std::string, Channel> &channels, User &origin)
 {
 	std::string					originNickname = origin.getNickname();
 	std::string					originFullname = origin.getFullName();
 	std::string					partMsg;
-	std::map<User, bool>		userList;
+	std::map<User*, bool>		userList;
 	std::vector<std::string>	channelToRemoveList;
 
 	for (std::map<std::string, Channel>::iterator chanIt = channels.begin(); chanIt != channels.end(); ++chanIt) {
@@ -32,9 +32,9 @@ static void	removeUserFromEveryChannel(std::map<std::string, Channel> &channels,
 		partMsg = ":"+originFullname+" PART "+chanIt->second.getName()+"\r\n";
 
 		if (chanIt->second.isUserConnected(originNickname)) {
-			for (std::map<User, bool>::iterator userIt = userList.begin(); userIt != userList.end(); userIt++) {
+			for (std::map<User*, bool>::iterator userIt = userList.begin(); userIt != userList.end(); userIt++) {
 				
-				User tmp = userIt->first;
+				User tmp = (*userIt->first);
 				std::cout << partMsg << std::endl;
 				//send(tmp.getSocket(), partMsg.c_str(), partMsg.size(), 0);
 				chanIt->second.removeUser(originNickname);
