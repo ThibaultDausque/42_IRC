@@ -6,20 +6,22 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 13:58:44 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/28 16:12:25 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/28 18:12:36 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "NumericReply.hpp"
 #include "Command.hpp"
 #include "User.hpp"
+#include <set>
 
 int executeNick(User &user, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User*> &users)
 {
-	std::string oldNick = user.getNickname();
-	std::string errNoNicknameGiven = ERR_NONICKNAMEGIVEN(oldNick);
-	std::vector<std::string> params = getVector(cmdline, ' ');
-	std::map<User*, bool> userList;
+	std::string 				oldNick = user.getNickname();
+	std::string 				errNoNicknameGiven = ERR_NONICKNAMEGIVEN(oldNick);
+	std::vector<std::string>	params = getVector(cmdline, ' ');
+	std::map<User*, bool> 		userList;
+	std::set<int>				usersSharingChannelFD;
 
 	if (params.size() == 1) {
 		std::cout << errNoNicknameGiven << std::endl;
@@ -53,14 +55,13 @@ int executeNick(User &user, std::map<std::string, Channel> &channels, std::strin
 				userList = chanIt->second.getUsers();
 				
 				for (std::map<User*, bool>::iterator userIt = userList.begin(); userIt != userList.end(); ++userIt) {
-					if ((*userIt->first).getNickname() != user.getNickname())
-						std::cout << nickMsg << std::endl;
-						//send(userIt->first.getSocket(), nickMsg.c_str(), nickMsg.size(), 0);
+					usersSharingChannelFD.insert((*userIt->first).getSocket());
 				}
 			}
 		}
-		std::cout << nickMsg << std::endl;
-		//send(user.getSocket(), nickMsg.c_str(), nickMsg.size(), 0);
+		for (std::set<int>::iterator fdIt = usersSharingChannelFD.begin(); fdIt != usersSharingChannelFD.end(); ++fdIt)
+			std::cout << nickMsg << std::endl;
+			//send(*fdIt, nickMsg.c_str(), nickMsg.size(), 0);
 	}
 	return (0);
 }
