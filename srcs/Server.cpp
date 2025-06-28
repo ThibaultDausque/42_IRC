@@ -105,7 +105,7 @@ void	Server::runServer()
 		if (tab[0].revents & POLLIN)
 		{
 			clientSocket = accept(this->_serverFd, NULL, NULL);
-			Client cli(nickname, username, hostname, realname, clientSocket);
+			User cli(nickname, username, hostname, realname, clientSocket);
 			if (clientSocket == -1)
 				throw(std::runtime_error("Error: client has not been accepted\n"));
 			// std::cout << "client connected !" << std::endl;

@@ -1,89 +1,89 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Client.cpp                                         :+:      :+:    :+:   */
+/*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 13:01:39 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/28 09:45:50 by tdausque         ###   ########.fr       */
+/*   Updated: 2025/06/28 12:01:58 by tdausque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Client.hpp"
+#include "User.hpp"
 
 /*-------------------------
 CONSTRUCTORS AND DESTRUCTOR
 ---------------------------*/
 
-Client::Client(std::string& nickname, std::string& username, std::string& hostname, std::string& realname, int FD)
+User::User(std::string nn, std::string un, std::string hn, std::string rn, int socket)
 {
 	// si c'est vide c'est une not enough param
-	if (nickname.length() > 9 || nickname.length() < 1)
+	if (nn.length() > 9 || nn.length() < 1)
 		throw std::length_error("Length Error : Nickname Length Must Be Between 1-9 Characters.");
-	if (hasInvalidChar(nickname))
-		throw Client::HasInvalidCharacterException();
-	if (username.length() < 1)
+	if (hasInvalidChar(nn))
+		throw User::HasInvalidCharacterException();
+	if (un.length() < 1)
 		throw std::length_error("Length Error : Username Length Must Be Between 1-9 Characters.");
-	if (hasNonAlphanumCharacter(username))
-		throw Client::HasInvalidCharacterException();
-	if (username.length() > 9)
-		username = username.substr(0, 9);
-	_nickname = nickname;
+	if (hasNonAlphanumCharacter(un))
+		throw User::HasInvalidCharacterException();
+	if (un.length() > 9)
+		un = un.substr(0, 9);
+	_nickname = nn;
 	_username.push_back('~');
-	_username.append(username);
-	_hostname = hostname;
-	_realname = realname;
-	_FD = FD;
+	_username.append(un);
+	_hostname = hn;
+	_realname = rn;
+	_socket = socket;
 }
 
-Client::~Client(void) {}
+User::~User(void) {}
 
 /*-----
 GETTERS
 -------*/
 
-std::string Client::getNickname(void) const
+std::string User::getNickname(void) const
 {
 	return (this->_nickname);
 }
 
-std::string Client::getUsername(void) const
+std::string User::getUsername(void) const
 {
 	return (this->_username);
 }
 
-std::string Client::getHostname(void) const
+std::string User::getHostname(void) const
 {
 	return (this->_hostname);
 }
 
-std::string Client::getRealname(void) const
+std::string User::getRealname(void) const
 {
 	return (this->_realname);
 }
 
-int			Client::getFD(void) const
+int			User::getSocket(void) const
 {
-	return (this->_FD);
+	return (this->_socket);
 }
 
-void	Client::setNickname(std::string& Nickname)
+void	User::setNickname(std::string& Nickname)
 {
 	this->_nickname = Nickname;
 }
 
-void	Client::setUsername(std::string& Username)
+void	User::setUsername(std::string& Username)
 {
 	this->_username = Username;
 }
 
-void	Client::setHostname(std::string& Hostname)
+void	User::setHostname(std::string& Hostname)
 {
 	this->_hostname = Hostname;
 }
 
-void	Client::setRealname(std::string& Realname)
+void	User::setRealname(std::string& Realname)
 {
 	this->_realname = Realname;
 }
@@ -92,17 +92,44 @@ void	Client::setRealname(std::string& Realname)
 FUNCTIONS MEMBER
 ----------------*/
 
+void	User::addAnInvitation(std::string channelName)
+{
+	this->_inviteList.push_back(channelName);
+}
+
+bool	User::isInvitedTo(std::string channelName)
+{
+	std::string caca = (channelName);
+	std::vector<std::string>::iterator it;
+	for (it = _inviteList.begin(); it != _inviteList.end(); ++it) {
+		if (*it == channelName)
+			return (true);
+	}
+	return (false);
+}
+
+std::string	User::getFullName(void)
+{
+	std::string fullname = this->getNickname()+"!"+this->getUsername()+"@"+this->getHostname();
+	return (fullname);
+}
+
+bool User::operator<(const User &other) const
+{
+	return (this->_nickname < other._nickname);
+}
+
 /*-------
 FUNCTIONS
 ---------*/
 
-std::ostream &operator<<(std::ostream &os, const Client &client)
+std::ostream &operator<<(std::ostream &os, const User &user)
 {
-	os << "Nickname : " << client.getNickname() <<
-		"\nUsername : " << client.getUsername() <<
-		"\nHostname : " << client.getHostname() <<
-		"\nRealname : " << client.getRealname() <<
-		"\nFD : " << client.getFD();
+	os << "Nickname : " << user.getNickname() <<
+		"\nUsername : " << user.getUsername() <<
+		"\nHostname : " << user.getHostname() <<
+		"\nRealname : " << user.getRealname() <<
+		"\nFD : " << user.getSocket();
 	return os;
 }
 
@@ -129,9 +156,10 @@ bool	hasInvalidChar(std::string& str)
 
 bool	hasNonAlphanumCharacter(std::string& str)
 {
+	bool	res = false;
 	for (std::size_t i = 0; i < str.length(); i++) {
-		if (!isalnum(str[i]))
-			return (true);
+		if (!isalnum(str[i]) && str[i] != '.' && str[i] != '_' && str[i] != '-')
+			res = true;
 	}
-	return (false);
+	return (res);
 }

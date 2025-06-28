@@ -8,7 +8,7 @@
 # include <unistd.h>
 # include <poll.h>
 # include <vector>
-# include "Client.hpp"
+# include "User.hpp"
 # include <map>
 # include <string.h>
 
@@ -20,7 +20,7 @@ class Server
 		std::string		_serverPwd;
 		unsigned int	_port;
 		bool			_connected;
-		std::vector<Client>	_clients;
+		std::vector<User>	_clients;
 
 	public:
 		Server(std::string _pwd, unsigned int _port);
