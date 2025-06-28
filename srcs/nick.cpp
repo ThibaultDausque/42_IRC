@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 13:58:44 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/28 18:12:36 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/28 18:15:05 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,8 @@ int executeNick(User &user, std::map<std::string, Channel> &channels, std::strin
 			if (chanIt->second.isUserConnected(newNick)) {
 				userList = chanIt->second.getUsers();
 				
-				for (std::map<User*, bool>::iterator userIt = userList.begin(); userIt != userList.end(); ++userIt) {
+				for (std::map<User*, bool>::iterator userIt = userList.begin(); userIt != userList.end(); ++userIt)
 					usersSharingChannelFD.insert((*userIt->first).getSocket());
-				}
 			}
 		}
 		for (std::set<int>::iterator fdIt = usersSharingChannelFD.begin(); fdIt != usersSharingChannelFD.end(); ++fdIt)
