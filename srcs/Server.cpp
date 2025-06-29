@@ -67,20 +67,20 @@ std::string	Server::parseNick(const char *buff)
 		nickname.push_back(buff[i++]);
 	return nickname;
 }
-
-int	Server::parseCmd(char *buff, User user)
-{
-	if (cmd == "QUIT")
-	{
-		// erase the user
-		return 0;
-	}
-	else if (isCmdValid(cmd) && cmd == "JOIN")
-		executeJoin(user, channels, line);
-	else if (isCmdValid(cmd) && cmd == "NAMES")
-		executeNames(user, channels, line, &users);
-	return 1;
-}
+//
+// int	Server::parseCmd(char *buff, User user)
+// {
+// 	if (cmd == "QUIT")
+// 	{
+// 		// erase the user
+// 		return 0;
+// 	}
+// 	else if (isCmdValid(cmd) && cmd == "JOIN")
+// 		executeJoin(user, channels, line);
+// 	else if (isCmdValid(cmd) && cmd == "NAMES")
+// 		executeNames(user, channels, line, &users);
+// 	return 1;
+// }
 
 
 void	Server::runServer()
@@ -139,15 +139,23 @@ void	Server::runServer()
 			if (tab[i].revents & POLLIN)
 			{
 				bytes = recv(clientSocket, buffer, sizeof(buffer), 0);
-				std::cout << buffer << std::endl;
 				nickname = parseNick(buffer);
-				if (!parseCmd(buffer))
-					break ;
-				_clients[j++].setNickname(nickname);
-				std::cout << _clients[0].getNickname() << std::endl;
-				std::string	welcome = "Hello World!\r\n";
+				std::cout << buffer << std::endl;
+				// if (!parseCmd(buffer))
+					// break ;
+				try
+	   			{
+					_clients[j].setNickname(nickname);
+					std::cout << _clients[j].getNickname() << std::endl;
+	   			}
+				catch (const std::length_error &e)
+	   			{
+					std::cerr << e.what() << std::endl;
+	   			}
+	   			std::string	welcome = "Hello World!\r\n";
 				memset(buffer, 0, sizeof(buffer));
 				// send(clientSocket, welcome.c_str(), welcome.size(), 0);
+				j++;
 			}
 		}
 	}

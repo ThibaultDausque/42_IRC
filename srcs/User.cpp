@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 13:01:39 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/28 12:01:58 by tdausque         ###   ########.fr       */
+/*   Updated: 2025/06/29 10:57:23 by tdausque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ User::User(std::string nn, std::string un, std::string hn, std::string rn, int s
 	// si c'est vide c'est une not enough param
 	if (nn.length() > 9 || nn.length() < 1)
 		throw std::length_error("Length Error : Nickname Length Must Be Between 1-9 Characters.");
-	if (hasInvalidChar(nn))
-		throw User::HasInvalidCharacterException();
+	// if (hasInvalidChar(nn))
+		// throw User::HasInvalidCharacterException("Invalid characters");
 	if (un.length() < 1)
 		throw std::length_error("Length Error : Username Length Must Be Between 1-9 Characters.");
-	if (hasNonAlphanumCharacter(un))
-		throw User::HasInvalidCharacterException();
+	// if (hasNonAlphanumCharacter(un))
+	// 	throw User::HasInvalidCharacterException("Characters non alpha numeric");
 	if (un.length() > 9)
 		un = un.substr(0, 9);
 	_nickname = nn;

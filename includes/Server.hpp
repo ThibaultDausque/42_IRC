@@ -33,7 +33,7 @@ class Server
 		void	runServer(void);
 		void	eraseClient(void);
 		void	signalHandler(int sig);
-		int		parseCmd(char* buff);
+		// int		parseCmd(char* buff);
 		std::string		parseNick(const char* buff);
 };
 
