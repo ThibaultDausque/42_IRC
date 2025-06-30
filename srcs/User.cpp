@@ -216,7 +216,7 @@ bool	hasNonAlphanumCharacter(std::string &str)
 {
 	bool	res = false;
 	for (std::size_t i = 0; i < str.length(); i++) {
-		if (!isalnum(str[i]) && str[i] != '.' && str[i] != '_' && str[i] != '-')
+		if (!isalnum(str[i]) && str[i] != '.' && str[i] != '_' && str[i] != '-' && str[i] != '+')
 			res = true;
 	}
 	return (res);
