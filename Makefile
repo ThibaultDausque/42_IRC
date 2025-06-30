@@ -7,7 +7,8 @@ SRCS = srcs/Command.cpp \
 		srcs/Channel.cpp \
 		srcs/join.cpp \
 		srcs/names.cpp \
-		srcs/nick.cpp
+		srcs/nick.cpp \
+		srcs/user.cpp
 RM = rm -f
 OBJS_DIR = obj
 INCLUDES = -Iincludes -Isrcs

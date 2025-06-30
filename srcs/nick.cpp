@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 13:58:44 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/28 18:30:02 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/30 20:26:00 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int executeNick(User &user, std::map<std::string, Channel> &channels, std::strin
 	std::map<User*, bool> 		userList;
 	std::set<int>				usersSharingChannelFD;
 
+	if (oldNick == "")
+		oldNick = "*";
 	if (params.size() == 1) {
 		std::cout << errNoNicknameGiven << std::endl;
 		//send(user.getSocket(), errNoNicknameGiven.c_str(), errNoNicknameGiven.size(), 0);
@@ -50,21 +52,25 @@ int executeNick(User &user, std::map<std::string, Channel> &channels, std::strin
 		}
 
 		user.setNickname(newNick);
-		for (std::map<std::string, Channel>::iterator chanIt = channels.begin(); chanIt != channels.end(); ++chanIt) {
-			if (chanIt->second.isUserConnected(newNick)) {
-				userList = chanIt->second.getUsers();
-				
-				for (std::map<User*, bool>::iterator userIt = userList.begin(); userIt != userList.end(); ++userIt) {
-					if ((*userIt->first).getNickname() != user.getNickname())
-						usersSharingChannelFD.insert((*userIt->first).getSocket());
+		if (oldNick != "*" && user.isUsernameRegistered()) {
+			for (std::map<std::string, Channel>::iterator chanIt = channels.begin(); chanIt != channels.end(); ++chanIt) {
+				if (chanIt->second.isUserConnected(newNick)) {
+					userList = chanIt->second.getUsers();
+					
+					for (std::map<User*, bool>::iterator userIt = userList.begin(); userIt != userList.end(); ++userIt) {
+						if ((*userIt->first).getNickname() != user.getNickname())
+							usersSharingChannelFD.insert((*userIt->first).getSocket());
+					}
 				}
 			}
-		}
-		for (std::set<int>::iterator fdIt = usersSharingChannelFD.begin(); fdIt != usersSharingChannelFD.end(); ++fdIt)
+			for (std::set<int>::iterator fdIt = usersSharingChannelFD.begin(); fdIt != usersSharingChannelFD.end(); ++fdIt)
+				std::cout << nickMsg << std::endl;
+				//send(*fdIt, nickMsg.c_str(), nickMsg.size(), 0);
 			std::cout << nickMsg << std::endl;
-			//send(*fdIt, nickMsg.c_str(), nickMsg.size(), 0);
-		std::cout << nickMsg << std::endl;
-		//send(user.getSocket(), nickMsg.c_str(), nickMsg.size(), 0);
+			//send(user.getSocket(), nickMsg.c_str(), nickMsg.size(), 0);
+		}
+		else
+			user.isUserRegistered();
 	}
 	return (0);
 }

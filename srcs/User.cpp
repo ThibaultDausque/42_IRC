@@ -16,6 +16,15 @@
 CONSTRUCTORS AND DESTRUCTOR
 ---------------------------*/
 
+User::User(int socket)
+{
+	_nickname = "";
+	_username = "";
+	_hostname = "";
+	_realname = "";
+	_socket = socket;
+}
+
 User::User(std::string nn, std::string un, std::string hn, std::string rn, int socket)
 {
 	// si c'est vide c'est une not enough param
@@ -73,6 +82,22 @@ void	User::setNickname(std::string &str)
 	this->_nickname = str;
 }
 
+void	User::setUsername(std::string &str)
+{
+	this->_username = str;
+}
+
+void	User::setHostname(std::string str)
+{
+	this->_hostname = str;
+}
+
+void	User::setRealname(std::string &str)
+{
+	this->_realname = str;
+}
+
+
 /*--------------
 FUNCTIONS MEMBER
 ----------------*/
@@ -99,6 +124,44 @@ bool	User::isInvitedTo(std::string channelName)
 	for (it = _inviteList.begin(); it != _inviteList.end(); ++it) {
 		if (*it == channelName)
 			return (true);
+	}
+	return (false);
+}
+
+bool	User::isNicknameRegistered(void)
+{
+	if (this->getNickname() == "")
+		return (false);
+	return (true);
+}
+
+bool	User::isUsernameRegistered(void)
+{
+	if (this->getUsername() == "")
+		return (false);
+	return (true);
+}
+
+bool	User::isUserRegistered(void)
+{
+	if (this->isNicknameRegistered() && this->isUsernameRegistered()) {
+		std::string rplWelcome = RPL_WELCOME(this->getNickname());
+		std::string	rplYourHost = RPL_YOURHOST(this->getNickname());
+		std::string	rplCreated = RPL_CREATED(this->getNickname());
+		std::string	rplMyInfo = RPL_MYINFO(this->getNickname());
+		std::string	rplISupport = RPL_ISUPPORT(this->getNickname());
+
+		std::cout << rplWelcome << std::endl;
+		//send(user.getSocket(), rplWelcome.c_str(), rplWelcome.size(), 0);
+		std::cout << rplYourHost << std::endl;
+		//send(user.getSocket(), rplYourHost.c_str(), rplYourHost.size(), 0);
+		std::cout << rplCreated << std::endl;
+		//send(user.getSocket(), rplCreated.c_str(), rplCreated.size(), 0);
+		std::cout << rplMyInfo << std::endl;
+		//send(user.getSocket(), rplMyInfo.c_str(), rplMyInfo.size(), 0);
+		std::cout << rplISupport << std::endl;
+		//send(user.getSocket(), rplISupport.c_str(), rplISupport.size(), 0);
+		return (true);
 	}
 	return (false);
 }

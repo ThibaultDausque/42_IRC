@@ -19,9 +19,12 @@
 # include <ctype.h>
 # include <vector>
 
+# include "NumericReply.hpp"
+
 class User
 {
 	public :
+		User(int socket);
 		User(std::string nn, std::string un, std::string hn, std::string rn, int socket);
 
 		std::string getNickname(void) const;
@@ -31,6 +34,9 @@ class User
 		int         getSocket(void) const;
 
 		void		setNickname(std::string &str);
+		void		setUsername(std::string &str);
+		void		setHostname(std::string str);
+		void		setRealname(std::string &str);
 		
 		class HasInvalidCharacterException : public std::exception
 		{
@@ -43,6 +49,9 @@ class User
 		void		addAnInvitation(std::string channelName);
 		void		deleteAnInvitation(std::string channelName);
 		bool		isInvitedTo(std::string channelName);
+		bool		isUsernameRegistered(void);
+		bool		isNicknameRegistered(void);
+		bool		isUserRegistered(void);
 		std::string	getFullName(void);
 
 		bool operator<(const User &other) const;

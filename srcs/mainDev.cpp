@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:23:42 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/28 15:43:29 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/06/30 19:32:14 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 int executeJoin(User &origin, std::map<std::string, Channel> &channels, std::string cmdline);
 int executeNames(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User*> *users);
 int executeNick(User &user, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User*> &users);
+int	executeUser(User &user, std::string cmdline);
 
 int	main(int ac, char **av)
 {
@@ -39,7 +40,7 @@ int	main(int ac, char **av)
 		// CREATION DE MON USER PERSONNALISE DANS LE PROMPT
 		char hostname[HOST_NAME_MAX];
 		gethostname(hostname, HOST_NAME_MAX);
-		User user(av[1], "AdominusRexL9", hostname, "realname", 1);
+		User user(1);
 
 		// CREATION DE MES DEUX MAP POUR TOUS LES CHANNELS ET USERS PRESENT DANS LE SERVEUR
 		std::map<std::string, Channel>	channels;
@@ -57,12 +58,22 @@ int	main(int ac, char **av)
 			// chercher si les messages de base doivent etre parse d'une certaine maniere
 			if (cmd == "QUIT")
 				break ;
+			else if (isCmdValid(cmd) && cmd == "USER")
+				executeUser(user, line);
+			else if (isCmdValid(cmd) && cmd == "NICK")
+				executeNick(user, channels, line, users);
+			else if (!user.isNicknameRegistered() || !user.isUsernameRegistered()) {
+				std::string tmpNick;
+				if (user.getNickname() == "")
+					tmpNick = "*";
+				else
+					tmpNick = user.getNickname();
+				std::cout << ERR_NOTREGISTERED(tmpNick) << std::endl;
+			}
 			else if (isCmdValid(cmd) && cmd == "JOIN")
 				executeJoin(user, channels, line);
 			else if (isCmdValid(cmd) && cmd == "NAMES")
 				executeNames(user, channels, line, &users);
-			else if (isCmdValid(cmd) && cmd == "NICK")
-				executeNick(user, channels, line, users);
 			else
 				std::cout << ">> La commande " << cmd << " n'est pas valide !" << std::endl;
 		}
