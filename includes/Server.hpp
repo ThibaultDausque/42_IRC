@@ -13,6 +13,7 @@
 # include "Channel.hpp"
 # include <map>
 # include <string.h>
+# include <fcntl.h>
 
 class Server
 {
@@ -23,6 +24,7 @@ class Server
 		unsigned int	_port;
 		bool			_connected;
 		std::vector<User>	_clients;
+		std::vector<struct pollfd>	_tab;
 		std::map<std::string, Channel>	_channels;
 
 	public:
@@ -30,6 +32,7 @@ class Server
 		~Server();
 		int		initServer(void);
 		void	acceptNewClient(void);
+		void	readMessage(int	fd_client);
 		void	runServer(void);
 		void	eraseClient(void);
 		void	signalHandler(int sig);

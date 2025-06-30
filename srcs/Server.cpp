@@ -1,5 +1,4 @@
 #include "Server.hpp"
-#include <string>
 
 Server::Server(std::string _pwd, unsigned int _port)
 {
@@ -82,14 +81,42 @@ std::string	Server::parseNick(const char *buff)
 // 	return 1;
 // }
 
+void	Server::acceptNewClient()
+{
+	struct sockaddr_in	cli;
+	struct pollfd	cli_fd;
+	int		accept_cli;
+	socklen_t	len = sizeof(cli);
+
+	accept_cli = accept(this->_serverFd, (sockaddr *)&(cli_fd), &len);
+	if (accept_cli <= 0)
+		throw std::runtime_error("Error: client accept failed.");
+	else
+		std::cout << "* New client *" << std::endl;
+
+	if (fcntl(accept_cli, F_SETFL, O_NONBLOCK))
+		throw std::runtime_error("Error: fcntl() failed.");
+
+	cli_fd.fd = accept_cli;
+	cli_fd.events = POLLIN;
+	cli_fd.revents = 0;
+	this->_tab.push_back(cli_fd);
+}
+
+void	Server::readMessage(int fd_client)
+{
+	char	buff[1024];
+	int		bytes;
+
+	memset(buff, 0, sizeof(buff));
+	bytes = recv(fd_client, buff, sizeof(buff) - 1, 0);
+	buff[bytes] = '\0';
+	std::cout << buff << std::endl;
+}
 
 void	Server::runServer()
 {
-	int		clientSocket;
-	char	buffer[1024] = {0};
-	std::vector<pollfd>	tab;
 	bool	run = false;
-	int		bytes;
 
 	// initialise client
 	std::string nickname = "null";
@@ -101,7 +128,7 @@ void	Server::runServer()
 	server_pollfd.fd = this->_serverFd;
 	server_pollfd.events = POLLIN;
 	server_pollfd.revents = 0;
-	tab.push_back(server_pollfd);
+	this->_tab.push_back(server_pollfd);
 
 	std::cout << "\e[1;36m╔───────────────────────────────────────────────╗" << std::endl;
 	std::cout << "\e[1;36m│   ███████╗████████╗     ██╗██████╗  ██████╗   │" << std::endl;
@@ -115,47 +142,20 @@ void	Server::runServer()
 	
 	while (run == false)
 	{
-		if (poll(tab.data(), tab.size(), -1) == -1)
-			throw(std::runtime_error("Error: poll failed\n"));
-		if (tab[0].revents & POLLIN)
+		for (size_t i = 0; i < this->_tab.size(); i++)
 		{
-			clientSocket = accept(this->_serverFd, NULL, NULL);
-			User cli(nickname, username, hostname, realname, clientSocket);
-			if (clientSocket == -1)
-				throw(std::runtime_error("Error: client has not been accepted\n"));
-			// std::cout << "client connected !" << std::endl;
-			pollfd	client_pollfd;
-			client_pollfd.fd = clientSocket;
-			client_pollfd.events = POLLIN;
-			client_pollfd.revents = 0;
-			tab.push_back(client_pollfd);
-			_clients.push_back(cli);
-		}
-
-		// std::string	join = ":tdausque!~@nerd-9AE5B52D.unyc.it JOIN #test\r\n";
-		for (size_t i = 1; i < tab.size(); i++)
-		{
-			int	j = 0;
-			if (tab[i].revents & POLLIN)
+			if (this->_tab[i].revents & POLLIN)
 			{
-				bytes = recv(clientSocket, buffer, sizeof(buffer), 0);
-				nickname = parseNick(buffer);
-				std::cout << buffer << std::endl;
-				// if (!parseCmd(buffer))
-					// break ;
-				try
-	   			{
-					_clients[j].setNickname(nickname);
-					std::cout << _clients[j].getNickname() << std::endl;
-	   			}
-				catch (const std::length_error &e)
-	   			{
-					std::cerr << e.what() << std::endl;
-	   			}
-	   			std::string	welcome = "Hello World!\r\n";
-				memset(buffer, 0, sizeof(buffer));
-				// send(clientSocket, welcome.c_str(), welcome.size(), 0);
-				j++;
+				if (this->_tab[i].fd == this->_serverFd)
+				{
+					// accept client connection
+					acceptNewClient();
+				}
+				else
+				{
+					// receive client message
+					readMessage(this->_tab[i].fd);
+				}
 			}
 		}
 	}
