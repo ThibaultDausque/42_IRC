@@ -25,7 +25,7 @@ int	Server::initServer(void)
 	// Structure for handling internet addresses
 	serverAddress.sin_family = AF_INET;
 	serverAddress.sin_port = htons(this->_port);
-	serverAddress.sin_addr.s_addr = INADDR_ANY;
+	serverAddress.sin_addr.s_addr = htonl(INADDR_ANY);
 	
 	int		yes = 1;
 	setsockopt(this->_serverFd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(yes));
@@ -110,7 +110,10 @@ void	Server::readMessage(int fd_client)
 
 	memset(buff, 0, sizeof(buff));
 	bytes = recv(fd_client, buff, sizeof(buff) - 1, 0);
-	buff[bytes] = '\0';
+	if (bytes <= 0)
+		close(fd_client);
+	else
+		buff[bytes] = '\0';
 	std::cout << buff << std::endl;
 }
 
@@ -142,6 +145,8 @@ void	Server::runServer()
 	
 	while (run == false)
 	{
+		if (poll(&this->_tab[0], this->_tab.size(), -1) == -1)
+			throw std::runtime_error("Error: poll() failed.");
 		for (size_t i = 0; i < this->_tab.size(); i++)
 		{
 			if (this->_tab[i].revents & POLLIN)
