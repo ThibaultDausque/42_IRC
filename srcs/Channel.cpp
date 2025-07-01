@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:56:40 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/28 16:09:46 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/01 12:28:03 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,18 +165,21 @@ void	Channel::addUser(User &user, bool isOperator)
 	user.deleteAnInvitation(this->_name);
 }
 
-bool	Channel::removeUser(std::string userNickname)
+void	Channel::removeUser(std::string userNickname, std::string originFullname, std::string reason)
 {
-	std::string nick;
+	std::string 					nick;
+	std::string						kickMsg = ":"+originFullname+" KICK "+this->_name+" "+userNickname+" "+reason;
+	std::map<User*, bool>::iterator	userToRemoveIter;
+	
 	for (std::map<User*, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
 		nick = (*it->first).getNickname();
+		std::cout << kickMsg << std::endl;
+		//send((*it->first).getSocket(), kickMsg.c_str(), kickMsg.size(), 0);
+
 		if (nick == userNickname)
-		{
-			_users.erase(it);
-			return (true);
-		}
+			userToRemoveIter = it;
 	}
-	return (false);
+	this->_users.erase(userToRemoveIter);
 }
 
 void	Channel::giveUserOperator(std::string userNickname)

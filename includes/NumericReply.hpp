@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:24:32 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/30 20:36:55 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/01 12:24:24 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 
 # define SERVER_HOSTNAME ":irc.42angouleme.fr"
 # define CLIENT_HOSTNAME "irc.42angouleme.fr"
+# define BAN_REASON ":No reason given\r\n"
 
-# define ERR_NEEDMOREPARAM(nick, channel) SERVER_HOSTNAME" 461 "+nick+" "+channel+" :Not enough parameters\r\n"
+# define ERR_NEEDMOREPARAM(nick, command) SERVER_HOSTNAME" 461 "+nick+" "+command+" :Not enough parameters\r\n"
 # define ERR_ALREADYREGISTRED(nick) SERVER_HOSTNAME" 462 "+nick+" :You may not reregister\r\n"
 # define ERR_NOSUCHCHANNEL(nick, channel) SERVER_HOSTNAME" 403 "+nick+" "+channel+" :No such channel\r\n"
 # define ERR_BADCHANNELKEY(nick, channel) SERVER_HOSTNAME" 475 "+nick+" "+channel+" :Cannot join channel (+k)\r\n"
@@ -26,6 +27,9 @@
 # define ERR_ERRONEUSNICKNAME(nick, newnick) SERVER_HOSTNAME" 432 "+nick+" "+newnick+" :Erroneus nickname\r\n"
 # define ERR_NICKNAMEINUSE(nick, newnick) SERVER_HOSTNAME" 433 "+nick+" "+newnick+" :Nickname is already in use\r\n"
 # define ERR_NOTREGISTERED(nick) SERVER_HOSTNAME" 451 "+nick+" :You have not registered\r\n"
+# define ERR_CHANOPRIVSNEEDED(nick, channel) SERVER_HOSTNAME" 482 "+nick+" "+channel+" :You're not channel operator\r\n"
+# define ERR_USERNOTINCHANNEL(originNick, targetNick, channel) SERVER_HOSTNAME" 441 "+originNick+" "+targetNick+" "+channel+" :They aren't on that channel\r\n"
+# define ERR_NOTONCHANNEL(nick, channel) SERVER_HOSTNAME" 442 "+nick+" "+channel+" :You're not on that channel\r\n"
 
 # define RPL_WELCOME(nick) SERVER_HOSTNAME" 001 "+nick+" :Welcome to the 42Angouleme IRC Network, "+nick+"\r\n"
 # define RPL_YOURHOST(nick) SERVER_HOSTNAME" 002 "+nick+" :Your host is irc.42angouleme.fr, running version 4.2\r\n"

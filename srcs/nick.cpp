@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 13:58:44 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/30 20:26:00 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/01 12:24:58 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int executeNick(User &user, std::map<std::string, Channel> &channels, std::strin
 		std::string newNick = params[1];
 		std::string errErroneusNickname = ERR_ERRONEUSNICKNAME(oldNick, newNick);
 		std::string errNicknameInUse = ERR_NICKNAMEINUSE(oldNick, newNick);
-		std::string	nickMsg = ":"+user.getFullName()+" NICK :"+newNick;
+		std::string	nickMsg = ":"+user.getFullName()+" NICK :"+newNick+"\r\n";
 
 		if (hasInvalidChar(newNick)) {
 			std::cout << errErroneusNickname << std::endl;
