@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:26:24 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/01 12:34:09 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/01 13:39:46 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 #include "Command.hpp"
 
 #include <sstream>
-
-int executeNames(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User*> *users);
 
 static void	removeUserFromEveryChannel(std::map<std::string, Channel> &channels, User &origin)
 {
