@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:23:42 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/30 20:43:10 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/01 12:39:50 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,6 @@
 #include "Command.hpp"
 #include "User.hpp"
 #include "Channel.hpp"
-
-int executeJoin(User &origin, std::map<std::string, Channel> &channels, std::string cmdline);
-int executeNames(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User*> *users);
-int executeNick(User &user, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User*> &users);
-int	executeUser(User &user, std::string cmdline);
 
 int	main(int ac, char **av)
 {
@@ -37,15 +32,15 @@ int	main(int ac, char **av)
 
 	try
 	{
-		// CREATION DE MON USER PERSONNALISE DANS LE PROMPT
-		char hostname[HOST_NAME_MAX];
-		gethostname(hostname, HOST_NAME_MAX);
-		User user(1);
-
 		// CREATION DE MES DEUX MAP POUR TOUS LES CHANNELS ET USERS PRESENT DANS LE SERVEUR
+		User user(1);
+		User zaloufi("Zaloufi", "ADOMINUSREX", CLIENT_HOSTNAME, "realname", 0);
 		std::map<std::string, Channel>	channels;
 		std::vector<User*> users;
 		users.push_back(&user);
+		users.push_back(&zaloufi);
+
+		executeJoin(zaloufi, channels, "JOIN #test");
 
 		// BOUCLE DE COMMANDES
 		while (true) {
@@ -74,6 +69,8 @@ int	main(int ac, char **av)
 				executeJoin(user, channels, line);
 			else if (isCmdValid(cmd) && cmd == "NAMES")
 				executeNames(user, channels, line, &users);
+			else if (isCmdValid(cmd) && cmd == "KICK")
+				executeKick(user, channels, line);
 			else
 				std::cout << ">> La commande " << cmd << " n'est pas valide !" << std::endl;
 		}

@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 17:28:58 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/28 15:46:34 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/01 13:31:34 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "User.hpp"
 #include "Channel.hpp"
 #include "Command.hpp"
-
 
 void	printUsersInChannel(User &origin, std::map<std::string, Channel> &channels, std::string chanName)
 {
@@ -66,7 +65,10 @@ int executeNames(User &origin, std::map<std::string, Channel> &channels, std::st
 		rplNamReply = RPL_NAMREPLY(originNick, "*");
 		for (std::vector<User*>::iterator userIt = (*users).begin(); userIt != (*users).end(); userIt++) {
 			if (!userConnectedOnAnyChannel(channels, *(*userIt))) {
-				rplNamReply.append((*(*userIt)).getNickname()+" ");
+				rplNamReply.append((*(*userIt)).getNickname());
+				if (userIt + 1 == (*users).end())
+					break ;
+				rplNamReply.append(" ");
 				isAUserAlone = true;
 			}
 		}

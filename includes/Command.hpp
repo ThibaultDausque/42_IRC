@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:21:20 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/28 11:30:22 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/01 12:30:59 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,11 @@ bool						isCmdValid(std::string cmd);
 bool						doesChannelExist(std::map<std::string, Channel> &channels, std::string chanName);
 std::vector<std::string>	getVector(std::string strToSplit, char delimiter);
 bool						userConnectedOnAnyChannel(std::map<std::string, Channel> &channels, User &user);
+
+int executeJoin(User &origin, std::map<std::string, Channel> &channels, std::string cmdline);
+int executeNames(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User*> *users);
+int executeNick(User &user, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User*> &users);
+int	executeUser(User &user, std::string cmdline);
+int executeKick(User &origin, std::map<std::string, Channel> &channels, std::string cmdline);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:56:40 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/01 12:28:03 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/01 12:35:08 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,21 @@ void	Channel::addUser(User &user, bool isOperator)
 	user.deleteAnInvitation(this->_name);
 }
 
-void	Channel::removeUser(std::string userNickname, std::string originFullname, std::string reason)
+void	Channel::removeUser(std::string userNickname)
+{
+	std::string 					nick;
+	std::map<User*, bool>::iterator	userToRemoveIter;
+	
+	for (std::map<User*, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
+		nick = (*it->first).getNickname();
+
+		if (nick == userNickname)
+			userToRemoveIter = it;
+	}
+	this->_users.erase(userToRemoveIter);
+}
+
+void	Channel::kickUser(std::string userNickname, std::string originFullname, std::string reason)
 {
 	std::string 					nick;
 	std::string						kickMsg = ":"+originFullname+" KICK "+this->_name+" "+userNickname+" "+reason;
