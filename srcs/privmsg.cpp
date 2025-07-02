@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 13:53:41 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/02 16:42:39 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/02 16:52:43 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,15 +70,16 @@ int executePrivmsg(User &origin, std::map<std::string, Channel> &channels, std::
 				userList = chan->getUsers();
 				
 				for (std::map<User*, bool>::iterator userIt = userList.begin(); userIt != userList.end(); ++userIt) {
-					if (userIt->first->getNickname() != origin.getNickname())
+					user = userIt->first;
+					if (user->getNickname() != origin.getNickname())
 						std::cout << sentMsg << std::endl;
-						//send(userIt->first->getSocket(), sentMsg.c_str(), sentMsg.size(), 0);
+						//send(user->getSocket(), sentMsg.c_str(), sentMsg.size(), 0);
 				}
 			}
 			else if (!isReceiverAChannel(*receiverIt)) {
 				user = getUserPtr(users, *receiverIt);
 				std::cout << sentMsg << std::endl;
-				//send(userIt->first->getSocket(), sentMsg.c_str(), sentMsg.size(), 0);
+				//send(user->getSocket(), sentMsg.c_str(), sentMsg.size(), 0);
 			}
 		}
 	}
