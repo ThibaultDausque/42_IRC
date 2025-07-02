@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 13:53:41 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/02 20:27:57 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/02 21:43:04 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,7 @@ int executePrivmsg(User &origin, std::map<std::string, Channel> &channels, std::
 	else
 	{
 		receiverParam = getVector(params[1], ',');
-
-		if (params[2].size() > 0 && params[2][0] != ':')
-			text.append(":"+params[2]+"\r\n");
-		else
-		{
-			for (size_t i = 2; i < params.size(); i++) {
-				text.append(params[i]);
-				if (i + 1 == params.size())
-					break ;
-				text.append(" ");
-			}
-			text.append("\r\n");
-		}
+		createReason(params, &text, 2);
 		
 		for (std::vector<std::string>::iterator receiverIt = receiverParam.begin(); receiverIt != receiverParam.end(); ++receiverIt) {
 			errMsg = ERR_NOSUCHNICK(origin.getNickname(), *receiverIt);
