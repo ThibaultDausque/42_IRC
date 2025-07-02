@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:49:41 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/01 12:35:33 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/01 16:46:49 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ class   Channel
 		void					addUser(User &user, bool isOperator);
 		void					removeUser(std::string userNickname);
 		void					kickUser(std::string userNickname, std::string originFullname, std::string reason);
+		void					sendToEveryone(std::string message);
 
 		// OPERATORS RELATED FUNCTIONS
 		void					giveUserOperator(std::string userNickname);

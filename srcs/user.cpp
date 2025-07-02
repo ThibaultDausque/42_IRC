@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 16:26:42 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/30 20:44:09 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/01 17:45:38 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	executeUser(User &user, std::string cmdline)
 		user.setHostname(CLIENT_HOSTNAME);
 
 		if (params[4].size() < 2 || params[4][0] != ':')
-			user.setRealname(userNick);
+			user.setRealname(params[4]);
 		else
 		{
 			params[4].erase(0, 1); // remove the ':'

@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:56:40 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/01 12:35:08 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/01 16:46:49 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,11 +149,8 @@ void	Channel::addUser(User &user, bool isOperator)
 	std::string	joinMsg = ":"+fullname+" JOIN "+this->_name+"\r\n";
 
 	this->_users.insert(std::pair<User*, bool>(&user, isOperator));
-	for (std::map<User*, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
-		User tmp = (*it->first);
-		std::cout << joinMsg << std::endl;
-		//send(tmp.getSocket(), joinMsg.c_str(), joinMsg.size(), 0);
-	}
+	this->sendToEveryone(joinMsg);
+	
 	if (doesChannelHaveATopic()) {
 		std::string	rplTopic = RPL_TOPIC(user.getNickname(), this->_name, this->_topic);
 		std::string	rplTopicWhoTime = RPL_TOPICWHOTIME(user.getNickname(), this->_name, this->_lastUserToChangeTopic, this->convertUNIXTimeToString());
@@ -194,6 +191,16 @@ void	Channel::kickUser(std::string userNickname, std::string originFullname, std
 			userToRemoveIter = it;
 	}
 	this->_users.erase(userToRemoveIter);
+}
+
+void	Channel::sendToEveryone(std::string message)
+{
+	int	socket;
+	for (std::map<User*, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
+		socket = (*it->first).getSocket();
+		std::cout << message << std::endl;
+		//send(socket, message.c_str(), message.size(), 0);
+	}
 }
 
 void	Channel::giveUserOperator(std::string userNickname)

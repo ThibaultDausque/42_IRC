@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:24:32 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/01 12:24:24 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/02 16:04:10 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # define CLIENT_HOSTNAME "irc.42angouleme.fr"
 # define BAN_REASON ":No reason given\r\n"
 
+# define ERR_NOSUCHNICK(nick, nonexistant) SERVER_HOSTNAME" 401 "+nick+" "+nonexistant+" :No such nick/channel\r\n" 
 # define ERR_NEEDMOREPARAM(nick, command) SERVER_HOSTNAME" 461 "+nick+" "+command+" :Not enough parameters\r\n"
 # define ERR_ALREADYREGISTRED(nick) SERVER_HOSTNAME" 462 "+nick+" :You may not reregister\r\n"
 # define ERR_NOSUCHCHANNEL(nick, channel) SERVER_HOSTNAME" 403 "+nick+" "+channel+" :No such channel\r\n"
@@ -30,6 +31,8 @@
 # define ERR_CHANOPRIVSNEEDED(nick, channel) SERVER_HOSTNAME" 482 "+nick+" "+channel+" :You're not channel operator\r\n"
 # define ERR_USERNOTINCHANNEL(originNick, targetNick, channel) SERVER_HOSTNAME" 441 "+originNick+" "+targetNick+" "+channel+" :They aren't on that channel\r\n"
 # define ERR_NOTONCHANNEL(nick, channel) SERVER_HOSTNAME" 442 "+nick+" "+channel+" :You're not on that channel\r\n"
+# define ERR_NORECIPIENT(nick, command) SERVER_HOSTNAME" 411 "+nick+" :No recipient given ("+command+")\r\n"
+# define ERR_NOTEXTTOSEND(nick) SERVER_HOSTNAME" 412 "+nick+" :No text to send\r\n"
 
 # define RPL_WELCOME(nick) SERVER_HOSTNAME" 001 "+nick+" :Welcome to the 42Angouleme IRC Network, "+nick+"\r\n"
 # define RPL_YOURHOST(nick) SERVER_HOSTNAME" 002 "+nick+" :Your host is irc.42angouleme.fr, running version 4.2\r\n"

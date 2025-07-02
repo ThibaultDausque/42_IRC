@@ -6,14 +6,13 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 13:58:44 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/01 12:24:58 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/01 14:08:50 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "NumericReply.hpp"
 #include "Command.hpp"
 #include "User.hpp"
-#include <set>
 
 int executeNick(User &user, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User*> &users)
 {

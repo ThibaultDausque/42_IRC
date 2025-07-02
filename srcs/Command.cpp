@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:27:00 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/28 15:39:23 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/02 16:37:47 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,31 @@ bool	doesChannelExist(std::map<std::string, Channel> &channels, std::string chan
 	}
 }
 
+Channel	*getChannelPtr(std::map<std::string, Channel> &channels, std::string chanName)
+{
+	if (doesChannelExist(channels, chanName))
+		return (&channels.at(chanName));
+	return (NULL);
+}
+
+bool	doesClientExist(std::vector<User*> &clients, std::string clientName)
+{
+	for (std::vector<User*>::iterator it = clients.begin(); it != clients.end(); ++it) {
+		if ((*it)->getNickname() == clientName)
+			return (true);
+	}
+	return (false);
+}
+
+User	*getUserPtr(std::vector<User*> &clients, std::string clientName)
+{
+	for (std::vector<User*>::iterator it = clients.begin(); it != clients.end(); ++it) {
+		if ((*it)->getNickname() == clientName)
+			return (*it);
+	}
+	return (NULL);
+}
+
 std::vector<std::string>	getVector(std::string strToSplit, char delimiter)
 {
 	std::istringstream stream(strToSplit);
@@ -109,4 +134,18 @@ bool	userConnectedOnAnyChannel(std::map<std::string, Channel> &channels, User &u
 		}
 	}
 	return (false);
+}
+
+void	deleteEmptyChannel(std::map<std::string, Channel> &channels)
+{
+	std::vector<std::string>	channelToRemoveList;
+
+	for (std::map<std::string, Channel>::iterator chanIt = channels.begin(); chanIt != channels.end(); ++chanIt) {
+		if (chanIt->second.getChannelSize() == 0)
+			channelToRemoveList.push_back(chanIt->first);
+	}
+
+	for (size_t i = 0; i < channelToRemoveList.size(); i++) {
+		channels.erase(channelToRemoveList[i]);
+	}
 }

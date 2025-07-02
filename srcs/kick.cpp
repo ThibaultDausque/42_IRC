@@ -6,27 +6,13 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 09:57:22 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/01 13:26:36 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/02 16:17:56 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Command.hpp"
 #include "Channel.hpp"
 #include "NumericReply.hpp"
-
-static void	deleteEmptyChannel(std::map<std::string, Channel> &channels)
-{
-	std::vector<std::string>	channelToRemoveList;
-
-	for (std::map<std::string, Channel>::iterator chanIt = channels.begin(); chanIt != channels.end(); ++chanIt) {
-		if (chanIt->second.getChannelSize() == 0)
-			channelToRemoveList.push_back(chanIt->first);
-	}
-
-	for (size_t i = 0; i < channelToRemoveList.size(); i++) {
-		channels.erase(channelToRemoveList[i]);
-	}
-}
 
 int executeKick(User &origin, std::map<std::string, Channel> &channels, std::string cmdline)
 {
@@ -42,6 +28,7 @@ int executeKick(User &origin, std::map<std::string, Channel> &channels, std::str
 	std::string					chanName;
 	std::string					clientNick;
 	std::string					comment;
+	Channel						*chan;
 
 	if (params.size() < 3)
 		std::cout << errNeedMoreParam << std::endl;
@@ -78,7 +65,7 @@ int executeKick(User &origin, std::map<std::string, Channel> &channels, std::str
 				continue ;
 			}
 
-			Channel *chan = &channels.at(chanName);
+			chan = getChannelPtr(channels, chanName);
 			if (!(*chan).isUserConnected(originNick))
 				std::cout << errNotOnchannel << std::endl;
 				//send(origin.getSocket(), errNotOnchannel.c_str(), errNotOnchannel.size(), 0);

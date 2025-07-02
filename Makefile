@@ -9,7 +9,8 @@ SRCS = srcs/Command.cpp \
 		srcs/names.cpp \
 		srcs/nick.cpp \
 		srcs/user.cpp \
-		srcs/kick.cpp
+		srcs/kick.cpp \
+		srcs/privmsg.cpp
 RM = rm -f
 OBJS_DIR = obj
 INCLUDES = -Iincludes -Isrcs

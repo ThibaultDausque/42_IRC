@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:21:20 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/01 12:30:59 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/02 16:39:39 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <string>
 # include <vector>
 # include <map>
+# include <set>
 
 # include "Channel.hpp"
 # include "User.hpp"
@@ -37,13 +38,18 @@ class Command
 
 bool						isCmdValid(std::string cmd);
 bool						doesChannelExist(std::map<std::string, Channel> &channels, std::string chanName);
+Channel						*getChannelPtr(std::map<std::string, Channel> &channels, std::string chanName);
+bool						doesClientExist(std::vector<User*> &clients, std::string clientName);
+User						*getUserPtr(std::vector<User*> &clients, std::string clientName);
 std::vector<std::string>	getVector(std::string strToSplit, char delimiter);
 bool						userConnectedOnAnyChannel(std::map<std::string, Channel> &channels, User &user);
+void						deleteEmptyChannel(std::map<std::string, Channel> &channels);
 
 int executeJoin(User &origin, std::map<std::string, Channel> &channels, std::string cmdline);
 int executeNames(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User*> *users);
 int executeNick(User &user, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User*> &users);
 int	executeUser(User &user, std::string cmdline);
 int executeKick(User &origin, std::map<std::string, Channel> &channels, std::string cmdline);
+int executePrivmsg(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User*> users);
 
 #endif

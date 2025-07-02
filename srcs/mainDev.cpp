@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:23:42 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/01 12:39:50 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/02 16:40:57 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ int	main(int ac, char **av)
 				executeNames(user, channels, line, &users);
 			else if (isCmdValid(cmd) && cmd == "KICK")
 				executeKick(user, channels, line);
+			else if (isCmdValid(cmd) && cmd == "PRIVMSG")
+				executePrivmsg(user, channels, line, users);
 			else
 				std::cout << ">> La commande " << cmd << " n'est pas valide !" << std::endl;
 		}
