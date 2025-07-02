@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 17:28:58 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/01 13:31:34 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/02 20:20:07 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 
 void	printUsersInChannel(User &origin, std::map<std::string, Channel> &channels, std::string chanName)
 {
-	std::string				originNick = origin.getNickname();
 	std::string				rplEndOfNames;
 	std::string				rplNamReply;
+	std::string				originNick = origin.getNickname();
 	std::map<User*, bool>	userList;
 
 	rplEndOfNames =  RPL_ENDOFNAMES(originNick, chanName);

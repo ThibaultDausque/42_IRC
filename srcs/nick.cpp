@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 13:58:44 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/01 14:08:50 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/02 20:25:18 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 int executeNick(User &user, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User*> &users)
 {
 	std::string 				oldNick = user.getNickname();
-	std::string 				errNoNicknameGiven = ERR_NONICKNAMEGIVEN(oldNick);
+	std::string 				errMsg = ERR_NONICKNAMEGIVEN(oldNick);
 	std::vector<std::string>	params = getVector(cmdline, ' ');
 	std::map<User*, bool> 		userList;
 	std::set<int>				usersSharingChannelFD;
@@ -25,27 +25,27 @@ int executeNick(User &user, std::map<std::string, Channel> &channels, std::strin
 	if (oldNick == "")
 		oldNick = "*";
 	if (params.size() == 1) {
-		std::cout << errNoNicknameGiven << std::endl;
-		//send(user.getSocket(), errNoNicknameGiven.c_str(), errNoNicknameGiven.size(), 0);
+		std::cout << errMsg << std::endl;
+		//send(user.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 		return (1);
 	}
 	else
 	{
 		std::string newNick = params[1];
-		std::string errErroneusNickname = ERR_ERRONEUSNICKNAME(oldNick, newNick);
-		std::string errNicknameInUse = ERR_NICKNAMEINUSE(oldNick, newNick);
 		std::string	nickMsg = ":"+user.getFullName()+" NICK :"+newNick+"\r\n";
 
 		if (hasInvalidChar(newNick)) {
-			std::cout << errErroneusNickname << std::endl;
-			//send(user.getSocket(), errErroneusNickname.c_str(), errErroneusNickname.size(), 0);
+			errMsg = ERR_ERRONEUSNICKNAME(oldNick, newNick);
+			std::cout << errMsg << std::endl;
+			//send(user.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 			return (1);
 		}
 
 		for (std::vector<User*>::iterator it = users.begin(); it != users.end(); ++it) {
 			if ((*it)->getNickname() == newNick) {
-				std::cout << errNicknameInUse << std::endl;
-				//send(user.getSocket(), errNicknameInUse.c_str(), errNicknameInUse.size(), 0);
+				errMsg = ERR_NICKNAMEINUSE(oldNick, newNick);
+				std::cout << errMsg << std::endl;
+				//send(user.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 				return (1);
 			}
 		}

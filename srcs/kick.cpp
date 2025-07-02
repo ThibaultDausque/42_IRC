@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 09:57:22 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/02 16:17:56 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/02 20:16:29 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,14 @@ int executeKick(User &origin, std::map<std::string, Channel> &channels, std::str
 	std::vector<std::string>	channelParam;
 	std::vector<std::string>	clientParam;
 	std::vector<std::string>	params = getVector(cmdline, ' ');
-	std::string					originNick = origin.getNickname();
-	std::string					errNeedMoreParam = ERR_NEEDMOREPARAM(originNick, "KICK");
-	std::string					errNoSuchChannel;
-	std::string 				errNotOnchannel;
-	std::string					errChanOPrivsNeeded;
-	std::string					errUserNotInChannel;
-	std::string					chanName;
-	std::string					clientNick;
 	std::string					comment;
+	std::string					originNick = origin.getNickname();
+	std::string					errMsg = ERR_NEEDMOREPARAM(originNick, "KICK");
 	Channel						*chan;
 
 	if (params.size() < 3)
-		std::cout << errNeedMoreParam << std::endl;
-		//send(origin.getSocket(), errNeedMoreParam.c_str(), errNeedMoreParam.size(), 0);
+		std::cout << errMsg << std::endl;
+		//send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 	else
 	{
 		channelParam = getVector(params[1], ',');
@@ -54,35 +48,33 @@ int executeKick(User &origin, std::map<std::string, Channel> &channels, std::str
 			comment = BAN_REASON;
 		
 		for (std::vector<std::string>::iterator chanIt = channelParam.begin(); chanIt != channelParam.end(); ++chanIt) {
-			chanName = *chanIt;
-			errNoSuchChannel = ERR_NOSUCHCHANNEL(originNick, chanName);
-			errNotOnchannel = ERR_NOTONCHANNEL(originNick, chanName);
-			errChanOPrivsNeeded = ERR_CHANOPRIVSNEEDED(originNick, chanName);
-
-			if (!doesChannelExist(channels, chanName)) {
-				std::cout << errNoSuchChannel << std::endl;
-				//send(origin.getSocket(), errNoSuchChannel.c_str(), errNoSuchChannel.size(), 0);
-				continue ;
+			chan = getChannelPtr(channels, *chanIt);
+			
+			if (chan == NULL) {
+				errMsg = ERR_NOSUCHCHANNEL(originNick, *chanIt);
+				std::cout << errMsg << std::endl;
+				//send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 			}
-
-			chan = getChannelPtr(channels, chanName);
-			if (!(*chan).isUserConnected(originNick))
-				std::cout << errNotOnchannel << std::endl;
-				//send(origin.getSocket(), errNotOnchannel.c_str(), errNotOnchannel.size(), 0);
-			else if (!(*chan).isUserOperator(originNick))
-				std::cout << errChanOPrivsNeeded << std::endl;
-				//send(origin.getSocket(), errChanOPrivsNeeded.c_str(), errChanOPrivsNeeded.size(), 0);
+			else if (!(*chan).isUserConnected(originNick)) {
+				errMsg = ERR_NOTONCHANNEL(originNick, *chanIt);
+				std::cout << errMsg << std::endl;
+				//send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
+			}
+			else if (!(*chan).isUserOperator(originNick)) {
+				errMsg = ERR_CHANOPRIVSNEEDED(originNick, *chanIt);
+				std::cout << errMsg << std::endl;
+				//send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
+			}
 			else
 			{
 				for (std::vector<std::string>::iterator clientIt = clientParam.begin(); clientIt != clientParam.end(); ++clientIt) {
-					clientNick = *clientIt;
-					errUserNotInChannel = ERR_USERNOTINCHANNEL(originNick, clientNick, chanName);
+					errMsg = ERR_USERNOTINCHANNEL(originNick, *clientIt, *chanIt);
 					
 					if (!(*chan).isUserConnected(*clientIt))
-						std::cout << errUserNotInChannel << std::endl;
-						//send(origin.getSocket(), errUserNotInChannel.c_str(), errUserNotInChannel.size(), 0);
+						std::cout << errMsg << std::endl;
+						//send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 					else
-						(*chan).kickUser(clientNick, origin.getFullName(), comment);
+						(*chan).kickUser(*clientIt, origin.getFullName(), comment);
 				}
 			}
 		}
