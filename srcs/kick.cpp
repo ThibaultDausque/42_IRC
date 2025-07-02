@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 09:57:22 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/02 21:34:03 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/02 21:48:41 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ int executeKick(User &origin, std::map<std::string, Channel> &channels, std::str
 				std::cout << errMsg << std::endl;
 				//send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 			}
-			else if (!(*chan).isUserConnected(originNick)) {
+			else if (!chan->isUserConnected(originNick)) {
 				errMsg = ERR_NOTONCHANNEL(originNick, *chanIt);
 				std::cout << errMsg << std::endl;
 				//send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 			}
-			else if (!(*chan).isUserOperator(originNick)) {
+			else if (!chan->isUserOperator(originNick)) {
 				errMsg = ERR_CHANOPRIVSNEEDED(originNick, *chanIt);
 				std::cout << errMsg << std::endl;
 				//send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
@@ -56,11 +56,11 @@ int executeKick(User &origin, std::map<std::string, Channel> &channels, std::str
 				for (std::vector<std::string>::iterator clientIt = clientParam.begin(); clientIt != clientParam.end(); ++clientIt) {
 					errMsg = ERR_USERNOTINCHANNEL(originNick, *clientIt, *chanIt);
 					
-					if (!(*chan).isUserConnected(*clientIt))
+					if (!chan->isUserConnected(*clientIt))
 						std::cout << errMsg << std::endl;
 						//send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 					else
-						(*chan).kickUser(*clientIt, origin.getFullName(), reason);
+						chan->kickUser(*clientIt, origin.getFullName(), reason);
 				}
 			}
 		}
