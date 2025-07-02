@@ -14,6 +14,16 @@ Server::~Server()
 
 }
 
+std::vector<struct pollfd>&	Server::getTab()
+{
+	return this->_tab;
+}
+
+pollfd&	Server::getTabElement(size_t idx)
+{
+	return this->_tab[idx];
+}
+
 int	Server::initServer(void)
 {
 	struct sockaddr_in	serverAddress;
@@ -111,7 +121,18 @@ void	Server::readMessage(int fd_client)
 	memset(buff, 0, sizeof(buff));
 	bytes = recv(fd_client, buff, sizeof(buff) - 1, 0);
 	if (bytes <= 0)
-		close(fd_client);
+	{
+		for (size_t i = 0; i < this->_tab.size(); i++)
+		{
+			if (this->_tab[i].fd == fd_client)
+			{
+				this->_tab.erase(this->_tab.begin() + 1);
+				break ;
+			}
+			close(fd_client);
+	   		std::cout << "* client is disconnected *" << std::endl;
+		}
+	}
 	else
 		buff[bytes] = '\0';
 	std::cout << buff << std::endl;
@@ -164,6 +185,5 @@ void	Server::runServer()
 			}
 		}
 	}
-	close(this->_serverFd);
 }
 

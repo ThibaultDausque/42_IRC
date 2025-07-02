@@ -36,6 +36,8 @@ class Server
 		void	runServer(void);
 		void	eraseClient(void);
 		void	signalHandler(int sig);
+		std::vector<struct pollfd>&	getTab();
+		pollfd&	getTabElement(size_t idx);
 		// int		parseCmd(char* buff);
 		std::string		parseNick(const char* buff);
 };
