@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:23:42 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/02 18:35:14 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/02 18:59:52 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,10 @@ int	main(int ac, char **av)
 				executePrivmsg(user, channels, line, users);
 			else if (isCmdValid(cmd) && cmd == "INVITE")
 				executeInvite(user, channels, line, users);
-			else
+			else if (cmd == "TRYINVITE")
 				executeInvite(zaloufi, channels, "INVITE Zetune #test", users);
-				//std::cout << ">> La commande " << cmd << " n'est pas valide !" << std::endl;
+			else
+				std::cout << ERR_UNKNOWNCOMMAND(user.getNickname(), cmd) << std::endl;
 		}
 	}
 	catch(const std::exception& e)

@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:24:32 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/02 18:36:38 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/02 18:57:37 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # define ERR_NORECIPIENT(nick, command) SERVER_HOSTNAME" 411 "+nick+" :No recipient given ("+command+")\r\n"
 # define ERR_NOTEXTTOSEND(nick) SERVER_HOSTNAME" 412 "+nick+" :No text to send\r\n"
 # define ERR_USERONCHANNEL(nick, invited, channel) SERVER_HOSTNAME" 443 "+nick+" "+invited+" "+channel+" :is already on channel\r\n" 
+# define ERR_UNKNOWNCOMMAND(nick, command) SERVER_HOSTNAME" 421 "+nick+" "+command+" :Unknown command\r\n"
 
 # define RPL_WELCOME(nick) SERVER_HOSTNAME" 001 "+nick+" :Welcome to the 42Angouleme IRC Network, "+nick+"\r\n"
 # define RPL_YOURHOST(nick) SERVER_HOSTNAME" 002 "+nick+" :Your host is irc.42angouleme.fr, running version 4.2\r\n"
