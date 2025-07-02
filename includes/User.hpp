@@ -18,6 +18,7 @@
 # include <iostream>
 # include <ctype.h>
 # include <vector>
+# include <set>
 
 # include "NumericReply.hpp"
 
@@ -63,7 +64,7 @@ class User
 		std::string 				_hostname;
 		std::string 				_realname;
 		int							_socket;
-		std::vector<std::string>	_inviteList;
+		std::set<std::string>		_inviteList;
 };
 
 std::ostream &operator<<(std::ostream &os, const User &user);

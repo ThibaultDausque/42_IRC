@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:21:20 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/02 16:39:39 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/02 18:26:26 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,6 @@ int executeNick(User &user, std::map<std::string, Channel> &channels, std::strin
 int	executeUser(User &user, std::string cmdline);
 int executeKick(User &origin, std::map<std::string, Channel> &channels, std::string cmdline);
 int executePrivmsg(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User*> users);
+int executeInvite(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User*> users);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:56:40 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/01 16:46:49 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/02 18:34:41 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,8 +225,7 @@ void	Channel::takeUserOperator(std::string userNickname)
 
 void	Channel::changeMode(std::string modeToAdd)
 {
-	(void)modeToAdd;
-	// faire en meme temps que la commande mode
+	this->_modes.append(modeToAdd);
 	return ;
 }
 
