@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:21:20 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/02 19:54:20 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/02 21:35:36 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ User						*getUserPtr(std::vector<User*> &clients, std::string clientName);
 std::vector<std::string>	getVector(std::string strToSplit, char delimiter);
 bool						userConnectedOnAnyChannel(std::map<std::string, Channel> &channels, User &user);
 void						deleteEmptyChannel(std::map<std::string, Channel> &channels);
+void						createReason(std::vector<std::string> reasonVector, std::string *reason, size_t index);
 
 int executeJoin(User &origin, std::map<std::string, Channel> &channels, std::string cmdline);
 int executeNames(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User*> *users);

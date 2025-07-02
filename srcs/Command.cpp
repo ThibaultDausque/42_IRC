@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:27:00 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/02 16:37:47 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/02 21:35:31 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,4 +148,23 @@ void	deleteEmptyChannel(std::map<std::string, Channel> &channels)
 	for (size_t i = 0; i < channelToRemoveList.size(); i++) {
 		channels.erase(channelToRemoveList[i]);
 	}
+}
+
+void	createReason(std::vector<std::string> reasonVector, std::string *reason, size_t index)
+{
+	if (reasonVector.size() > index) {
+		if (reasonVector[index].size() > 0 && reasonVector[index][0] == ':') {
+			for (size_t i = index; i < reasonVector.size(); i++) {
+				(*reason).append(reasonVector[i]);
+				if (i + 1 == reasonVector.size())
+					break ;
+				(*reason).append(" ");
+			}
+			(*reason).append("\r\n");
+		}
+		else
+			(*reason).append(":"+reasonVector[index]+"\r\n");
+	}
+	else
+		(*reason) = DEFAULT_REASON;
 }

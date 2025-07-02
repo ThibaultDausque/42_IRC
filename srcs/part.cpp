@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 19:43:16 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/02 19:59:33 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/02 21:36:43 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int executePart(User &user, std::map<std::string, Channel> &channels, std::strin
 	std::vector<std::string>	params = getVector(cmdline, ' ');
 	std::string					errMsg = ERR_NEEDMOREPARAM(user.getNickname(), "PART");
 	std::string					partMsg = user.getFullName()+" PART ";
+	std::string					reason;
 	Channel						*chan;
 
 	if (params.size() < 2)
@@ -26,7 +27,8 @@ int executePart(User &user, std::map<std::string, Channel> &channels, std::strin
 		//send(user.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 	else {
 		std::vector<std::string>	channelParam = getVector(params[1], ',');
-		
+		createReason(params, &reason, 2);
+
 		for (std::vector<std::string>::iterator it = channelParam.begin(); it != channelParam.end(); ++it) {
 			chan = getChannelPtr(channels, *it);
 			
@@ -41,7 +43,7 @@ int executePart(User &user, std::map<std::string, Channel> &channels, std::strin
 				//send(user.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 			}
 			else {
-				chan->sendToEveryone(partMsg+chan->getName()+"\r\n");
+				chan->sendToEveryone(partMsg+chan->getName()+" "+reason);
 				chan->removeUser(user.getNickname());
 			}
 		}

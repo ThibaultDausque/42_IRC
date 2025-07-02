@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:24:32 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/02 18:57:37 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/02 21:24:19 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # define SERVER_HOSTNAME ":irc.42angouleme.fr"
 # define CLIENT_HOSTNAME "irc.42angouleme.fr"
-# define BAN_REASON ":No reason given\r\n"
+# define DEFAULT_REASON ":No reason given\r\n"
 
 # define ERR_NOSUCHNICK(nick, nonexistant) SERVER_HOSTNAME" 401 "+nick+" "+nonexistant+" :No such nick/channel\r\n" 
 # define ERR_NEEDMOREPARAM(nick, command) SERVER_HOSTNAME" 461 "+nick+" "+command+" :Not enough parameters\r\n"

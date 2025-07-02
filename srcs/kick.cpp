@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 09:57:22 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/02 20:16:29 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/02 21:34:03 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int executeKick(User &origin, std::map<std::string, Channel> &channels, std::str
 	std::vector<std::string>	channelParam;
 	std::vector<std::string>	clientParam;
 	std::vector<std::string>	params = getVector(cmdline, ' ');
-	std::string					comment;
+	std::string					reason;
 	std::string					originNick = origin.getNickname();
 	std::string					errMsg = ERR_NEEDMOREPARAM(originNick, "KICK");
 	Channel						*chan;
@@ -31,21 +31,7 @@ int executeKick(User &origin, std::map<std::string, Channel> &channels, std::str
 	{
 		channelParam = getVector(params[1], ',');
 		clientParam = getVector(params[2], ',');
-		if (params.size() >= 4) {
-			if (params[3].size() > 0 && params[3][0] == ':') {
-				for (size_t i = 3; i < params.size(); i++) {
-					comment.append(params[i]);
-					if (i + 1 == params.size())
-						break ;
-					comment.append(" ");
-				}
-				comment.append("\r\n");
-			}
-			else
-				comment.append(":"+params[3]+"\r\n");
-		}
-		else
-			comment = BAN_REASON;
+		createReason(params, &reason, 3);
 		
 		for (std::vector<std::string>::iterator chanIt = channelParam.begin(); chanIt != channelParam.end(); ++chanIt) {
 			chan = getChannelPtr(channels, *chanIt);
@@ -74,7 +60,7 @@ int executeKick(User &origin, std::map<std::string, Channel> &channels, std::str
 						std::cout << errMsg << std::endl;
 						//send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 					else
-						(*chan).kickUser(*clientIt, origin.getFullName(), comment);
+						(*chan).kickUser(*clientIt, origin.getFullName(), reason);
 				}
 			}
 		}
