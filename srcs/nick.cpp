@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 13:58:44 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/02 20:25:18 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/02 20:35:19 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 int executeNick(User &user, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User*> &users)
 {
 	std::string 				oldNick = user.getNickname();
-	std::string 				errMsg = ERR_NONICKNAMEGIVEN(oldNick);
+	std::string 				errMsg;
 	std::vector<std::string>	params = getVector(cmdline, ' ');
 	std::map<User*, bool> 		userList;
 	std::set<int>				usersSharingChannelFD;
@@ -25,6 +25,7 @@ int executeNick(User &user, std::map<std::string, Channel> &channels, std::strin
 	if (oldNick == "")
 		oldNick = "*";
 	if (params.size() == 1) {
+		errMsg = ERR_NONICKNAMEGIVEN(oldNick);
 		std::cout << errMsg << std::endl;
 		//send(user.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 		return (1);
