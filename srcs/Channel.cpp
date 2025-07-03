@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:56:40 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/28 00:34:25 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/02 18:34:41 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ Channel::~Channel(void) {}
 GETTERS
 -------*/
 
-std::map<User, bool> Channel::getUsers(void)
+std::map<User*, bool> Channel::getUsers(void)
 {
 	return (this->_users);
 }
@@ -124,8 +124,8 @@ FUNCTIONS MEMBER
 bool	Channel::isUserConnected(std::string userNickname)
 {
 	std::string nick; 
-	for (std::map<User, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
-		nick = it->first.getNickname();
+	for (std::map<User*, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
+		nick = (*it->first).getNickname();
 		if (nick == userNickname)
 			return (true);
 	}
@@ -135,8 +135,8 @@ bool	Channel::isUserConnected(std::string userNickname)
 bool	Channel::isUserOperator(std::string userNickname)
 {
 	std::string nick; 
-	for (std::map<User, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
-		nick = it->first.getNickname();
+	for (std::map<User*, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
+		nick = (*it->first).getNickname();
 		if (nick == userNickname && it->second)
 			return (true);
 	}
@@ -148,19 +148,12 @@ void	Channel::addUser(User &user, bool isOperator)
 	std::string	fullname = user.getFullName();
 	std::string	joinMsg = ":"+fullname+" JOIN "+this->_name+"\r\n";
 
-	this->_users.insert(std::pair<User, bool>(user, isOperator));
-	for (std::map<User, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
-		User tmp = it->first;
-		std::cout << joinMsg << std::endl;
-		//send(tmp.getSocket(), joinMsg.c_str(), joinMsg.size(), 0);
-	}
+	this->_users.insert(std::pair<User*, bool>(&user, isOperator));
+	this->sendToEveryone(joinMsg);
+	
 	if (doesChannelHaveATopic()) {
-		std::stringstream ss;
-		ss << this->_lastTopicChange;
-		std::string lastChange = ss.str();
-
 		std::string	rplTopic = RPL_TOPIC(user.getNickname(), this->_name, this->_topic);
-		std::string	rplTopicWhoTime = RPL_TOPICWHOTIME(user.getNickname(), this->_name, this->_lastUserToChangeTopic, lastChange);
+		std::string	rplTopicWhoTime = RPL_TOPICWHOTIME(user.getNickname(), this->_name, this->_lastUserToChangeTopic, this->convertUNIXTimeToString());
 		//send(user.getSocket(), rplTopic.c_str(), rplTopic.size(), 0);
 		std::cout << rplTopic << std::endl;
 		//send(user.getSocket(), rplTopicWhoTime.c_str(), rplTopicWhoTime.size(), 0);
@@ -169,25 +162,52 @@ void	Channel::addUser(User &user, bool isOperator)
 	user.deleteAnInvitation(this->_name);
 }
 
-bool	Channel::removeUser(std::string userNickname)
+void	Channel::removeUser(std::string userNickname)
 {
-	std::string nick;
-	for (std::map<User, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
-		nick = it->first.getNickname();
+	std::string 					nick;
+	std::map<User*, bool>::iterator	userToRemoveIter;
+	
+	for (std::map<User*, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
+		nick = (*it->first).getNickname();
+
 		if (nick == userNickname)
-		{
-			_users.erase(it);
-			return (true);
-		}
+			userToRemoveIter = it;
 	}
-	return (false);
+	this->_users.erase(userToRemoveIter);
+}
+
+void	Channel::kickUser(std::string userNickname, std::string originFullname, std::string reason)
+{
+	std::string 					nick;
+	std::string						kickMsg = ":"+originFullname+" KICK "+this->_name+" "+userNickname+" "+reason;
+	std::map<User*, bool>::iterator	userToRemoveIter;
+	
+	for (std::map<User*, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
+		nick = (*it->first).getNickname();
+		std::cout << kickMsg << std::endl;
+		//send((*it->first).getSocket(), kickMsg.c_str(), kickMsg.size(), 0);
+
+		if (nick == userNickname)
+			userToRemoveIter = it;
+	}
+	this->_users.erase(userToRemoveIter);
+}
+
+void	Channel::sendToEveryone(std::string message)
+{
+	int	socket;
+	for (std::map<User*, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
+		socket = (*it->first).getSocket();
+		std::cout << message << std::endl;
+		//send(socket, message.c_str(), message.size(), 0);
+	}
 }
 
 void	Channel::giveUserOperator(std::string userNickname)
 {
 	std::string nick;
-	for (std::map<User, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
-		nick = it->first.getNickname();
+	for (std::map<User*, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
+		nick = (*it->first).getNickname();
 		if (nick == userNickname)
 			it->second = true; 
 	}
@@ -196,8 +216,8 @@ void	Channel::giveUserOperator(std::string userNickname)
 void	Channel::takeUserOperator(std::string userNickname)
 {
 	std::string nick;
-	for (std::map<User, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
-		nick = it->first.getNickname();
+	for (std::map<User*, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
+		nick = (*it->first).getNickname();
 		if (nick == userNickname)
 			it->second = false; 
 	}
@@ -205,8 +225,7 @@ void	Channel::takeUserOperator(std::string userNickname)
 
 void	Channel::changeMode(std::string modeToAdd)
 {
-	(void)modeToAdd;
-	// faire en meme temps que la commande mode
+	this->_modes.append(modeToAdd);
 	return ;
 }
 
@@ -233,4 +252,13 @@ bool	Channel::doesChannelHaveATopic(void)
 int	Channel::getChannelSize(void)
 {
 	return (this->_users.size());
+}
+
+std::string	Channel::convertUNIXTimeToString(void)
+{
+	std::stringstream ss;
+	ss << this->_lastTopicChange;
+	std::string lastChange = ss.str();
+
+	return (lastChange);
 }

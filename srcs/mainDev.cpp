@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:23:42 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/28 12:27:29 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/02 19:54:40 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@
 #include "Command.hpp"
 #include "User.hpp"
 #include "Channel.hpp"
-
-int executeJoin(User &origin, std::map<std::string, Channel> &channels, std::string cmdline);
-int executeNames(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User> *users);
 
 int	main(int ac, char **av)
 {
@@ -35,30 +32,17 @@ int	main(int ac, char **av)
 
 	try
 	{
-		// CREATION DE MON USER PERSONNALISE DANS LE PROMPT
-		char hostname[HOST_NAME_MAX];
-		gethostname(hostname, HOST_NAME_MAX);
-		User user(av[1], "AdominusRexL9", hostname, "realname", 1);
-		user.addAnInvitation(av[2]);
-
-		// CREATION DE DEUX USERS ADDITIONNELS 
-		User tpipi("tpipi", "tpipi", hostname, "realname", 1);
-		User tdausque("tdausque", "tdausque", hostname, "realname", 1);
-
-		// CREATION D'UN CHANNEL NOMMÉ GRACE AU PROMPT ET AJOUT DES DEUX USERS ET D'UN TOPIC
-		Channel	channel(av[2], "", "i", "", -1);
-		channel.addUser(tpipi, true);
-		channel.addUser(tdausque, false);
-		channel.changeTopic("Salut les ptits loups c'est Calistou", tpipi);
-
 		// CREATION DE MES DEUX MAP POUR TOUS LES CHANNELS ET USERS PRESENT DANS LE SERVEUR
+		User user(1);
+		User zaloufi("Zaloufi", "ADOMINUSREX", CLIENT_HOSTNAME, "realname", 0);
 		std::map<std::string, Channel>	channels;
-		std::vector<User> users;
+		std::vector<User*> users;
+		users.push_back(&user);
+		users.push_back(&zaloufi);
 
-		channels.insert(std::pair<std::string, Channel>(channel.getName(), channel));
-		users.push_back(tpipi);
-		users.push_back(tdausque);
-		users.push_back(user);
+		executeJoin(zaloufi, channels, "JOIN #test");
+		Channel *chan = getChannelPtr(channels, "#test");
+		chan->changeMode("i");
 
 		// BOUCLE DE COMMANDES
 		while (true) {
@@ -71,25 +55,34 @@ int	main(int ac, char **av)
 			// chercher si les messages de base doivent etre parse d'une certaine maniere
 			if (cmd == "QUIT")
 				break ;
+			else if (isCmdValid(cmd) && cmd == "USER")
+				executeUser(user, line);
+			else if (isCmdValid(cmd) && cmd == "NICK")
+				executeNick(user, channels, line, users);
+			else if (!user.isNicknameRegistered() || !user.isUsernameRegistered()) {
+				std::string tmpNick;
+				if (user.getNickname() == "")
+					tmpNick = "*";
+				else
+					tmpNick = user.getNickname();
+				std::cout << ERR_NOTREGISTERED(tmpNick) << std::endl;
+			}
 			else if (isCmdValid(cmd) && cmd == "JOIN")
 				executeJoin(user, channels, line);
 			else if (isCmdValid(cmd) && cmd == "NAMES")
 				executeNames(user, channels, line, &users);
+			else if (isCmdValid(cmd) && cmd == "KICK")
+				executeKick(user, channels, line);
+			else if (isCmdValid(cmd) && cmd == "PRIVMSG")
+				executePrivmsg(user, channels, line, users);
+			else if (isCmdValid(cmd) && cmd == "INVITE")
+				executeInvite(user, channels, line, users);
+			else if (isCmdValid(cmd) && cmd == "PART")
+				executePart(user, channels, line);
+			else if (cmd == "TRYINVITE")
+				executeInvite(zaloufi, channels, "INVITE Zetune #test", users);
 			else
-				std::cout << ">> La commande " << cmd << " n'est pas valide !" << std::endl;
-
-			for (std::map<std::string, Channel>::iterator it = channels.begin(); it != channels.end(); ++it) {
-				std::cout << it->first << " : " << std::endl;
-				std::cout << "Nombre de personne dans le channel : " << it->second.getChannelSize() << std::endl;
-				userstmp = it->second.getUsers();
-
-				for (std::map<User, bool>::iterator ite = userstmp.begin(); ite != userstmp.end(); ++ite) {
-					std::cout << "- " << ite->first.getNickname() << std::endl;
-				}
-				std::cout << std::endl;
-			}
-
-
+				std::cout << ERR_UNKNOWNCOMMAND(user.getNickname(), cmd) << std::endl;
 		}
 	}
 	catch(const std::exception& e)

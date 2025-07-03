@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 13:01:39 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/29 10:57:23 by tdausque         ###   ########.fr       */
+/*   Updated: 2025/07/03 11:16:25 by tdausque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,15 @@
 /*-------------------------
 CONSTRUCTORS AND DESTRUCTOR
 ---------------------------*/
+
+User::User(int socket)
+{
+	_nickname = "";
+	_username = "";
+	_hostname = "";
+	_realname = "";
+	_socket = socket;
+}
 
 User::User(std::string nn, std::string un, std::string hn, std::string rn, int socket)
 {
@@ -63,29 +72,29 @@ std::string User::getRealname(void) const
 	return (this->_realname);
 }
 
-int			User::getSocket(void) const
+int	User::getSocket(void) const
 {
 	return (this->_socket);
 }
 
-void	User::setNickname(std::string& Nickname)
+void	User::setNickname(std::string &str)
 {
-	this->_nickname = Nickname;
+	this->_nickname = str;
 }
 
-void	User::setUsername(std::string& Username)
+void	User::setUsername(std::string &str)
 {
-	this->_username = Username;
+	this->_username = str;
 }
 
-void	User::setHostname(std::string& Hostname)
+void	User::setHostname(const char *str)
 {
-	this->_hostname = Hostname;
+	this->_hostname = str;
 }
 
-void	User::setRealname(std::string& Realname)
+void	User::setRealname(std::string &str)
 {
-	this->_realname = Realname;
+	this->_realname = str;
 }
 
 /*--------------
@@ -94,26 +103,60 @@ FUNCTIONS MEMBER
 
 void	User::addAnInvitation(std::string channelName)
 {
-	this->_inviteList.push_back(channelName);
+	this->_inviteList.insert(channelName);
 }
 
 void	User::deleteAnInvitation(std::string channelName)
 {
-	for (std::vector<std::string>::iterator it = this->_inviteList.begin(); it != this->_inviteList.end(); it++) {
-		if (*it == channelName) {
-			this->_inviteList.erase(it);
-			break ;
-		}
-	}
+	this->_inviteList.erase(channelName);
 }
 
 bool	User::isInvitedTo(std::string channelName)
 {
 	std::string caca = (channelName);
-	std::vector<std::string>::iterator it;
+	std::set<std::string>::iterator it;
+	
 	for (it = _inviteList.begin(); it != _inviteList.end(); ++it) {
 		if (*it == channelName)
 			return (true);
+	}
+	return (false);
+}
+
+bool	User::isNicknameRegistered(void)
+{
+	if (this->getNickname() == "")
+		return (false);
+	return (true);
+}
+
+bool	User::isUsernameRegistered(void)
+{
+	if (this->getUsername() == "")
+		return (false);
+	return (true);
+}
+
+bool	User::isUserRegistered(void)
+{
+	if (this->isNicknameRegistered() && this->isUsernameRegistered()) {
+		std::string rplWelcome = RPL_WELCOME(this->getNickname());
+		std::string	rplYourHost = RPL_YOURHOST(this->getNickname());
+		std::string	rplCreated = RPL_CREATED(this->getNickname());
+		std::string	rplMyInfo = RPL_MYINFO(this->getNickname());
+		std::string	rplISupport = RPL_ISUPPORT(this->getNickname());
+
+		std::cout << rplWelcome << std::endl;
+		//send(user.getSocket(), rplWelcome.c_str(), rplWelcome.size(), 0);
+		std::cout << rplYourHost << std::endl;
+		//send(user.getSocket(), rplYourHost.c_str(), rplYourHost.size(), 0);
+		std::cout << rplCreated << std::endl;
+		//send(user.getSocket(), rplCreated.c_str(), rplCreated.size(), 0);
+		std::cout << rplMyInfo << std::endl;
+		//send(user.getSocket(), rplMyInfo.c_str(), rplMyInfo.size(), 0);
+		std::cout << rplISupport << std::endl;
+		//send(user.getSocket(), rplISupport.c_str(), rplISupport.size(), 0);
+		return (true);
 	}
 	return (false);
 }
@@ -168,7 +211,7 @@ bool	hasNonAlphanumCharacter(std::string& str)
 {
 	bool	res = false;
 	for (std::size_t i = 0; i < str.length(); i++) {
-		if (!isalnum(str[i]) && str[i] != '.' && str[i] != '_' && str[i] != '-')
+		if (!isalnum(str[i]) && str[i] != '.' && str[i] != '_' && str[i] != '-' && str[i] != '+')
 			res = true;
 	}
 	return (res);

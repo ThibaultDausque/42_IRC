@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:49:41 by tpipi             #+#    #+#             */
-/*   Updated: 2025/06/28 00:34:09 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/01 16:46:49 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ class   Channel
 		Channel(std::string name, std::string topic, std::string modes, std::string key, int limit);
 
 		// GETTERS
-		std::map<User, bool>	getUsers(void);
+		std::map<User*, bool>	getUsers(void);
 		std::string				getName(void);
 		std::string				getTopic(void);
 		std::string				getModes(void);
@@ -56,7 +56,9 @@ class   Channel
 		bool					isUserConnected(std::string userNickname);
 		bool					isUserOperator(std::string userNickname);
 		void					addUser(User &user, bool isOperator);
-		bool					removeUser(std::string userNickname);
+		void					removeUser(std::string userNickname);
+		void					kickUser(std::string userNickname, std::string originFullname, std::string reason);
+		void					sendToEveryone(std::string message);
 
 		// OPERATORS RELATED FUNCTIONS
 		void					giveUserOperator(std::string userNickname);
@@ -71,10 +73,11 @@ class   Channel
 		// OTHERS
 		bool					doesChannelHaveATopic(void);
 		int						getChannelSize(void);
+		std::string				convertUNIXTimeToString(void);
 
 		~Channel(void);
 	private :
-		std::map<User, bool>	_users;
+		std::map<User*, bool>	_users;
 		std::string				_name;
 		std::string				_topic;
 		std::string				_modes;
