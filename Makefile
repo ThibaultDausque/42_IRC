@@ -11,9 +11,10 @@ SRC = srcs/User.cpp \
 		srcs/commands/nick.cpp \
 		srcs/commands/user.cpp \
 		srcs/commands/part.cpp \
+		srcs/commands/topic.cpp \
 		srcs/commands/privmsg.cpp
 
-//SRCS = $(wildcard srcs/**/*.cpp) $(wildcard srcs/*.cpp)
+#SRCS = $(wildcard srcs/**/*.cpp) $(wildcard srcs/*.cpp)
 RM = rm -f
 OBJS_DIR = obj
 INCLUDES = -Iincludes -Isrcs
