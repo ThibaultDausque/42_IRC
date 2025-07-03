@@ -1,6 +1,6 @@
 CC = c++
 FLAGS = -Wall -Wextra -Werror -std=c++98
-SRCS = srcs/Command.cpp \
+SRC = srcs/Command.cpp \
 		srcs/User.cpp \
 		srcs/main.cpp \
 	   	srcs/Server.cpp \
@@ -13,6 +13,17 @@ SRCS = srcs/Command.cpp \
 		srcs/privmsg.cpp \
 		srcs/invite.cpp \
 		srcs/part.cpp
+
+SRC_COM = srcs/commands/Command.cpp \
+		  srcs/commands/invite.cpp \
+		  srcs/commands/join.cpp \
+		  srcs/commands/kick.cpp \
+		  srcs/commands/names.cpp \
+		  srcs/commands/nick.cpp \
+		  srcs/commands/part.cpp \
+		  srcs/commands/privmsg.cpp
+
+SRCS = $(wildcard srcs/**/*.cpp) $(wildcard srcs/*.cpp)
 RM = rm -f
 OBJS_DIR = obj
 INCLUDES = -Iincludes -Isrcs
@@ -25,7 +36,7 @@ all:$(NAME)
 $(NAME): $(OBJS)
 	@$(CC) $(INCLUDES) $(FLAGS) $(OBJS) -o $(NAME)
 
-$(OBJS_DIR)/%.o:%.cpp
+$(OBJS_DIR)/%.o: %.cpp
 	@mkdir -p $(@D)
 	$(CC) $(INCLUDES) $(FLAGS) -c $< -o $@
 
