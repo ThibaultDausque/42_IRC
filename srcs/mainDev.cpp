@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:23:42 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/03 20:51:49 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/04 00:52:08 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,12 @@ int	main(int ac, char **av)
 				executeInvite(user, channels, line, users);
 			else if (isCmdValid(cmd) && cmd == "PART")
 				executePart(user, channels, line);
+			else if (isCmdValid(cmd) && cmd == "TOPIC")
+				executeTopic(user, channels, line);
 			else if (cmd == "TRYINVITE")
 				executeInvite(zaloufi, channels, "INVITE Zetune #test", users);
+			else if (cmd == "MODETOPIC")
+				chan->changeMode("t");
 			else
 				std::cout << ERR_UNKNOWNCOMMAND(user.getNickname(), cmd) << std::endl;
 		}
