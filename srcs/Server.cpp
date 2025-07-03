@@ -102,7 +102,7 @@ void	Server::acceptNewClient()
 	if (accept_cli <= 0)
 		throw std::runtime_error("Error: client accept failed.");
 	else
-		std::cout << "* New client *" << std::endl;
+		std::cout << "* New client *" << " " << accept_cli  << std::endl;
 
 	if (fcntl(accept_cli, F_SETFL, O_NONBLOCK))
 		throw std::runtime_error("Error: fcntl() failed.");
@@ -111,6 +111,8 @@ void	Server::acceptNewClient()
 	cli_fd.events = POLLIN;
 	cli_fd.revents = 0;
 	this->_tab.push_back(cli_fd);
+	User user(accept_cli);
+	this->_clients.push_back(user);
 }
 
 void	Server::readMessage(int fd_client)
@@ -135,7 +137,11 @@ void	Server::readMessage(int fd_client)
 	}
 	else
 		buff[bytes] = '\0';
-	std::cout << buff << std::endl;
+	for (size_t i = 1; i < _clients.size(); i++)
+	{
+		if (fd_client == _clients[i].fd)
+			std::cout << fd_client << ": " << buff << std::endl;
+	}
 }
 
 void	Server::runServer()
@@ -188,7 +194,7 @@ void	Server::runServer()
 				else
 				{
 					// receive client message
-					readMessage(this->_tab[i].fd);
+					readMessage(this->_clients[i].fd);
 				}
 			}
 		}
