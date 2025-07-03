@@ -1,12 +1,9 @@
 #include "Server.hpp"
 #include <csignal>
 
-bool	forever = true;
-
-void	handleSignal(int signal)
+void	handle_signal(int sig)
 {
-	std::cout << "* caught signal * " << signal << std::endl;
-	forever = false;
+	(void) sig;
 }
 
 int	main(int ac, char **av)
@@ -29,14 +26,12 @@ int	main(int ac, char **av)
 	// 	std::cout << "Error: " << server_port << " is incorrect." << std::endl;
 	// 	return 1;
 	// }
+	
 	Server	server("toto", 8080);
-	if (std::signal(SIGINT, handleSignal))
-	{
-		for (size_t	i = 0; i < server.getTab().size(); i++)
-			close(server.getTabElement(i).fd);
-	}
+	std::signal(SIGINT, handle_signal);
 	server.initServer();
 	server.runServer();
 	
+
 	return 0;
 }

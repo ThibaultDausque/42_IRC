@@ -1,4 +1,5 @@
 #include "Server.hpp"
+#include <cerrno>
 
 Server::Server(std::string _pwd, unsigned int _port)
 {
@@ -45,7 +46,6 @@ int	Server::initServer(void)
 	// The Server listen on 5 port max
 	if (listen(_serverFd, 5))
 		throw(std::runtime_error("Error: listen failed\n"));
-
 	return 0;
 }
 
@@ -167,7 +167,15 @@ void	Server::runServer()
 	while (run == false)
 	{
 		if (poll(&this->_tab[0], this->_tab.size(), -1) == -1)
+		{
+			if (errno == EINTR)
+			{
+				for (size_t i = 0; i < _tab.size(); i++)
+					close(_tab[i].fd);
+				break ;
+			}
 			throw std::runtime_error("Error: poll() failed.");
+		}
 		for (size_t i = 0; i < this->_tab.size(); i++)
 		{
 			if (this->_tab[i].revents & POLLIN)
