@@ -1,33 +1,23 @@
 CC = c++
 FLAGS = -Wall -Wextra -Werror -std=c++98
-SRC = srcs/Command.cpp \
-		srcs/User.cpp \
-		srcs/main.cpp \
-	   	srcs/Server.cpp \
+SRC = srcs/User.cpp \
+		srcs/mainDev.cpp \
 		srcs/Channel.cpp \
-		srcs/join.cpp \
-		srcs/names.cpp \
-		srcs/nick.cpp \
-		srcs/user.cpp \
-		srcs/kick.cpp \
-		srcs/privmsg.cpp \
-		srcs/invite.cpp \
-		srcs/part.cpp
+		srcs/commands/Command.cpp \
+		srcs/commands/invite.cpp \
+		srcs/commands/join.cpp \
+		srcs/commands/kick.cpp \
+		srcs/commands/names.cpp \
+		srcs/commands/nick.cpp \
+		srcs/commands/user.cpp \
+		srcs/commands/part.cpp \
+		srcs/commands/privmsg.cpp
 
-SRC_COM = srcs/commands/Command.cpp \
-		  srcs/commands/invite.cpp \
-		  srcs/commands/join.cpp \
-		  srcs/commands/kick.cpp \
-		  srcs/commands/names.cpp \
-		  srcs/commands/nick.cpp \
-		  srcs/commands/part.cpp \
-		  srcs/commands/privmsg.cpp
-
-SRCS = $(wildcard srcs/**/*.cpp) $(wildcard srcs/*.cpp)
+//SRCS = $(wildcard srcs/**/*.cpp) $(wildcard srcs/*.cpp)
 RM = rm -f
 OBJS_DIR = obj
 INCLUDES = -Iincludes -Isrcs
-OBJS = $(SRCS:%.cpp=$(OBJS_DIR)/%.o)
+OBJS = $(SRC:%.cpp=$(OBJS_DIR)/%.o)
 
 NAME = ircserv
 
