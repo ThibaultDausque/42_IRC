@@ -6,14 +6,14 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:24:32 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/04 03:56:06 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/04 05:20:30 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef NUMERICREPLY_HPP
 # define NUMERICREPLY_HPP
 
-# define SERVER_HOSTNAME "irc.42angouleme.fr"
+# define SERVER_HOSTNAME "irc.localhost.fr"
 # define CLIENT_HOSTNAME "irc.42angouleme.fr"
 # define DEFAULT_REASON ":No reason given\r\n"
 
@@ -41,10 +41,12 @@
 # define RPL_CREATED(nick) ":"SERVER_HOSTNAME" 003 "+nick+" :This server was created Tue Jun 10 2025 at 16:56:03 CET\r\n"
 # define RPL_MYINFO(nick) ":"SERVER_HOSTNAME" 004 "+nick+" irc.42angouleme.fr version 4.2 o iklt kl\r\n"
 # define RPL_ISUPPORT(nick) ":"SERVER_HOSTNAME" 005 "+nick+" CHANMODES=,k,l,it CHANTYPES=#& PREFIX=@ :are supported by this server\r\n"
+# define RPL_ENDOFWHO(nick, mask) ":"SERVER_HOSTNAME" 315 "+nick+" "+mask+" :End of WHO list\r\n"
 # define RPL_NOTOPIC(nick, channel) ":"SERVER_HOSTNAME" 331 "+nick+" "+channel+" :No topic is set\r\n"
 # define RPL_TOPIC(nick, channel, topic) ":"SERVER_HOSTNAME" 332 "+nick+" "+channel+" :"+topic+"\r\n"
 # define RPL_TOPICWHOTIME(nick, channel, fullname, setat) ":"SERVER_HOSTNAME" 333 "+nick+" "+channel+" "+fullname+" "+setat+"\r\n"
 # define RPL_INVITING(nick, invited, channel) ":"SERVER_HOSTNAME" 341 "+nick+" "+invited+" "+channel+"\r\n"
+# define RPL_WHOREPLY(client, channel, username, host, server, nick, flag, realname) ":"SERVER_HOSTNAME" 352 "+client+" "+channel+" "+username+" "+host+" "+server+" "+nick+" "+flag+" :0 "+realname+"\r\n"
 # define RPL_NAMREPLY(nick, channel) ":"SERVER_HOSTNAME" 353 "+nick+" = "+channel+" :"
 # define RPL_ENDOFNAMES(nick, channel) ":"SERVER_HOSTNAME" 366 "+nick+" "+channel+" :End of /NAMES list.\r\n"
 

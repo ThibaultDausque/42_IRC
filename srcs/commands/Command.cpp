@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:27:00 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/02 21:35:31 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/04 05:09:39 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,14 @@ bool	isCmdValid(std::string cmd)
 		"QUIT",
 		"PRIVMSG",
 		"PING",
-		"PONG",
+		"WHO",
 		"JOIN",
 		"PART",
 		"MODE",
 		"TOPIC",
 		"INVITE",
 		"KICK",
-		"NAMES",
-		"LIST"
+		"NAMES"
 	};
 
 	for (int i = 0; i < 15; i++) {
@@ -167,4 +166,11 @@ void	createReason(std::vector<std::string> reasonVector, std::string *reason, si
 	}
 	else
 		(*reason) = DEFAULT_REASON;
+}
+
+bool	isReceiverAChannel(std::string receiver)
+{
+	if (receiver.size() > 0 && (receiver[0] == '&' || receiver[0] == '#'))
+		return (true);
+	return (false);
 }

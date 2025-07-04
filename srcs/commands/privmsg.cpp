@@ -6,20 +6,13 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 13:53:41 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/02 21:43:04 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/04 04:42:58 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Command.hpp"
 #include "Channel.hpp"
 #include "NumericReply.hpp"
-
-static bool	isReceiverAChannel(std::string receiver)
-{
-	if (receiver.size() > 0 && (receiver[0] == '&' || receiver[0] == '#'))
-		return (true);
-	return (false);
-}
 
 int executePrivmsg(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User*> users)
 {
