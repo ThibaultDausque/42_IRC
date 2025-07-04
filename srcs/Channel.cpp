@@ -199,7 +199,7 @@ void	Channel::sendToEveryone(std::string message)
 	for (std::map<User*, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
 		socket = (*it->first).getSocket();
 		std::cout << message << std::endl;
-		//send(socket, message.c_str(), message.size(), 0);
+		send(socket, message.c_str(), message.size(), 0);
 	}
 }
 

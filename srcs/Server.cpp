@@ -1,6 +1,8 @@
 #include "Server.hpp"
 #include <cerrno>
 
+bool cut = true;
+
 Server::Server(std::string _pwd, unsigned int _port)
 {
 	this->_serverFd = 0;
@@ -122,6 +124,9 @@ void	Server::readMessage(int fd_client)
 
 	memset(buff, 0, sizeof(buff));
 	bytes = recv(fd_client, buff, sizeof(buff) - 1, 0);
+	std::cout << buff << std::endl;
+	if (strcmp(buff, "/shutdown"))
+		cut = false;
 	if (bytes <= 0)
 	{
 		for (size_t i = 0; i < this->_tab.size(); i++)
@@ -131,16 +136,22 @@ void	Server::readMessage(int fd_client)
 				this->_tab.erase(this->_tab.begin() + 1);
 				break ;
 			}
-			close(fd_client);
-	   		std::cout << "* client is disconnected *" << std::endl;
 		}
+		for (size_t i = 0; i < this->_clients.size(); i++)
+		{
+			if (this->_clients[i].getSocket() == fd_client)
+			{
+				this->_clients.erase(this->_clients.begin() + i);
+				break ;
+			}
+		}
+		std::cout << "* client " << fd_client << " disconnected *" << std::endl;
+		close(fd_client);
 	}
 	else
-		buff[bytes] = '\0';
-	for (size_t i = 1; i < _clients.size(); i++)
 	{
-		if (fd_client == _clients[i].fd)
-			std::cout << fd_client << ": " << buff << std::endl;
+		buff[bytes] = '\0';
+		std::cout << fd_client << ": "<< buff << std::endl;
 	}
 }
 
@@ -194,7 +205,7 @@ void	Server::runServer()
 				else
 				{
 					// receive client message
-					readMessage(this->_clients[i].fd);
+					readMessage(this->_tab[i].fd);
 				}
 			}
 		}

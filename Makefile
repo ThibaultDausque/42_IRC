@@ -1,18 +1,10 @@
 CC = c++
 FLAGS = -Wall -Wextra -Werror -std=c++98
-SRC = srcs/Command.cpp \
-		srcs/User.cpp \
+SRC	= srcs/User.cpp \
 		srcs/main.cpp \
-	   	srcs/Server.cpp \
+		srcs/Server.cpp \
 		srcs/Channel.cpp \
-		srcs/join.cpp \
 		srcs/names.cpp \
-		srcs/nick.cpp \
-		srcs/user.cpp \
-		srcs/kick.cpp \
-		srcs/privmsg.cpp \
-		srcs/invite.cpp \
-		srcs/part.cpp
 
 SRC_COM = srcs/commands/Command.cpp \
 		  srcs/commands/invite.cpp \
@@ -21,7 +13,8 @@ SRC_COM = srcs/commands/Command.cpp \
 		  srcs/commands/names.cpp \
 		  srcs/commands/nick.cpp \
 		  srcs/commands/part.cpp \
-		  srcs/commands/privmsg.cpp
+		  srcs/commands/privmsg.cpp \
+		  srcs/commands/user.cpp
 
 SRCS = $(wildcard srcs/**/*.cpp) $(wildcard srcs/*.cpp)
 RM = rm -f
