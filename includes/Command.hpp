@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:21:20 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/03 21:58:22 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/04 03:54:01 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,6 @@ int executePrivmsg(User &origin, std::map<std::string, Channel> &channels, std::
 int executeInvite(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User*> users);
 int executePart(User &user, std::map<std::string, Channel> &channels, std::string cmdline);
 int executeTopic(User &user, std::map<std::string, Channel> &channels, std::string cmdline);
+int executePing(User &user, std::string cmdline);
 
 #endif

@@ -12,7 +12,8 @@ SRC = srcs/User.cpp \
 		srcs/commands/user.cpp \
 		srcs/commands/part.cpp \
 		srcs/commands/topic.cpp \
-		srcs/commands/privmsg.cpp
+		srcs/commands/privmsg.cpp \
+		srcs/commands/ping.cpp
 
 #SRCS = $(wildcard srcs/**/*.cpp) $(wildcard srcs/*.cpp)
 RM = rm -f

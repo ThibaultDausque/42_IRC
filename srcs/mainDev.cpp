@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:23:42 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/04 00:52:08 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/04 03:54:24 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ int	main(int ac, char **av)
 				executePart(user, channels, line);
 			else if (isCmdValid(cmd) && cmd == "TOPIC")
 				executeTopic(user, channels, line);
+			else if (isCmdValid(cmd) && cmd == "PING")
+				executePing(user, line);
 			else if (cmd == "TRYINVITE")
 				executeInvite(zaloufi, channels, "INVITE Zetune #test", users);
 			else if (cmd == "MODETOPIC")
