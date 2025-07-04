@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:56:40 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/02 18:34:41 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/04 00:30:19 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,6 +242,11 @@ bool	Channel::onInviteMode(void)
 bool	Channel::onLimiteMode(void)
 {
 	return (this->_modes.find('l') != std::string::npos);
+}
+
+bool	Channel::onTopicRestrictedMode(void)
+{
+	return (this->_modes.find('t') != std::string::npos);
 }
 
 bool	Channel::doesChannelHaveATopic(void)

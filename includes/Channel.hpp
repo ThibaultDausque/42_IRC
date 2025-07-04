@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:49:41 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/01 16:46:49 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/04 00:29:50 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ class   Channel
 		bool					isChannelProtected(void);
 		bool					onInviteMode(void);
 		bool					onLimiteMode(void);
+		bool					onTopicRestrictedMode(void);
 
 		// OTHERS
 		bool					doesChannelHaveATopic(void);
