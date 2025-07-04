@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 09:57:22 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/02 21:48:41 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/05 00:24:05 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ int executeKick(User &origin, std::map<std::string, Channel> &channels, std::str
 	Channel						*chan;
 
 	if (params.size() < 3)
-		std::cout << errMsg << std::endl;
-		//send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
+		send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 	else
 	{
 		channelParam = getVector(params[1], ',');
@@ -38,18 +37,15 @@ int executeKick(User &origin, std::map<std::string, Channel> &channels, std::str
 			
 			if (chan == NULL) {
 				errMsg = ERR_NOSUCHCHANNEL(originNick, *chanIt);
-				std::cout << errMsg << std::endl;
-				//send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
+				send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 			}
 			else if (!chan->isUserConnected(originNick)) {
 				errMsg = ERR_NOTONCHANNEL(originNick, *chanIt);
-				std::cout << errMsg << std::endl;
-				//send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
+				send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 			}
 			else if (!chan->isUserOperator(originNick)) {
 				errMsg = ERR_CHANOPRIVSNEEDED(originNick, *chanIt);
-				std::cout << errMsg << std::endl;
-				//send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
+				send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 			}
 			else
 			{
@@ -57,8 +53,7 @@ int executeKick(User &origin, std::map<std::string, Channel> &channels, std::str
 					errMsg = ERR_USERNOTINCHANNEL(originNick, *clientIt, *chanIt);
 					
 					if (!chan->isUserConnected(*clientIt))
-						std::cout << errMsg << std::endl;
-						//send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
+						send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 					else
 						chan->kickUser(*clientIt, origin.getFullName(), reason);
 				}

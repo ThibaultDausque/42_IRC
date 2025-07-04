@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 13:58:44 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/02 20:35:19 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/05 00:24:37 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "Command.hpp"
 #include "User.hpp"
 
-int executeNick(User &user, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User*> &users)
+int executeNick(User &user, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User> &users)
 {
 	std::string 				oldNick = user.getNickname();
 	std::string 				errMsg;
@@ -26,8 +26,7 @@ int executeNick(User &user, std::map<std::string, Channel> &channels, std::strin
 		oldNick = "*";
 	if (params.size() == 1) {
 		errMsg = ERR_NONICKNAMEGIVEN(oldNick);
-		std::cout << errMsg << std::endl;
-		//send(user.getSocket(), errMsg.c_str(), errMsg.size(), 0);
+		send(user.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 		return (1);
 	}
 	else
@@ -37,16 +36,14 @@ int executeNick(User &user, std::map<std::string, Channel> &channels, std::strin
 
 		if (hasInvalidChar(newNick)) {
 			errMsg = ERR_ERRONEUSNICKNAME(oldNick, newNick);
-			std::cout << errMsg << std::endl;
-			//send(user.getSocket(), errMsg.c_str(), errMsg.size(), 0);
+			send(user.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 			return (1);
 		}
 
-		for (std::vector<User*>::iterator it = users.begin(); it != users.end(); ++it) {
-			if ((*it)->getNickname() == newNick) {
+		for (std::vector<User>::iterator it = users.begin(); it != users.end(); ++it) {
+			if (it->getNickname() == newNick) {
 				errMsg = ERR_NICKNAMEINUSE(oldNick, newNick);
-				std::cout << errMsg << std::endl;
-				//send(user.getSocket(), errMsg.c_str(), errMsg.size(), 0);
+				send(user.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 				return (1);
 			}
 		}
@@ -64,10 +61,8 @@ int executeNick(User &user, std::map<std::string, Channel> &channels, std::strin
 				}
 			}
 			for (std::set<int>::iterator fdIt = usersSharingChannelFD.begin(); fdIt != usersSharingChannelFD.end(); ++fdIt)
-				std::cout << nickMsg << std::endl;
-				//send(*fdIt, nickMsg.c_str(), nickMsg.size(), 0);
-			std::cout << nickMsg << std::endl;
-			//send(user.getSocket(), nickMsg.c_str(), nickMsg.size(), 0);
+				send(*fdIt, nickMsg.c_str(), nickMsg.size(), 0);
+			send(user.getSocket(), nickMsg.c_str(), nickMsg.size(), 0);
 		}
 		else
 			user.isUserRegistered();

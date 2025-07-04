@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 13:01:39 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/03 11:16:25 by tdausque         ###   ########.fr       */
+/*   Updated: 2025/07/05 00:30:56 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ User::User(std::string nn, std::string un, std::string hn, std::string rn, int s
 	// si c'est vide c'est une not enough param
 	if (nn.length() > 9 || nn.length() < 1)
 		throw std::length_error("Length Error : Nickname Length Must Be Between 1-9 Characters.");
-	// if (hasInvalidChar(nn))
-		// throw User::HasInvalidCharacterException("Invalid characters");
+	if (hasInvalidChar(nn))
+		throw User::HasInvalidCharacterException();
 	if (un.length() < 1)
 		throw std::length_error("Length Error : Username Length Must Be Between 1-9 Characters.");
-	// if (hasNonAlphanumCharacter(un))
-	// 	throw User::HasInvalidCharacterException("Characters non alpha numeric");
+	if (hasNonAlphanumCharacter(un))
+		throw User::HasInvalidCharacterException();
 	if (un.length() > 9)
 		un = un.substr(0, 9);
 	_nickname = nn;
@@ -146,16 +146,11 @@ bool	User::isUserRegistered(void)
 		std::string	rplMyInfo = RPL_MYINFO(this->getNickname());
 		std::string	rplISupport = RPL_ISUPPORT(this->getNickname());
 
-		std::cout << rplWelcome << std::endl;
-		//send(user.getSocket(), rplWelcome.c_str(), rplWelcome.size(), 0);
-		std::cout << rplYourHost << std::endl;
-		//send(user.getSocket(), rplYourHost.c_str(), rplYourHost.size(), 0);
-		std::cout << rplCreated << std::endl;
-		//send(user.getSocket(), rplCreated.c_str(), rplCreated.size(), 0);
-		std::cout << rplMyInfo << std::endl;
-		//send(user.getSocket(), rplMyInfo.c_str(), rplMyInfo.size(), 0);
-		std::cout << rplISupport << std::endl;
-		//send(user.getSocket(), rplISupport.c_str(), rplISupport.size(), 0);
+		send(this->getSocket(), rplWelcome.c_str(), rplWelcome.size(), 0);
+		send(this->getSocket(), rplYourHost.c_str(), rplYourHost.size(), 0);
+		send(this->getSocket(), rplCreated.c_str(), rplCreated.size(), 0);
+		send(this->getSocket(), rplMyInfo.c_str(), rplMyInfo.size(), 0);
+		send(this->getSocket(), rplISupport.c_str(), rplISupport.size(), 0);
 		return (true);
 	}
 	return (false);

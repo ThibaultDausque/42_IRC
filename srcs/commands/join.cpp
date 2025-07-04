@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:26:24 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/02 20:37:56 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/05 00:24:06 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ int executeJoin(User &origin, std::map<std::string, Channel> &channels, std::str
 	std::vector<std::string> params = getVector(cmdline, ' ');
 
 	if (params.size() == 1)
-		std::cout << "\n" << errMsg << "\n" << std::endl;
-		//send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
+		send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 	else if (params.size() > 1)
 	{
 		channelsParam = getVector(params[1], ',');
@@ -66,18 +65,15 @@ int executeJoin(User &origin, std::map<std::string, Channel> &channels, std::str
 					if (!(*chan).isUserConnected(originNick)) {
 						if ((*chan).isChannelProtected() && (params.size() <= 2 || (keysParam.size() <= i || (*chan).getKey() != keysParam[i]))) {
 							errMsg = ERR_BADCHANNELKEY(originNick, chanName);
-							std::cout << errMsg << std::endl;
-							//send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
+							send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 						}
 						else if ((*chan).onLimiteMode() && (*chan).getChannelSize() >= (*chan).getUserLimit()) {
 							errMsg = ERR_CHANNELISFULL(originNick, chanName);
-							std::cout << errMsg << std::endl;
-							//send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
+							send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 						}
 						else if ((*chan).onInviteMode() && !origin.isInvitedTo(chanName)) {
 							errMsg = ERR_INVITEONLYCHAN(originNick, chanName);
-							std::cout << errMsg << std::endl;
-							//send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
+							send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 						}
 						else {
 							(*chan).addUser(origin, false);
@@ -97,8 +93,7 @@ int executeJoin(User &origin, std::map<std::string, Channel> &channels, std::str
 					catch(const std::exception& e)
 					{
 						errMsg = ERR_NOSUCHCHANNEL(originNick, chanName);
-						std::cout << errMsg << std::endl;
-						//send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
+						send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 					}
 				}
 			}

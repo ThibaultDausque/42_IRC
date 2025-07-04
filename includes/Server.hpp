@@ -30,16 +30,16 @@ class Server
 	public:
 		Server(std::string _pwd, unsigned int _port);
 		~Server();
-		int		initServer(void);
-		void	acceptNewClient(void);
-		void	readMessage(int	fd_client);
-		void	runServer(void);
-		void	eraseClient(void);
-		void	signalHandler(int sig);
+		int							initServer(void);
+		void						acceptNewClient(void);
+		std::string					readMessage(int	fd_client);
+		void						runServer(void);
+		void						eraseClient(void);
+		void						signalHandler(int sig);
 		std::vector<struct pollfd>&	getTab();
-		pollfd&	getTabElement(size_t idx);
+		pollfd&						getTabElement(size_t idx);
 		// int		parseCmd(char* buff);
-		std::string		parseNick(const char* buff);
+		std::string					parseNick(const char* buff);
 };
 
 #endif

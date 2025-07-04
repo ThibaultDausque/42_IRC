@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 19:43:16 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/02 21:36:43 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/05 00:25:00 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ int executePart(User &user, std::map<std::string, Channel> &channels, std::strin
 	Channel						*chan;
 
 	if (params.size() < 2)
-		std::cout << errMsg << std::endl;
-		//send(user.getSocket(), errMsg.c_str(), errMsg.size(), 0);
+		send(user.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 	else {
 		std::vector<std::string>	channelParam = getVector(params[1], ',');
 		createReason(params, &reason, 2);
@@ -34,13 +33,11 @@ int executePart(User &user, std::map<std::string, Channel> &channels, std::strin
 			
 			if (chan == NULL) {
 				errMsg = ERR_NOSUCHCHANNEL(user.getNickname(), *it);
-				std::cout << errMsg << std::endl;
-				//send(user.getSocket(), errMsg.c_str(), errMsg.size(), 0);
+				send(user.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 			}
 			else if (!chan->isUserConnected(user.getNickname())) {
 				errMsg = ERR_NOTONCHANNEL(user.getNickname(), *it);
-				std::cout << errMsg << std::endl;
-				//send(user.getSocket(), errMsg.c_str(), errMsg.size(), 0);
+				send(user.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 			}
 			else {
 				chan->sendToEveryone(partMsg+chan->getName()+" "+reason);

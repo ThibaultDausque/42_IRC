@@ -22,7 +22,7 @@ SRCS = $(wildcard srcs/**/*.cpp) $(wildcard srcs/*.cpp)
 RM = rm -f
 OBJS_DIR = obj
 INCLUDES = -Iincludes -Isrcs
-OBJS = $(SRC:%.cpp=$(OBJS_DIR)/%.o)
+OBJS = $(SRCS:%.cpp=$(OBJS_DIR)/%.o)
 
 NAME = ircserv
 

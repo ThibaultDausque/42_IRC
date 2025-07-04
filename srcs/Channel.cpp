@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:56:40 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/04 00:30:19 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/05 00:24:12 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,10 +154,8 @@ void	Channel::addUser(User &user, bool isOperator)
 	if (doesChannelHaveATopic()) {
 		std::string	rplTopic = RPL_TOPIC(user.getNickname(), this->_name, this->_topic);
 		std::string	rplTopicWhoTime = RPL_TOPICWHOTIME(user.getNickname(), this->_name, this->_lastUserToChangeTopic, this->convertUNIXTimeToString());
-		//send(user.getSocket(), rplTopic.c_str(), rplTopic.size(), 0);
-		std::cout << rplTopic << std::endl;
-		//send(user.getSocket(), rplTopicWhoTime.c_str(), rplTopicWhoTime.size(), 0);
-		std::cout << rplTopicWhoTime << std::endl;
+		send(user.getSocket(), rplTopic.c_str(), rplTopic.size(), 0);
+		send(user.getSocket(), rplTopicWhoTime.c_str(), rplTopicWhoTime.size(), 0);
 	}
 	user.deleteAnInvitation(this->_name);
 }
@@ -184,8 +182,7 @@ void	Channel::kickUser(std::string userNickname, std::string originFullname, std
 	
 	for (std::map<User*, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
 		nick = (*it->first).getNickname();
-		std::cout << kickMsg << std::endl;
-		//send((*it->first).getSocket(), kickMsg.c_str(), kickMsg.size(), 0);
+		send((*it->first).getSocket(), kickMsg.c_str(), kickMsg.size(), 0);
 
 		if (nick == userNickname)
 			userToRemoveIter = it;
@@ -198,7 +195,6 @@ void	Channel::sendToEveryone(std::string message)
 	int	socket;
 	for (std::map<User*, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
 		socket = (*it->first).getSocket();
-		std::cout << message << std::endl;
 		send(socket, message.c_str(), message.size(), 0);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:27:00 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/04 05:09:39 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/05 00:16:37 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,22 +91,31 @@ Channel	*getChannelPtr(std::map<std::string, Channel> &channels, std::string cha
 	return (NULL);
 }
 
-bool	doesClientExist(std::vector<User*> &clients, std::string clientName)
+bool	doesClientExist(std::vector<User> &clients, std::string clientName)
 {
-	for (std::vector<User*>::iterator it = clients.begin(); it != clients.end(); ++it) {
-		if ((*it)->getNickname() == clientName)
+	for (std::vector<User>::iterator it = clients.begin(); it != clients.end(); ++it) {
+		if (it->getNickname() == clientName)
 			return (true);
 	}
 	return (false);
 }
 
-User	*getUserPtr(std::vector<User*> &clients, std::string clientName)
+User	*getUserPtr(std::vector<User> &clients, std::string clientName)
 {
-	for (std::vector<User*>::iterator it = clients.begin(); it != clients.end(); ++it) {
-		if ((*it)->getNickname() == clientName)
-			return (*it);
+	for (std::vector<User>::iterator it = clients.begin(); it != clients.end(); ++it) {
+		if (it->getNickname() == clientName)
+			return (&(*it));
 	}
 	return (NULL);
+}
+
+User	&getUserRfr(std::vector<User> &clients, int fd)
+{
+	for (std::vector<User>::iterator it = clients.begin(); it != clients.end(); ++it) {
+		if (it->getSocket() == fd)
+			return (*it);
+	}
+	return (clients[0]);
 }
 
 std::vector<std::string>	getVector(std::string strToSplit, char delimiter)

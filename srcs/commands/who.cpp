@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 04:31:44 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/04 05:16:56 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/05 00:26:27 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "NumericReply.hpp"
 #include "Command.hpp"
 
-int executeWho(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User*> users)
+int executeWho(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User> users)
 {
 	std::string 				rplWhoReply;
 	std::string 				flag = "H";
@@ -24,8 +24,7 @@ int executeWho(User &origin, std::map<std::string, Channel> &channels, std::stri
 	User						*user;
 	
 	if (params.size() < 2)
-		std::cout << errMsg << std::endl;
-		//send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
+		send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 	else {
 		std::string rplEndOfWho = RPL_ENDOFWHO(origin.getNickname(), params[1]);
 		chan = getChannelPtr(channels, params[1]);
@@ -40,8 +39,7 @@ int executeWho(User &origin, std::map<std::string, Channel> &channels, std::stri
 					flag = "H@";
 
 				rplWhoReply = RPL_WHOREPLY(origin.getNickname(), params[1], user->getUsername(), user->getHostname(), SERVER_HOSTNAME, user->getNickname(), flag, user->getRealname());
-				std::cout << rplWhoReply << std::endl;
-				//send(origin.getSocket(), rplWhoReply.c_str(), rplWhoReply.size(), 0);
+				send(origin.getSocket(), rplWhoReply.c_str(), rplWhoReply.size(), 0);
 			}
 		}
 		else if (!isReceiverAChannel(params[1]) && user != NULL) {
@@ -56,11 +54,9 @@ int executeWho(User &origin, std::map<std::string, Channel> &channels, std::stri
 				}
 			}
 			rplWhoReply = RPL_WHOREPLY(origin.getNickname(), channel, user->getUsername(), user->getHostname(), SERVER_HOSTNAME, user->getNickname(), flag, user->getRealname());
-			std::cout << rplWhoReply << std::endl;
-			//send(origin.getSocket(), rplWhoReply.c_str(), rplWhoReply.size(), 0);
+			send(origin.getSocket(), rplWhoReply.c_str(), rplWhoReply.size(), 0);
 		}
-		std::cout << rplEndOfWho << std::endl;
-		//send(origin.getSocket(), rplEndOfWho.c_str(), rplEndOfWho.size(), 0);
+		send(origin.getSocket(), rplEndOfWho.c_str(), rplEndOfWho.size(), 0);
 	}
 	return (0);
 }

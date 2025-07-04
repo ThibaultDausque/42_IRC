@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 13:53:41 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/04 04:42:58 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/05 00:25:19 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "Channel.hpp"
 #include "NumericReply.hpp"
 
-int executePrivmsg(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User*> users)
+int executePrivmsg(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User> users)
 {
 	std::map<User*, bool>		userList;
 	std::vector<std::string>	params = getVector(cmdline, ' ');
@@ -27,13 +27,11 @@ int executePrivmsg(User &origin, std::map<std::string, Channel> &channels, std::
 	
 	if (params.size() == 1) {
 		errMsg = ERR_NORECIPIENT(origin.getNickname(), "PRIVMSG");
-		std::cout << errMsg << std::endl;
-		//send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
+		send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 	}
 	else if (params.size() == 2) {
 		errMsg = ERR_NOTEXTTOSEND(origin.getNickname());
-		std::cout << errMsg << std::endl;
-		//send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
+		send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 	}
 	else
 	{
@@ -45,8 +43,7 @@ int executePrivmsg(User &origin, std::map<std::string, Channel> &channels, std::
 			sentMsg = ":"+origin.getFullName()+" PRIVMSG "+(*receiverIt)+" "+text;
 			
 			if (!doesChannelExist(channels, *receiverIt) && !doesClientExist(users, *receiverIt))
-				std::cout << errMsg << std::endl;
-				//send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
+				send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 			else if (isReceiverAChannel(*receiverIt)) {
 				chan = getChannelPtr(channels, *receiverIt);
 				userList = chan->getUsers();
@@ -54,14 +51,12 @@ int executePrivmsg(User &origin, std::map<std::string, Channel> &channels, std::
 				for (std::map<User*, bool>::iterator userIt = userList.begin(); userIt != userList.end(); ++userIt) {
 					user = userIt->first;
 					if (user->getNickname() != origin.getNickname())
-						std::cout << sentMsg << std::endl;
-						//send(user->getSocket(), sentMsg.c_str(), sentMsg.size(), 0);
+						send(user->getSocket(), sentMsg.c_str(), sentMsg.size(), 0);
 				}
 			}
 			else if (!isReceiverAChannel(*receiverIt)) {
 				user = getUserPtr(users, *receiverIt);
-				std::cout << sentMsg << std::endl;
-				//send(user->getSocket(), sentMsg.c_str(), sentMsg.size(), 0);
+				send(user->getSocket(), sentMsg.c_str(), sentMsg.size(), 0);
 			}
 		}
 	}

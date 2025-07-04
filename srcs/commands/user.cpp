@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 16:26:42 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/02 20:32:07 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/05 00:26:11 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,9 @@ int	executeUser(User &user, std::string cmdline)
 	std::string errAlreadyRegistred = ERR_ALREADYREGISTRED(userNick);
 	
 	if (user.isUsernameRegistered())
-		std::cout << errAlreadyRegistred << std::endl;
-		//send(user->getSocket(), errAlreadyRegistred.c_str(), errAlreadyRegistred.size(), 0);
+		send(user.getSocket(), errAlreadyRegistred.c_str(), errAlreadyRegistred.size(), 0);
 	else if (params.size() < 5)
-		std::cout << errNeedMoreParam << std::endl;
-		//send(user->getSocket(), errNeedMoreParam.c_str(), errNeedMoreParam.size(), 0);
+		send(user.getSocket(), errNeedMoreParam.c_str(), errNeedMoreParam.size(), 0);
 	else
 	{
 		if (userNick == "*")
