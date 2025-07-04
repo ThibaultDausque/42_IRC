@@ -1,8 +1,6 @@
 #include "Server.hpp"
 #include <cerrno>
 
-bool cut = true;
-
 Server::Server(std::string _pwd, unsigned int _port)
 {
 	this->_serverFd = 0;
@@ -124,9 +122,7 @@ void	Server::readMessage(int fd_client)
 
 	memset(buff, 0, sizeof(buff));
 	bytes = recv(fd_client, buff, sizeof(buff) - 1, 0);
-	std::cout << buff << std::endl;
-	if (strcmp(buff, "/shutdown"))
-		cut = false;
+
 	if (bytes <= 0)
 	{
 		for (size_t i = 0; i < this->_tab.size(); i++)
@@ -151,7 +147,7 @@ void	Server::readMessage(int fd_client)
 	else
 	{
 		buff[bytes] = '\0';
-		std::cout << fd_client << ": "<< buff << std::endl;
+		std::cout << fd_client << ": " << buff << std::endl;
 	}
 }
 
