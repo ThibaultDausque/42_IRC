@@ -12,6 +12,8 @@ Server::Server(std::string _pwd, unsigned int _port)
 
 Server::~Server()
 {
+	for (size_t i = 0; i < _tab.size(); i++)
+		close(_tab[i].fd);
 
 }
 
@@ -32,7 +34,8 @@ int	Server::initServer(void)
 	// AF_INET = specifies the IPv4 protocol family
 	// SOCK_STREAM = defines that the TCP type socket
 	this->_serverFd = socket(AF_INET, SOCK_STREAM, 0);
-	
+	if (_serverFd == -1)
+		throw std::runtime_error("Error: server socket.");
 	// Structure for handling internet addresses
 	serverAddress.sin_family = AF_INET;
 	serverAddress.sin_port = htons(this->_port);
@@ -42,7 +45,10 @@ int	Server::initServer(void)
 	setsockopt(this->_serverFd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(yes));
 	// link a socket with an IP and a port
 	if (bind(_serverFd, (sockaddr *)&serverAddress, sizeof(serverAddress)))
-		throw(std::runtime_error("Error: bind failed\n"));
+	{
+		close(_serverFd);
+		throw(std::runtime_error("toto"));
+	}
 	// The Server listen on 5 port max
 	if (listen(_serverFd, 5))
 		throw(std::runtime_error("Error: listen failed\n"));
@@ -204,10 +210,11 @@ void	Server::runServer()
 					// receive client message
 
 					cmdline = readMessage(this->_tab[i].fd);
-					cmdline.erase(cmdline.size() - 2, 2);
-					cmd = cmdline.substr(0, cmdline.find(" "));
 
 					if (!cmdline.empty()) {
+						cmdline.erase(cmdline.size() - 2, 2);
+						cmd = cmdline.substr(0, cmdline.find(" "));
+
 						if (isCmdValid(cmd) && cmd == "USER")
 							executeUser(getUserRfr(_clients, this->_tab[i].fd), cmdline);
 						else if (isCmdValid(cmd) && cmd == "NICK")

@@ -1,9 +1,11 @@
 #include "Server.hpp"
 #include <csignal>
+#include <stdexcept>
 
 void	handle_signal(int sig)
 {
 	(void) sig;
+	throw std::runtime_error("* signal handled *");
 }
 
 int	main(int ac, char **av)
@@ -26,12 +28,17 @@ int	main(int ac, char **av)
 	// 	std::cout << "Error: " << server_port << " is incorrect." << std::endl;
 	// 	return 1;
 	// }
-	
-	Server	server("toto", 8080);
-	std::signal(SIGINT, handle_signal);
-	server.initServer();
-	server.runServer();
-	
-
+	//
+	try
+	{
+		Server	server("toto", 8080);
+		std::signal(SIGINT, handle_signal);
+		server.initServer();
+		server.runServer();
+	}
+	catch (const std::exception &e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
 	return 0;
 }
