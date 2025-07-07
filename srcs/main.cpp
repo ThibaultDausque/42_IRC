@@ -1,6 +1,7 @@
 #include "Server.hpp"
 #include <csignal>
 #include <stdexcept>
+#include <cctype>
 
 void	handle_signal(int sig)
 {
@@ -11,27 +12,41 @@ void	handle_signal(int sig)
 int	main(int ac, char **av)
 {
 
-	// std::string	server_pwd;
-	// unsigned int	server_port;
-	(void) av;
+	std::string	server_pwd;
+	unsigned int	server_port;
+	std::string		password;
 	if (ac != 3)
 	{
 		std::cout << "* three arguments needed *" << std::endl;
 		return 0;
 	}
 	
-	// server_pwd = av[2];
-	// server_port = atoi(av[1]);
-	
-	// if (server_port < 0 || server_port > 65535)
-	// {
-	// 	std::cout << "Error: " << server_port << " is incorrect." << std::endl;
-	// 	return 1;
-	// }
-	//
+	password = "tototutu";
+	server_pwd = av[2];
+	server_port = atoi(av[1]);
+	std::string	port(av[1]);
+	for (size_t i = 0; i < port.size(); i++)
+	{
+		if (!isdigit(av[1][i]))
+		{
+			std::cout << "Error: incorrect port." << std::endl;
+			return 1;
+		}
+	}
+	if (server_port < 0 || server_port > 65535)
+	{
+		std::cout << "Error: " << server_port << " is incorrect." << std::endl;
+		return 1;
+	}
+	else if (server_pwd != password)
+	{
+		std::cout << "Error: incorrect password." << std::endl;
+		return 1;	
+	}
+
 	try
 	{
-		Server	server("toto", 8080);
+		Server	server(password, server_port);
 		std::signal(SIGINT, handle_signal);
 		server.initServer();
 		server.runServer();
