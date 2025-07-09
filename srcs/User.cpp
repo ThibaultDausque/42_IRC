@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibault <thibault@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 13:01:39 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/08 15:23:27 by thibault         ###   ########.fr       */
+/*   Updated: 2025/07/09 22:31:39 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ User::User(int socket)
 	_username = "";
 	_hostname = "";
 	_realname = "";
-	_password = "";
 	_socket = socket;
+	_pwdEntered = false;
 }
 
 User::User(std::string nn, std::string un, std::string hn, std::string rn, int socket)
@@ -45,6 +45,7 @@ User::User(std::string nn, std::string un, std::string hn, std::string rn, int s
 	_hostname = hn;
 	_realname = rn;
 	_socket = socket;
+	_pwdEntered = false;
 }
 
 User::~User(void) {}
@@ -78,11 +79,6 @@ int	User::getSocket(void) const
 	return (this->_socket);
 }
 
-std::string	User::getPassword(void) const
-{
-	return this->_password;
-}
-
 void	User::setNickname(std::string &str)
 {
 	this->_nickname = str;
@@ -103,9 +99,9 @@ void	User::setRealname(std::string &str)
 	this->_realname = str;
 }
 
-void	User::setPassword(std::string &str)
+void	User::setPassword(bool val)
 {
-	this->_password = str;
+	this->_pwdEntered = val;
 }
 
 /*--------------
@@ -165,6 +161,11 @@ bool	User::isUserRegistered(void)
 		return (true);
 	}
 	return (false);
+}
+
+bool	User::isPwdEntered(void)
+{
+	return this->_pwdEntered;
 }
 
 std::string	User::getFullName(void)

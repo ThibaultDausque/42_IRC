@@ -166,16 +166,21 @@ void	Server::runServer()
 				else
 				{
 					// receive client message
-
 					cmdline = readMessage(this->_tab[i].fd);
 
 					if (!cmdline.empty()) {
 						cmdline.erase(cmdline.size() - 2, 2);
 						cmd = cmdline.substr(0, cmdline.find(" "));
-						std::cout << "* " << cmd << " *" << std::endl;
+
 						if (isCmdValid(cmd) && cmd == "PASS")
-							executePass(getUserRfr(_clients, this->_tab[i].fd), this->_serverPwd, *this);
-						if (isCmdValid(cmd) && cmd == "USER")
+							executePass(getUserRfr(_clients, this->_tab[i].fd), cmdline, this->_serverPwd);
+						else if (!getUserRfr(_clients, this->_tab[i].fd).isPwdEntered()) {
+							tmpNick = "*";
+							errMsg = ERR_NOTREGISTERED(tmpNick);
+							fd = getUserRfr(_clients, this->_tab[i].fd).getSocket();
+							send(fd, errMsg.c_str(), errMsg.size(), 0);
+						}
+						else if (isCmdValid(cmd) && cmd == "USER")
 							executeUser(getUserRfr(_clients, this->_tab[i].fd), cmdline);
 						else if (isCmdValid(cmd) && cmd == "NICK")
 							executeNick(getUserRfr(_clients, this->_tab[i].fd), _channels, cmdline, _clients);
@@ -217,4 +222,3 @@ void	Server::runServer()
 		}
 	}
 }
-

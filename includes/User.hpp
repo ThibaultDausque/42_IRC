@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibault <thibault@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 12:52:11 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/08 13:39:57 by thibault         ###   ########.fr       */
+/*   Updated: 2025/07/09 22:29:43 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,12 @@ class User
 		std::string getHostname(void) const;
 		std::string getRealname(void) const;
 		int         getSocket(void) const;
-		std::string	getPassword(void) const;
 		
 		void		setNickname(std::string &str);
 		void		setUsername(std::string &str);
 		void		setHostname(const char *str);
 		void		setRealname(std::string &str);
-		void		setPassword(std::string &str);
+		void		setPassword(bool val);
 		class HasInvalidCharacterException : public std::exception
 		{
 			public:
@@ -54,6 +53,7 @@ class User
 		bool		isUsernameRegistered(void);
 		bool		isNicknameRegistered(void);
 		bool		isUserRegistered(void);
+		bool		isPwdEntered(void);
 		std::string	getFullName(void);
 
 		bool operator<(const User &other) const;
@@ -64,9 +64,9 @@ class User
 		std::string 				_username;
 		std::string 				_hostname;
 		std::string 				_realname;
-		std::string					_password;
 		int							_socket;
 		std::set<std::string>		_inviteList;
+		bool						_pwdEntered;
 };
 
 std::ostream &operator<<(std::ostream &os, const User &user);

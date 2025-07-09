@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Command.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibault <thibault@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:21:20 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/09 14:14:19 by thibault         ###   ########.fr       */
+/*   Updated: 2025/07/09 22:51:09 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,6 @@ int executePart(User &user, std::map<std::string, Channel> &channels, std::strin
 int executeTopic(User &user, std::map<std::string, Channel> &channels, std::string cmdline);
 int executePing(User &user, std::string cmdline);
 int executeWho(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User> users);
-int	executePass(User &user, std::string serv_pwd, Server &server);
+int	executePass(User &user, std::string cmdline, std::string password);
 
 #endif
