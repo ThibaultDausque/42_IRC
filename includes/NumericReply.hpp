@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   NumericReply.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thibault <thibault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:24:32 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/04 05:48:53 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/08 16:21:56 by thibault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # define ERR_NOTREGISTERED(nick) ":"SERVER_HOSTNAME" 451 "+nick+" :You have not registered\r\n"
 # define ERR_NEEDMOREPARAM(nick, command) ":"SERVER_HOSTNAME" 461 "+nick+" "+command+" :Not enough parameters\r\n"
 # define ERR_ALREADYREGISTRED(nick) ":"SERVER_HOSTNAME" 462 "+nick+" :You may not reregister\r\n"
+# define ERR_PASSWDMISMATCH(nick) ":"SERVER_HOSTNAME" 464 "+nick+" :Password incorrect\r\n"
 # define ERR_CHANNELISFULL(nick, channel) ":"SERVER_HOSTNAME" 471 "+nick+" "+channel+" :Cannot join channel (+l)\r\n"
 # define ERR_INVITEONLYCHAN(nick, channel) ":"SERVER_HOSTNAME" 473 "+nick+" "+channel+" :Cannot join channel (+i)\r\n"
 # define ERR_BADCHANNELKEY(nick, channel) ":"SERVER_HOSTNAME" 475 "+nick+" "+channel+" :Cannot join channel (+k)\r\n"

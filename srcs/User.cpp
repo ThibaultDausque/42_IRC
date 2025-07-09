@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: thibault <thibault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 13:01:39 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/05 00:30:56 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/08 15:23:27 by thibault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ User::User(int socket)
 	_username = "";
 	_hostname = "";
 	_realname = "";
+	_password = "";
 	_socket = socket;
 }
 
@@ -77,6 +78,11 @@ int	User::getSocket(void) const
 	return (this->_socket);
 }
 
+std::string	User::getPassword(void) const
+{
+	return this->_password;
+}
+
 void	User::setNickname(std::string &str)
 {
 	this->_nickname = str;
@@ -95,6 +101,11 @@ void	User::setHostname(const char *str)
 void	User::setRealname(std::string &str)
 {
 	this->_realname = str;
+}
+
+void	User::setPassword(std::string &str)
+{
+	this->_password = str;
 }
 
 /*--------------

@@ -55,48 +55,6 @@ int	Server::initServer(void)
 	return 0;
 }
 
-std::string	Server::parseNick(const char *buff)
-{
-	std::string	message;
-	std::string	nickname;
-	char	nick[5] = "NICK";
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	while (buff[i])
-	{
-		if (buff[i] == nick[j])
-			j++;
-		else
-			j = 0;
-		if (nick[j] == '\0')
-			break ;
-		i++;
-	}
-	i++;
-	while (buff[i] == ' ')
-		i++;
-	while (buff[i] && buff[i] != '\n' && buff[i] != '\0')
-		nickname.push_back(buff[i++]);
-	return nickname;
-}
-//
-// int	Server::parseCmd(char *buff, User user)
-// {
-// 	if (cmd == "QUIT")
-// 	{
-// 		// erase the user
-// 		return 0;
-// 	}
-// 	else if (isCmdValid(cmd) && cmd == "JOIN")
-// 		executeJoin(user, channels, line);
-// 	else if (isCmdValid(cmd) && cmd == "NAMES")
-// 		executeNames(user, channels, line, &users);
-// 	return 1;
-// }
-
 void	Server::acceptNewClient()
 {
 	struct sockaddr_in	cli;
@@ -135,7 +93,7 @@ std::string	Server::readMessage(int fd_client)
 		{
 			if (this->_tab[i].fd == fd_client)
 			{
-				this->_tab.erase(this->_tab.begin() + 1);
+				this->_tab.erase(this->_tab.begin() + i);
 				break ;
 			}
 		}
@@ -214,7 +172,9 @@ void	Server::runServer()
 					if (!cmdline.empty()) {
 						cmdline.erase(cmdline.size() - 2, 2);
 						cmd = cmdline.substr(0, cmdline.find(" "));
-
+						std::cout << "* " << cmd << " *" << std::endl;
+						if (isCmdValid(cmd) && cmd == "PASS")
+							executePass(getUserRfr(_clients, this->_tab[i].fd), this->_serverPwd, *this);
 						if (isCmdValid(cmd) && cmd == "USER")
 							executeUser(getUserRfr(_clients, this->_tab[i].fd), cmdline);
 						else if (isCmdValid(cmd) && cmd == "NICK")
