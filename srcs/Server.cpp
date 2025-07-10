@@ -112,8 +112,14 @@ std::string	Server::readMessage(int fd_client)
 	else
 	{
 		buff[bytes] = '\0';
-		std::cout << fd_client << ": " << buff << std::endl;
-		return (std::string(buff));
+		std::string	std_buff(buff);
+		size_t	pos = std_buff.find("\r\n");
+		if (pos)
+		{
+			std::string	message = std_buff.substr(0, pos);
+			std::cout << fd_client << ": " << message << std::endl;
+			return message;
+		}
 	}
 }
 
