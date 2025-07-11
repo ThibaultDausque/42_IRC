@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 13:53:41 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/05 00:25:19 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/11 15:35:39 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,19 @@ int executePrivmsg(User &origin, std::map<std::string, Channel> &channels, std::
 				send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 			else if (isReceiverAChannel(*receiverIt)) {
 				chan = getChannelPtr(channels, *receiverIt);
-				userList = chan->getUsers();
-				
-				for (std::map<User*, bool>::iterator userIt = userList.begin(); userIt != userList.end(); ++userIt) {
-					user = userIt->first;
-					if (user->getNickname() != origin.getNickname())
-						send(user->getSocket(), sentMsg.c_str(), sentMsg.size(), 0);
+
+				if (!chan->isUserConnected(user->getNickname())) {
+					errMsg = ERR_CANNOTSENDTOCHAN(origin.getNickname(), *receiverIt);
+					send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
+				}
+				else {
+					userList = chan->getUsers();
+					
+					for (std::map<User*, bool>::iterator userIt = userList.begin(); userIt != userList.end(); ++userIt) {
+						user = userIt->first;
+						if (user->getNickname() != origin.getNickname())
+							send(user->getSocket(), sentMsg.c_str(), sentMsg.size(), 0);
+					}
 				}
 			}
 			else if (!isReceiverAChannel(*receiverIt)) {

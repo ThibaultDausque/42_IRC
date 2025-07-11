@@ -121,6 +121,7 @@ std::string	Server::readMessage(int fd_client)
 			return message;
 		}
 	}
+	return ("");
 }
 
 void	Server::runServer()
@@ -175,7 +176,7 @@ void	Server::runServer()
 					cmdline = readMessage(this->_tab[i].fd);
 
 					if (!cmdline.empty()) {
-						cmdline.erase(cmdline.size() - 2, 2);
+						//cmdline.erase(cmdline.size() - 2, 2);
 						cmd = cmdline.substr(0, cmdline.find(" "));
 
 						if (isCmdValid(cmd) && cmd == "PASS")

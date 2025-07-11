@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   NumericReply.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thibault <thibault@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:24:32 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/08 16:21:56 by thibault         ###   ########.fr       */
+/*   Updated: 2025/07/11 15:35:33 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 # define ERR_NOSUCHNICK(nick, nonexistant) ":"SERVER_HOSTNAME" 401 "+nick+" "+nonexistant+" :No such nick/channel\r\n" 
 # define ERR_NOSUCHCHANNEL(nick, channel) ":"SERVER_HOSTNAME" 403 "+nick+" "+channel+" :No such channel\r\n"
+# define ERR_CANNOTSENDTOCHAN(nick, channel) ":"SERVER_HOSTNAME" 404 "+nick+" "+channel+" :Cannot send to channel\r\n"
 # define ERR_NORECIPIENT(nick, command) ":"SERVER_HOSTNAME" 411 "+nick+" :No recipient given ("+command+")\r\n"
 # define ERR_NOTEXTTOSEND(nick) ":"SERVER_HOSTNAME" 412 "+nick+" :No text to send\r\n"
 # define ERR_UNKNOWNCOMMAND(nick, command) ":"SERVER_HOSTNAME" 421 "+nick+" "+command+" :Unknown command\r\n"
