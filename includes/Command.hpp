@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:21:20 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/11 17:00:24 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/11 20:39:51 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <vector>
 # include <map>
 # include <set>
+# include <limits.h>
+# include <errno.h>
 
 # include "Channel.hpp"
 # include "User.hpp"
@@ -62,5 +64,6 @@ int executeTopic(User &user, std::map<std::string, Channel> &channels, std::stri
 int executePing(User &user, std::string cmdline);
 int executeWho(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User> users);
 int	executePass(User &user, std::string cmdline, std::string password);
+int executeMode(User &user, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User> users);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 13:01:39 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/09 22:31:39 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/11 21:23:49 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ void	User::deleteAnInvitation(std::string channelName)
 
 bool	User::isInvitedTo(std::string channelName)
 {
-	std::string caca = (channelName);
 	std::set<std::string>::iterator it;
 	
 	for (it = _inviteList.begin(); it != _inviteList.end(); ++it) {

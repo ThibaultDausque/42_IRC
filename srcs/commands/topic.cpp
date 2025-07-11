@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 22:57:53 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/05 01:20:16 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/11 18:38:08 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int executeTopic(User &user, std::map<std::string, Channel> &channels, std::stri
 		else if (topic.empty()) {
 			if (chan->doesChannelHaveATopic()) {
 				std::string	rplTopic = RPL_TOPIC(user.getNickname(), chan->getName(), chan->getTopic());
-				std::string	rplTopicWhoTime = RPL_TOPICWHOTIME(user.getNickname(), chan->getName(), chan->getLastUserToChangeTopic(), chan->convertUNIXTimeToString());
+				std::string	rplTopicWhoTime = RPL_TOPICWHOTIME(user.getNickname(), chan->getName(), chan->getLastUserToChangeTopic(), chan->convertUNIXTimeToString(chan->getLastTimeTopicChange()));
 				send(user.getSocket(), rplTopic.c_str(), rplTopic.size(), 0);
 				send(user.getSocket(), rplTopicWhoTime.c_str(), rplTopicWhoTime.size(), 0);
 			}

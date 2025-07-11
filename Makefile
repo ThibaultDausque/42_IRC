@@ -17,7 +17,8 @@ SRC_COM = srcs/commands/Command.cpp \
 		srcs/commands/user.cpp \
 		srcs/commands/ping.cpp \
 		srcs/commands/who.cpp \
-		srcs/commands/Pass.cpp
+		srcs/commands/pass.cpp \
+		srcs/commands/mode.cpp
 
 SRCS = $(wildcard srcs/**/*.cpp) $(wildcard srcs/*.cpp)
 RM = rm -f

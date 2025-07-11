@@ -168,6 +168,8 @@ int	Server::runCommands(std::string cmdline, int tabIndex)
 			executePing(user, cmdline);
 		else if (cmd == "WHO")
 			executeWho(user, _channels, cmdline, _clients);
+		else if (cmd == "MODE")
+			executeMode(user, _channels, cmdline, _clients);
 		else {
 			errMsg =  ERR_UNKNOWNCOMMAND(user.getNickname(), cmd);
 			send(fd, errMsg.c_str(), errMsg.size(), 0);

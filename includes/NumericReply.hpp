@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:24:32 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/11 15:35:33 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/11 19:05:38 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # define ERR_ALREADYREGISTRED(nick) ":"SERVER_HOSTNAME" 462 "+nick+" :You may not reregister\r\n"
 # define ERR_PASSWDMISMATCH(nick) ":"SERVER_HOSTNAME" 464 "+nick+" :Password incorrect\r\n"
 # define ERR_CHANNELISFULL(nick, channel) ":"SERVER_HOSTNAME" 471 "+nick+" "+channel+" :Cannot join channel (+l)\r\n"
+# define ERR_UNKNOWNMODE(nick, mode) ":"SERVER_HOSTNAME" 472 "+nick+" "+mode+" :is unknown mode char to me\r\n"
 # define ERR_INVITEONLYCHAN(nick, channel) ":"SERVER_HOSTNAME" 473 "+nick+" "+channel+" :Cannot join channel (+i)\r\n"
 # define ERR_BADCHANNELKEY(nick, channel) ":"SERVER_HOSTNAME" 475 "+nick+" "+channel+" :Cannot join channel (+k)\r\n"
 # define ERR_CHANOPRIVSNEEDED(nick, channel) ":"SERVER_HOSTNAME" 482 "+nick+" "+channel+" :You're not channel operator\r\n"
@@ -44,6 +45,8 @@
 # define RPL_MYINFO(nick) ":"SERVER_HOSTNAME" 004 "+nick+" irc.42angouleme.fr version 4.2 o iklt kl\r\n"
 # define RPL_ISUPPORT(nick) ":"SERVER_HOSTNAME" 005 "+nick+" CHANMODES=,k,l,it CHANTYPES=#& PREFIX=@ :are supported by this server\r\n"
 # define RPL_ENDOFWHO(nick, mask) ":"SERVER_HOSTNAME" 315 "+nick+" "+mask+" :End of WHO list\r\n"
+# define RPL_CHANNELMODEIS(nick, channel, modes, modes_arg) ":"SERVER_HOSTNAME" 324 "+nick+" "+channel+" "+modes+" "+modes_arg+"\r\n"
+# define RPL_CREATIONTIME(nick, channel, creationtime) ":"SERVER_HOSTNAME" 329 "+nick+" "+channel+" "+creationtime+"\r\n"
 # define RPL_NOTOPIC(nick, channel) ":"SERVER_HOSTNAME" 331 "+nick+" "+channel+" :No topic is set\r\n"
 # define RPL_TOPIC(nick, channel, topic) ":"SERVER_HOSTNAME" 332 "+nick+" "+channel+" :"+topic+"\r\n"
 # define RPL_TOPICWHOTIME(nick, channel, fullname, setat) ":"SERVER_HOSTNAME" 333 "+nick+" "+channel+" "+fullname+" "+setat+"\r\n"

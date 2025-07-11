@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:49:41 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/04 00:29:50 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/11 19:27:10 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ class   Channel
 		std::string				getKey(void);
 		int						getUserLimit(void);
 		std::time_t				getLastTimeTopicChange(void);
+		std::time_t				getCreationTime(void);
 		std::string				getLastUserToChangeTopic(void);
 
 		// SETTERS
@@ -65,7 +66,7 @@ class   Channel
 		void					takeUserOperator(std::string userNickname);
 
 		// MODES
-		void					changeMode(std::string modeToAdd);
+		void					changeMode(std::string mode);
 		bool					isChannelProtected(void);
 		bool					onInviteMode(void);
 		bool					onLimiteMode(void);
@@ -74,7 +75,7 @@ class   Channel
 		// OTHERS
 		bool					doesChannelHaveATopic(void);
 		int						getChannelSize(void);
-		std::string				convertUNIXTimeToString(void);
+		std::string				convertUNIXTimeToString(time_t time);
 
 		~Channel(void);
 	private :
@@ -85,6 +86,7 @@ class   Channel
 		std::string				_key;
 		int						_userLimit;
 		std::time_t				_lastTopicChange;
+		std::time_t				_creationTime;
 		std::string				_lastUserToChangeTopic;
 };
 

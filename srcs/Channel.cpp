@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:56:40 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/05 00:24:12 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/11 23:24:50 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ Channel::Channel(std::string name)
 	this->_userLimit = -1;
 	this->_lastTopicChange = 0;
 	this->_lastUserToChangeTopic = "";
+	this->_creationTime = std::time(0);
 }
 
 Channel::Channel(std::string name, std::string topic, std::string modes, std::string key, int limit)
@@ -48,6 +49,7 @@ Channel::Channel(std::string name, std::string topic, std::string modes, std::st
 	this->_userLimit = limit;
 	this->_lastTopicChange = 0;
 	this->_lastUserToChangeTopic = "";
+	this->_creationTime = std::time(0);
 }
 
 Channel::~Channel(void) {}
@@ -89,6 +91,11 @@ int	Channel::getUserLimit(void)
 std::time_t	Channel::getLastTimeTopicChange(void)
 {
 	return (this->_lastTopicChange);
+}
+
+std::time_t	Channel::getCreationTime(void)
+{
+	return (this->_creationTime);
 }
 
 std::string	Channel::getLastUserToChangeTopic(void)
@@ -146,18 +153,18 @@ bool	Channel::isUserOperator(std::string userNickname)
 void	Channel::addUser(User &user, bool isOperator)
 {
 	std::string	fullname = user.getFullName();
-	std::string	joinMsg = ":"+fullname+" JOIN "+this->_name+"\r\n";
+	std::string	joinMsg = ":"+fullname+" JOIN "+_name+"\r\n";
 
-	this->_users.insert(std::pair<User*, bool>(&user, isOperator));
-	this->sendToEveryone(joinMsg);
+	_users.insert(std::pair<User*, bool>(&user, isOperator));
+	sendToEveryone(joinMsg);
 	
 	if (doesChannelHaveATopic()) {
-		std::string	rplTopic = RPL_TOPIC(user.getNickname(), this->_name, this->_topic);
-		std::string	rplTopicWhoTime = RPL_TOPICWHOTIME(user.getNickname(), this->_name, this->_lastUserToChangeTopic, this->convertUNIXTimeToString());
+		std::string	rplTopic = RPL_TOPIC(user.getNickname(), _name, _topic);
+		std::string	rplTopicWhoTime = RPL_TOPICWHOTIME(user.getNickname(), _name, _lastUserToChangeTopic, convertUNIXTimeToString(_lastTopicChange));
 		send(user.getSocket(), rplTopic.c_str(), rplTopic.size(), 0);
 		send(user.getSocket(), rplTopicWhoTime.c_str(), rplTopicWhoTime.size(), 0);
 	}
-	user.deleteAnInvitation(this->_name);
+	user.deleteAnInvitation(_name);
 }
 
 void	Channel::removeUser(std::string userNickname)
@@ -219,10 +226,30 @@ void	Channel::takeUserOperator(std::string userNickname)
 	}
 }
 
-void	Channel::changeMode(std::string modeToAdd)
+void	Channel::changeMode(std::string mode)
 {
-	this->_modes.append(modeToAdd);
-	return ;
+	// checking if the mode is already added to the channel
+	for (std::string::iterator it = _modes.begin(); it != _modes.end(); ++it) {
+		if (mode.size() == 1 && mode[0] == *it)
+			return ;
+		if (mode.size() > 1 && mode[0] == '+' && mode[1] == *it)
+			return ;
+	}
+
+	if (mode.size() > 1) {
+		if (mode[0] == '+')
+			this->_modes.push_back(mode[1]);
+		else if (mode[0] == '-') {
+			for (std::string::iterator it = _modes.begin(); it != _modes.end(); ++it) {
+  				if (*it == mode[1]) {
+        			this->_modes.erase(it);
+					break ;
+				}
+			}
+		}
+	}
+	else
+		this->_modes.append(mode);
 }
 
 bool	Channel::isChannelProtected(void)
@@ -255,10 +282,10 @@ int	Channel::getChannelSize(void)
 	return (this->_users.size());
 }
 
-std::string	Channel::convertUNIXTimeToString(void)
+std::string	Channel::convertUNIXTimeToString(time_t time)
 {
 	std::stringstream ss;
-	ss << this->_lastTopicChange;
+	ss << time;
 	std::string lastChange = ss.str();
 
 	return (lastChange);
