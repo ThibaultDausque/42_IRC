@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 17:45:04 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/05 00:24:06 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/11 17:05:05 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int executeInvite(User &origin, std::map<std::string, Channel> &channels, std::s
 	std::vector<std::string>	params = getVector(cmdline, ' ');
 	std::string					errMsg;
 	std::string					rplInviting;
-	std::string					inviteMsg = origin.getFullName()+" INVITE ";
+	std::string					inviteMsg = ":"+origin.getFullName()+" INVITE ";
 	User						*user;
 	Channel						*chan;
 
