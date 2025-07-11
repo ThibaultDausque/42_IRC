@@ -124,6 +124,58 @@ std::string	Server::readMessage(int fd_client)
 	return ("");
 }
 
+int	Server::runCommands(std::string cmdline, int tabIndex)
+{
+	std::string		tmpNick;
+	User			&user = getUserRfr(_clients, tabIndex);
+	int				fd = user.getSocket();
+
+	if (user.getNickname() == "")
+		tmpNick = "*";
+	else
+		tmpNick = user.getNickname();
+	std::string errMsg = ERR_NOTREGISTERED(tmpNick);
+
+	if (!cmdline.empty()) {
+		//cmdline.erase(cmdline.size() - 2, 2);
+		std::string cmd = cmdline.substr(0, cmdline.find(" "));
+
+		if (cmd == "PASS")
+			executePass(user, cmdline, this->_serverPwd);
+		else if (!user.isPwdEntered())
+			send(fd, errMsg.c_str(), errMsg.size(), 0);
+		else if (isCmdValid(cmd) && cmd == "USER")
+			executeUser(user, cmdline);
+		else if (isCmdValid(cmd) && cmd == "NICK")
+			executeNick(user, _channels, cmdline, _clients);
+		else if (!user.isNicknameRegistered() || !user.isUsernameRegistered())
+			send(fd, errMsg.c_str(), errMsg.size(), 0);
+		else if (isCmdValid(cmd) && cmd == "JOIN")
+			executeJoin(user, _channels, cmdline);
+		else if (isCmdValid(cmd) && cmd == "NAMES")
+			executeNames(user, _channels, cmdline, &_clients);
+		else if (isCmdValid(cmd) && cmd == "KICK")
+			executeKick(user, _channels, cmdline);
+		else if (isCmdValid(cmd) && cmd == "PRIVMSG")
+			executePrivmsg(user, _channels, cmdline, _clients);
+		else if (isCmdValid(cmd) && cmd == "INVITE")
+			executeInvite(user, _channels, cmdline, _clients);
+		else if (isCmdValid(cmd) && cmd == "PART")
+			executePart(user, _channels, cmdline);
+		else if (isCmdValid(cmd) && cmd == "TOPIC")
+			executeTopic(user, _channels, cmdline);
+		else if (isCmdValid(cmd) && cmd == "PING")
+			executePing(user, cmdline);
+		else if (isCmdValid(cmd) && cmd == "WHO")
+			executeWho(user, _channels, cmdline, _clients);
+		else {
+			errMsg =  ERR_UNKNOWNCOMMAND(user.getNickname(), cmd);
+			send(fd, errMsg.c_str(), errMsg.size(), 0);
+		}
+	}
+	return (0);
+}
+
 void	Server::runServer()
 {
 	bool	run = false;
@@ -134,10 +186,6 @@ void	Server::runServer()
 	this->_tab.push_back(server_pollfd);
 
 	std::string	cmdline;
-	std::string cmd;
-	std::string tmpNick;
-	std::string	errMsg;
-	int			fd;
 
 	std::cout << "\e[1;36m╔───────────────────────────────────────────────╗" << std::endl;
 	std::cout << "\e[1;36m│   ███████╗████████╗     ██╗██████╗  ██████╗   │" << std::endl;
@@ -174,56 +222,7 @@ void	Server::runServer()
 				{
 					// receive client message
 					cmdline = readMessage(this->_tab[i].fd);
-
-					if (!cmdline.empty()) {
-						//cmdline.erase(cmdline.size() - 2, 2);
-						cmd = cmdline.substr(0, cmdline.find(" "));
-
-						if (isCmdValid(cmd) && cmd == "PASS")
-							executePass(getUserRfr(_clients, this->_tab[i].fd), cmdline, this->_serverPwd);
-						else if (!getUserRfr(_clients, this->_tab[i].fd).isPwdEntered()) {
-							tmpNick = "*";
-							errMsg = ERR_NOTREGISTERED(tmpNick);
-							fd = getUserRfr(_clients, this->_tab[i].fd).getSocket();
-							send(fd, errMsg.c_str(), errMsg.size(), 0);
-						}
-						else if (isCmdValid(cmd) && cmd == "USER")
-							executeUser(getUserRfr(_clients, this->_tab[i].fd), cmdline);
-						else if (isCmdValid(cmd) && cmd == "NICK")
-							executeNick(getUserRfr(_clients, this->_tab[i].fd), _channels, cmdline, _clients);
-						else if (!getUserRfr(_clients, this->_tab[i].fd).isNicknameRegistered() || !getUserRfr(_clients, this->_tab[i].fd).isUsernameRegistered()) {
-							if (getUserRfr(_clients, this->_tab[i].fd).getNickname() == "")
-								tmpNick = "*";
-							else
-								tmpNick = getUserRfr(_clients, this->_tab[i].fd).getNickname();
-							errMsg = ERR_NOTREGISTERED(tmpNick);
-							fd = getUserRfr(_clients, this->_tab[i].fd).getSocket();
-							send(fd, errMsg.c_str(), errMsg.size(), 0);
-						}
-						else if (isCmdValid(cmd) && cmd == "JOIN")
-							executeJoin(getUserRfr(_clients, this->_tab[i].fd), _channels, cmdline);
-						else if (isCmdValid(cmd) && cmd == "NAMES")
-							executeNames(getUserRfr(_clients, this->_tab[i].fd), _channels, cmdline, &_clients);
-						else if (isCmdValid(cmd) && cmd == "KICK")
-							executeKick(getUserRfr(_clients, this->_tab[i].fd), _channels, cmdline);
-						else if (isCmdValid(cmd) && cmd == "PRIVMSG")
-							executePrivmsg(getUserRfr(_clients, this->_tab[i].fd), _channels, cmdline, _clients);
-						else if (isCmdValid(cmd) && cmd == "INVITE")
-							executeInvite(getUserRfr(_clients, this->_tab[i].fd), _channels, cmdline, _clients);
-						else if (isCmdValid(cmd) && cmd == "PART")
-							executePart(getUserRfr(_clients, this->_tab[i].fd), _channels, cmdline);
-						else if (isCmdValid(cmd) && cmd == "TOPIC")
-							executeTopic(getUserRfr(_clients, this->_tab[i].fd), _channels, cmdline);
-						else if (isCmdValid(cmd) && cmd == "PING")
-							executePing(getUserRfr(_clients, this->_tab[i].fd), cmdline);
-						else if (isCmdValid(cmd) && cmd == "WHO")
-							executeWho(getUserRfr(_clients, this->_tab[i].fd), _channels, cmdline, _clients);
-						else {
-							errMsg =  ERR_UNKNOWNCOMMAND(getUserRfr(_clients, this->_tab[i].fd).getNickname(), cmd);
-							fd = getUserRfr(_clients, this->_tab[i].fd).getSocket();
-							send(fd, errMsg.c_str(), errMsg.size(), 0);
-						}
-					}
+					runCommands(cmdline, this->_tab[i].fd);
 				}
 			}
 		}

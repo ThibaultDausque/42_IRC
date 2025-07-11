@@ -39,6 +39,7 @@ class Server
 		std::vector<struct pollfd>&	getTab();
 		pollfd&						getTabElement(size_t idx);
 		std::string					parseNick(const char* buff);
+		int							runCommands(std::string cmdline, int tabIndex);
 };
 
 #endif

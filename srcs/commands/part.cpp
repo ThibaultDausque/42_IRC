@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 19:43:16 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/05 00:25:00 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/11 16:48:01 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int executePart(User &user, std::map<std::string, Channel> &channels, std::strin
 {
 	std::vector<std::string>	params = getVector(cmdline, ' ');
 	std::string					errMsg = ERR_NEEDMOREPARAM(user.getNickname(), "PART");
-	std::string					partMsg = user.getFullName()+" PART ";
+	std::string					partMsg = ":"+user.getFullName()+" PART ";
 	std::string					reason;
 	Channel						*chan;
 
