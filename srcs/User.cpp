@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 13:01:39 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/11 21:23:49 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/12 00:42:50 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,23 +110,26 @@ FUNCTIONS MEMBER
 
 void	User::addAnInvitation(std::string channelName)
 {
-	this->_inviteList.insert(channelName);
+	if (!isInvitedTo(channelName))
+		this->_inviteList.push_back(channelName);
 }
 
 void	User::deleteAnInvitation(std::string channelName)
 {
-	this->_inviteList.erase(channelName);
+	for (std::vector<std::string>::iterator it = _inviteList.begin(); it != _inviteList.end(); it++) {
+		std::cout << *it << std::endl;
+		if (*it == channelName) {
+			this->_inviteList.erase(it);
+			break ;
+		}
+	}
 }
 
 bool	User::isInvitedTo(std::string channelName)
 {
-	std::set<std::string>::iterator it;
-	
-	for (it = _inviteList.begin(); it != _inviteList.end(); ++it) {
-		if (*it == channelName)
-			return (true);
-	}
-	return (false);
+	for (std::vector<std::string>::iterator it = _inviteList.begin(); it != _inviteList.end(); it++)
+		std::cout << *it << std::endl;
+	return std::find(_inviteList.begin(), _inviteList.end(), channelName) != _inviteList.end();
 }
 
 bool	User::isNicknameRegistered(void)

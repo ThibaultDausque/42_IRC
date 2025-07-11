@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 12:52:11 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/09 22:29:43 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/12 00:39:28 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <vector>
 # include <set>
 # include <sys/socket.h>
+# include <algorithm>
 
 # include "NumericReply.hpp"
 
@@ -65,7 +66,7 @@ class User
 		std::string 				_hostname;
 		std::string 				_realname;
 		int							_socket;
-		std::set<std::string>		_inviteList;
+		std::vector<std::string>	_inviteList;
 		bool						_pwdEntered;
 };
 
