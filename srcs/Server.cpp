@@ -144,29 +144,29 @@ int	Server::runCommands(std::string cmdline, int tabIndex)
 			executePass(user, cmdline, this->_serverPwd);
 		else if (!user.isPwdEntered())
 			send(fd, errMsg.c_str(), errMsg.size(), 0);
-		else if (isCmdValid(cmd) && cmd == "USER")
+		else if (cmd == "USER")
 			executeUser(user, cmdline);
-		else if (isCmdValid(cmd) && cmd == "NICK")
+		else if (cmd == "NICK")
 			executeNick(user, _channels, cmdline, _clients);
 		else if (!user.isNicknameRegistered() || !user.isUsernameRegistered())
 			send(fd, errMsg.c_str(), errMsg.size(), 0);
-		else if (isCmdValid(cmd) && cmd == "JOIN")
+		else if (cmd == "JOIN")
 			executeJoin(user, _channels, cmdline);
-		else if (isCmdValid(cmd) && cmd == "NAMES")
+		else if (cmd == "NAMES")
 			executeNames(user, _channels, cmdline, &_clients);
-		else if (isCmdValid(cmd) && cmd == "KICK")
+		else if (cmd == "KICK")
 			executeKick(user, _channels, cmdline);
-		else if (isCmdValid(cmd) && cmd == "PRIVMSG")
+		else if (cmd == "PRIVMSG")
 			executePrivmsg(user, _channels, cmdline, _clients);
-		else if (isCmdValid(cmd) && cmd == "INVITE")
+		else if (cmd == "INVITE")
 			executeInvite(user, _channels, cmdline, _clients);
-		else if (isCmdValid(cmd) && cmd == "PART")
+		else if (cmd == "PART")
 			executePart(user, _channels, cmdline);
-		else if (isCmdValid(cmd) && cmd == "TOPIC")
+		else if (cmd == "TOPIC")
 			executeTopic(user, _channels, cmdline);
-		else if (isCmdValid(cmd) && cmd == "PING")
+		else if (cmd == "PING")
 			executePing(user, cmdline);
-		else if (isCmdValid(cmd) && cmd == "WHO")
+		else if (cmd == "WHO")
 			executeWho(user, _channels, cmdline, _clients);
 		else {
 			errMsg =  ERR_UNKNOWNCOMMAND(user.getNickname(), cmd);

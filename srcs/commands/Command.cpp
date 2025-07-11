@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:27:00 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/11 16:19:56 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/11 17:00:17 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,32 +44,6 @@ FUNCTIONS MEMBER
 /*-------
 FUNCTIONS
 ---------*/
-
-bool	isCmdValid(std::string cmd)
-{
-	std::string cmds[15] = {
-		"USER",
-		"NICK",
-		"PASS",
-		"QUIT",
-		"PRIVMSG",
-		"PING",
-		"WHO",
-		"JOIN",
-		"PART",
-		"MODE",
-		"TOPIC",
-		"INVITE",
-		"KICK",
-		"NAMES"
-	};
-
-	for (int i = 0; i < 15; i++) {
-		if (cmds[i] == cmd)
-			return true;
-	}
-	return false;
-}
 
 bool	doesChannelExist(std::map<std::string, Channel> &channels, std::string chanName)
 {

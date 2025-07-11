@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:21:20 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/09 22:51:09 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/11 17:00:24 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ class Command
 		std::vector<std::string>	args;
 };
 
-bool						isCmdValid(std::string cmd);
 bool						doesChannelExist(std::map<std::string, Channel> &channels, std::string chanName);
 Channel						*getChannelPtr(std::map<std::string, Channel> &channels, std::string chanName);
 bool						doesClientExist(std::vector<User> &clients, std::string clientName);
