@@ -5,7 +5,7 @@ SRC	= srcs/User.cpp \
 		srcs/Server.cpp \
 		srcs/Channel.cpp \
 
-SRC_COM = srcs/commands/Command.cpp \
+SRC_COM = srcs/commands/command_utils.cpp \
 		srcs/commands/join.cpp \
 		srcs/commands/names.cpp \
 		srcs/commands/invite.cpp \

@@ -6,13 +6,13 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 22:20:54 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/09 23:36:11 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/14 18:47:54 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "User.hpp"
-#include "Command.hpp"
-#include "NumericReply.hpp"
+#include "command.hpp"
+#include "numeric_reply.hpp"
 
 int	executePass(User &user, std::string cmdline, std::string password)
 {

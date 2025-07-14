@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   NumericReply.hpp                                   :+:      :+:    :+:   */
+/*   numeric_reply.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:24:32 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/14 17:57:23 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/14 18:47:58 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef NUMERICREPLY_HPP
-# define NUMERICREPLY_HPP
+#ifndef NUMERIC_REPLY_HPP
+# define NUMERIC_REPLY_HPP
 
 # define SERVER_HOSTNAME "irc.localhost.fr"
 # define CLIENT_HOSTNAME "irc.42angouleme.fr"

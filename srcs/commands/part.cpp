@@ -6,13 +6,13 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 19:43:16 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/11 16:48:01 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/14 18:47:54 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Channel.hpp"
-#include "NumericReply.hpp"
-#include "Command.hpp"
+#include "numeric_reply.hpp"
+#include "command.hpp"
 
 int executePart(User &user, std::map<std::string, Channel> &channels, std::string cmdline)
 {

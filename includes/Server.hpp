@@ -9,7 +9,7 @@
 # include <poll.h>
 # include <vector>
 # include "User.hpp"
-# include "Command.hpp"
+# include "command.hpp"
 # include "Channel.hpp"
 # include <map>
 # include <string.h>

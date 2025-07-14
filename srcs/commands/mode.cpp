@@ -6,12 +6,12 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 17:14:46 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/14 18:06:51 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/14 18:47:54 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "NumericReply.hpp"
-#include "Command.hpp"
+#include "numeric_reply.hpp"
+#include "command.hpp"
 #include "User.hpp"
 
 

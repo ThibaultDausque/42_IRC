@@ -6,14 +6,14 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 17:28:58 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/05 00:24:03 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/14 18:47:54 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "NumericReply.hpp"
+#include "numeric_reply.hpp"
 #include "User.hpp"
 #include "Channel.hpp"
-#include "Command.hpp"
+#include "command.hpp"
 
 void	printUsersInChannel(User &origin, std::map<std::string, Channel> &channels, std::string chanName)
 {

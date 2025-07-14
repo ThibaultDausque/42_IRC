@@ -6,13 +6,13 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 13:53:41 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/14 17:21:23 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/14 18:47:54 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Command.hpp"
+#include "command.hpp"
 #include "Channel.hpp"
-#include "NumericReply.hpp"
+#include "numeric_reply.hpp"
 
 int executePrivmsg(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User> &users)
 {

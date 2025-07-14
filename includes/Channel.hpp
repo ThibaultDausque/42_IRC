@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:49:41 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/11 19:27:10 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/14 18:47:54 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <sstream>
 
 # include "User.hpp"
-# include "NumericReply.hpp"
+# include "numeric_reply.hpp"
 
 class   Channel
 {

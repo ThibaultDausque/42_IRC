@@ -1,49 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Command.cpp                                        :+:      :+:    :+:   */
+/*   comman_utils.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:27:00 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/11 17:00:17 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/14 18:45:01 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Command.hpp"
-
-/*-------------------------
-CONSTRUCTORS AND DESTRUCTOR
----------------------------*/
-
-Command::Command(std::string cmd, std::string pre, std::string line) : c_cmd(cmd), c_prefix(pre)
-{
-	args.push_back(line);
-}
-
-Command::~Command() {}
-
-/*-----
-GETTERS
--------*/
-
-std::string	Command::getCmd(void) const
-{
-	return (this->c_cmd);
-}
-
-std::string	Command::getPrefix(void) const
-{
-	return (this->c_prefix);
-}
-
-/*--------------
-FUNCTIONS MEMBER
-----------------*/
-
-/*-------
-FUNCTIONS
----------*/
+#include "command.hpp"
 
 bool	doesChannelExist(std::map<std::string, Channel> &channels, std::string chanName)
 {

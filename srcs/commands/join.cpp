@@ -6,14 +6,14 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 16:26:24 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/12 00:16:47 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/14 18:47:54 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "User.hpp"
 #include "Channel.hpp"
-#include "NumericReply.hpp"
-#include "Command.hpp"
+#include "numeric_reply.hpp"
+#include "command.hpp"
 
 #include <sstream>
 

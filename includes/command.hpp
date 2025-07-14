@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Command.hpp                                        :+:      :+:    :+:   */
+/*   command.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:21:20 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/14 17:19:23 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/14 18:44:20 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,6 @@
 # include "Channel.hpp"
 # include "User.hpp"
 # include "Server.hpp"
-
-class Server;
-
-class Command
-{
-	public :
-		Command(std::string cmd, std::string pre, std::string line);
-
-		std::string	getCmd(void) const;
-		std::string	getPrefix(void) const;
-
-		~Command(void);
-	private :
-		const std::string			c_cmd;
-		const std::string			c_prefix;
-		std::vector<std::string>	args;
-};
 
 bool						doesChannelExist(std::map<std::string, Channel> &channels, std::string chanName);
 Channel						*getChannelPtr(std::map<std::string, Channel> &channels, std::string chanName);

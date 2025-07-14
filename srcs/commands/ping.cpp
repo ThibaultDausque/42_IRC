@@ -6,13 +6,13 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 03:46:33 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/05 00:24:59 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/14 18:47:54 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Command.hpp"
+#include "command.hpp"
 #include "Channel.hpp"
-#include "NumericReply.hpp"
+#include "numeric_reply.hpp"
 
 int executePing(User &user, std::string cmdline)
 {

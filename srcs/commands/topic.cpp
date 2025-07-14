@@ -6,13 +6,13 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 22:57:53 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/11 18:38:08 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/14 18:47:54 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "NumericReply.hpp"
+#include "numeric_reply.hpp"
 #include "Channel.hpp"
-#include "Command.hpp"
+#include "command.hpp"
 
 int executeTopic(User &user, std::map<std::string, Channel> &channels, std::string cmdline)
 {
