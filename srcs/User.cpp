@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 13:01:39 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/14 17:25:05 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/14 19:51:19 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	User::setUsername(std::string &str)
 	this->_username = str;
 }
 
-void	User::setHostname(const char *str)
+void	User::setHostname(std::string &str)
 {
 	this->_hostname = str;
 }

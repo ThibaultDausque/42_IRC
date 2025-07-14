@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 12:52:11 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/14 18:47:54 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/14 19:51:31 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ class User
 		
 		void		setNickname(std::string &str);
 		void		setUsername(std::string &str);
-		void		setHostname(const char *str);
+		void		setHostname(std::string &str);
 		void		setRealname(std::string &str);
 		void		setPassword(bool val);
 		class HasInvalidCharacterException : public std::exception

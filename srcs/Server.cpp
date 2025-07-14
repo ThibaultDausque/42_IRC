@@ -89,25 +89,25 @@ std::string	Server::readMessage(int fd_client)
 
 	if (bytes <= 0)
 	{
-		for (size_t i = 0; i < this->_tab.size(); i++)
-		{
-			if (this->_tab[i].fd == fd_client)
-			{
-				this->_tab.erase(this->_tab.begin() + i);
-				break ;
-			}
-		}
-		for (size_t i = 0; i < this->_clients.size(); i++)
-		{
-			if (this->_clients[i].getSocket() == fd_client)
-			{
-				this->_clients.erase(this->_clients.begin() + i);
-				break ;
-			}
-		}
+		// for (size_t i = 0; i < this->_tab.size(); i++)
+		// {
+		// 	if (this->_tab[i].fd == fd_client)
+		// 	{
+		// 		this->_tab.erase(this->_tab.begin() + i);
+		// 		break ;
+		// 	}
+		// }
+		// for (size_t i = 0; i < this->_clients.size(); i++)
+		// {
+		// 	if (this->_clients[i].getSocket() == fd_client)
+		// 	{
+		// 		this->_clients.erase(this->_clients.begin() + i);
+		// 		break ;
+		// 	}
+		// }
 		std::cout << "* client " << fd_client << " disconnected *" << std::endl;
-		close(fd_client);
-		return ("");
+		// close(fd_client);
+		// return ("");
 	}
 	else
 	{
@@ -170,6 +170,8 @@ int	Server::runCommands(std::string cmdline, int tabIndex)
 			executeWho(user, _channels, cmdline, _clients);
 		else if (cmd == "MODE")
 			executeMode(user, _channels, cmdline, _clients);
+		else if (cmd == "QUIT")
+			executeQuit(user, _channels, cmdline, _clients, _tab);
 		else {
 			errMsg =  ERR_UNKNOWNCOMMAND(user.getNickname(), cmd);
 			send(fd, errMsg.c_str(), errMsg.size(), 0);

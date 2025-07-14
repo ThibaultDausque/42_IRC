@@ -18,13 +18,13 @@
 class Server
 {
 	private:
-		int				_serverFd;
-		std::string		_serverIp;
-		std::string		_serverPwd;
-		unsigned int	_port;
-		bool			_connected;
-		std::vector<User>	_clients;
-		std::vector<struct pollfd>	_tab;
+		int								_serverFd;
+		std::string						_serverIp;
+		std::string						_serverPwd;
+		unsigned int					_port;
+		bool							_connected;
+		std::vector<User>				_clients;
+		std::vector<struct pollfd>		_tab;
 		std::map<std::string, Channel>	_channels;
 
 	public:

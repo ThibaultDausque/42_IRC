@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 16:26:42 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/14 18:47:54 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/14 19:51:48 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ int	executeUser(User &user, std::string cmdline)
 			user.setUsername(username);
 		}
 
-		user.setHostname(CLIENT_HOSTNAME);
+		std::string	hostname = CLIENT_HOSTNAME;
+		user.setHostname(hostname);
 
 		if (params[4].size() < 2 || params[4][0] != ':')
 			user.setRealname(params[4]);
