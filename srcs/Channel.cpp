@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:56:40 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/11 23:24:50 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/14 17:52:59 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,8 +228,9 @@ void	Channel::takeUserOperator(std::string userNickname)
 
 void	Channel::changeMode(std::string mode)
 {
+	std::string::iterator it;
 	// checking if the mode is already added to the channel
-	for (std::string::iterator it = _modes.begin(); it != _modes.end(); ++it) {
+	for (it = _modes.begin(); it != _modes.end(); ++it) {
 		if (mode.size() == 1 && mode[0] == *it)
 			return ;
 		if (mode.size() > 1 && mode[0] == '+' && mode[1] == *it)
@@ -240,7 +241,7 @@ void	Channel::changeMode(std::string mode)
 		if (mode[0] == '+')
 			this->_modes.push_back(mode[1]);
 		else if (mode[0] == '-') {
-			for (std::string::iterator it = _modes.begin(); it != _modes.end(); ++it) {
+			for (it = _modes.begin(); it != _modes.end(); ++it) {
   				if (*it == mode[1]) {
         			this->_modes.erase(it);
 					break ;

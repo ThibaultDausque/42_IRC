@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 17:14:46 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/11 23:28:25 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/14 18:06:51 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,11 @@ static void	builtModeMsg(std::string &msg, char sign, char mode, char &lastSignS
 	lastSignSent = sign;
 }
 
-int executeMode(User &user, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User> users)
+int executeMode(User &user, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User> &users)
 {
 	int							modeArgIndex = 3;
 	char						sign = '+';
 	char						lastSignSent = '+';
-	std::string					modeWithSign;
 	std::string					errMsg;
 	std::string					modeMsg = ":"+user.getFullName()+" MODE ";
 	std::string					modesArg;
@@ -123,46 +122,51 @@ int executeMode(User &user, std::map<std::string, Channel> &channels, std::strin
 				if (modeParam[index] == '+' || modeParam[index] == '-')
 					sign = modeParam[index];
 				else if (modeParam[index] == 't') {
-					if ((sign == '+' && !chan->onTopicRestrictedMode()) || (sign == '-' && chan->onTopicRestrictedMode())) {
-						modeWithSign.push_back(sign);
-						modeWithSign.push_back(modeParam[index]);
-						chan->changeMode(modeWithSign);
-						builtModeMsg(modeMsg, sign, 't', lastSignSent);
+					if (sign == '+' && !chan->onTopicRestrictedMode()) {
+						chan->changeMode("+t");
+						builtModeMsg(modeMsg, '+', 't', lastSignSent);
+					}
+					else if (sign == '-' && chan->onTopicRestrictedMode()) {
+						chan->changeMode("-t");
+						builtModeMsg(modeMsg, '-', 't', lastSignSent);
 					}
 				}
 				else if (modeParam[index] == 'i') {
-					if ((sign == '+' && !chan->onInviteMode()) || (sign == '-' && chan->onInviteMode())) {
-						modeWithSign.push_back(sign);
-						modeWithSign.push_back(modeParam[index]);
-						chan->changeMode(modeWithSign);
-						builtModeMsg(modeMsg, sign, 'i', lastSignSent);
+					if (sign == '+' && !chan->onInviteMode()) {
+						chan->changeMode("+i");
+						builtModeMsg(modeMsg, '+', 'i', lastSignSent);
+					}
+					else if (sign == '-' && chan->onInviteMode()) {
+						chan->changeMode("-i");
+						builtModeMsg(modeMsg, '-', 'i', lastSignSent);
 					}
 				}
 				else if (modeParam[index] == 'k') {
-					if ((sign == '+' || (sign == '-' && chan->isChannelProtected()))) {
-						modeWithSign.push_back(sign);
-						modeWithSign.push_back(modeParam[index]);
-						chan->changeMode(modeWithSign);
+					if (sign == '+') {
+						chan->changeMode("+k");
 						chan->setKey(params[modeArgIndex]);
-						builtModeMsg(modeMsg, sign, 'k', lastSignSent);
-						if (sign == '-')
-							modesArg.append("* ");
-						else
-							modesArg.append(params[modeArgIndex]+" ");
+						builtModeMsg(modeMsg, '+', 'k', lastSignSent);
+						modesArg.append(params[modeArgIndex]+" ");
+						modeArgIndex++;
+					}
+					else if (sign == '-' && chan->isChannelProtected()) {
+						chan->changeMode("-k");
+						builtModeMsg(modeMsg, '-', 'k', lastSignSent);
+						modesArg.append("* ");
 						modeArgIndex++;
 					}
 				}
 				else if (modeParam[index] == 'l') {
-					if ((sign == '+' && ft_stoi(params[modeArgIndex]) > 0) || (sign == '-' && chan->onLimiteMode())) {
-						modeWithSign.push_back(sign);
-						modeWithSign.push_back(modeParam[index]);
-						chan->changeMode(modeWithSign);
-						builtModeMsg(modeMsg, sign, 'l', lastSignSent);
-						if (sign == '+') {
-							modesArg.append(params[modeArgIndex]+" ");
-							chan->setUserLimit(ft_stoi(params[modeArgIndex]));
-							modeArgIndex++;
-						}
+					if ((sign == '+' && ft_stoi(params[modeArgIndex]) > 0)) {
+						chan->changeMode("+l");
+						builtModeMsg(modeMsg, '+', 'l', lastSignSent);
+						modesArg.append(params[modeArgIndex]+" ");
+						chan->setUserLimit(ft_stoi(params[modeArgIndex]));
+						modeArgIndex++;
+					}
+					else if (sign == '-' && chan->onLimiteMode()) {
+						chan->changeMode("-l");
+						builtModeMsg(modeMsg, '-', 'l', lastSignSent);
 					}
 				}
 				else if (modeParam[index] == 'o') {
@@ -189,7 +193,9 @@ int executeMode(User &user, std::map<std::string, Channel> &channels, std::strin
 					}
 				}
 			}
-			if (modeMsg != ":"+user.getFullName()+" MODE "+chan->getName()+" ") {
+			if (modeMsg != ":"+user.getFullName()+" MODE "+chan->getName()+" ") { //check si on a ajouté ou enlevé des modes
+				if (!modesArg.empty())
+					modesArg.erase(modesArg.size() - 1, 1); // delete le dernier ' '
 				modeMsg.append(" "+modesArg+"\r\n");
 				chan->sendToEveryone(modeMsg);
 			}

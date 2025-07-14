@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 12:52:11 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/12 00:39:28 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/14 17:25:10 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ class User
 				}
 		};
 
+		bool		isInvitedTo(std::string channelName);
 		void		addAnInvitation(std::string channelName);
 		void		deleteAnInvitation(std::string channelName);
-		bool		isInvitedTo(std::string channelName);
 		bool		isUsernameRegistered(void);
 		bool		isNicknameRegistered(void);
 		bool		isUserRegistered(void);

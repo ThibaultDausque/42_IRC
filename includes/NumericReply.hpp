@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 15:24:32 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/11 19:05:38 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/14 17:57:23 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@
 # define RPL_WELCOME(nick) ":"SERVER_HOSTNAME" 001 "+nick+" :Welcome to the 42Angouleme IRC Network, "+nick+"\r\n"
 # define RPL_YOURHOST(nick) ":"SERVER_HOSTNAME" 002 "+nick+" :Your host is irc.42angouleme.fr, running version 4.2\r\n"
 # define RPL_CREATED(nick) ":"SERVER_HOSTNAME" 003 "+nick+" :This server was created Tue Jun 10 2025 at 16:56:03 CET\r\n"
-# define RPL_MYINFO(nick) ":"SERVER_HOSTNAME" 004 "+nick+" irc.42angouleme.fr version 4.2 o iklt kl\r\n"
-# define RPL_ISUPPORT(nick) ":"SERVER_HOSTNAME" 005 "+nick+" CHANMODES=,k,l,it CHANTYPES=#& PREFIX=@ :are supported by this server\r\n"
+# define RPL_MYINFO(nick) ":"SERVER_HOSTNAME" 004 "+nick+" irc.42angouleme.fr version 4.2  iklot klo\r\n"
+# define RPL_ISUPPORT(nick) ":"SERVER_HOSTNAME" 005 "+nick+" CHANMODES=,ko,l,it CHANTYPES=#& PREFIX=@ :are supported by this server\r\n"
 # define RPL_ENDOFWHO(nick, mask) ":"SERVER_HOSTNAME" 315 "+nick+" "+mask+" :End of WHO list\r\n"
 # define RPL_CHANNELMODEIS(nick, channel, modes, modes_arg) ":"SERVER_HOSTNAME" 324 "+nick+" "+channel+" "+modes+" "+modes_arg+"\r\n"
 # define RPL_CREATIONTIME(nick, channel, creationtime) ":"SERVER_HOSTNAME" 329 "+nick+" "+channel+" "+creationtime+"\r\n"

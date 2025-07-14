@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 17:45:04 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/12 00:35:40 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/14 17:25:20 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "NumericReply.hpp"
 #include "Command.hpp"
 
-int executeInvite(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User> users)
+int executeInvite(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User> &users)
 {
 	std::vector<std::string>	params = getVector(cmdline, ' ');
 	std::string					errMsg;
@@ -58,15 +58,6 @@ int executeInvite(User &origin, std::map<std::string, Channel> &channels, std::s
 			send(origin.getSocket(), rplInviting.c_str(), rplInviting.size(), 0);
 			send(user->getSocket(), inviteMsg.c_str(), inviteMsg.size(), 0);
 			user->addAnInvitation(chan->getName());
-			std::cout << user->isInvitedTo(chan->getName()) << std::endl;
-			user->addAnInvitation(chan->getName());
-			user->addAnInvitation(chan->getName());
-			user->addAnInvitation(chan->getName());
-			user->addAnInvitation(chan->getName());
-			user->addAnInvitation(chan->getName());
-			user->addAnInvitation(chan->getName());
-			user->addAnInvitation(chan->getName());
-			std::cout << user->isInvitedTo(chan->getName()) << std::endl;
 		}
 	}
 	return (0);

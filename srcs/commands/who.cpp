@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 04:31:44 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/05 00:26:27 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/14 17:21:32 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "NumericReply.hpp"
 #include "Command.hpp"
 
-int executeWho(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User> users)
+int executeWho(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User> &users)
 {
 	std::string 				rplWhoReply;
 	std::string 				flag = "H";
