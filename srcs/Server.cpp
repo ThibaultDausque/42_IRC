@@ -4,7 +4,7 @@
 Server::Server(std::string _pwd, unsigned int _port)
 {
 	this->_serverFd = 0;
-	this->_serverIp = "toto";
+	this->_serverIp = "";
 	this->_serverPwd = _pwd;
 	this->_port = _port;
 	this->_connected = 0;
@@ -47,7 +47,7 @@ int	Server::initServer(void)
 	if (bind(_serverFd, (sockaddr *)&serverAddress, sizeof(serverAddress)))
 	{
 		close(_serverFd);
-		throw(std::runtime_error("toto"));
+		throw(std::runtime_error("Port is already in use"));
 	}
 	// The Server listen on 5 port max
 	if (listen(_serverFd, 5))
@@ -89,25 +89,24 @@ std::string	Server::readMessage(int fd_client)
 
 	if (bytes <= 0)
 	{
-		// for (size_t i = 0; i < this->_tab.size(); i++)
-		// {
-		// 	if (this->_tab[i].fd == fd_client)
-		// 	{
-		// 		this->_tab.erase(this->_tab.begin() + i);
-		// 		break ;
-		// 	}
-		// }
-		// for (size_t i = 0; i < this->_clients.size(); i++)
-		// {
-		// 	if (this->_clients[i].getSocket() == fd_client)
-		// 	{
-		// 		this->_clients.erase(this->_clients.begin() + i);
-		// 		break ;
-		// 	}
-		// }
+		for (size_t i = 0; i < this->_tab.size(); i++)
+		{
+			if (this->_tab[i].fd == fd_client)
+			{
+				this->_tab.erase(this->_tab.begin() + i);
+				break ;
+			}
+		}
+		for (size_t i = 0; i < this->_clients.size(); i++)
+		{
+			if (this->_clients[i].getSocket() == fd_client)
+			{
+				this->_clients.erase(this->_clients.begin() + i);
+				break ;
+			}
+		}
 		std::cout << "* client " << fd_client << " disconnected *" << std::endl;
-		// close(fd_client);
-		// return ("");
+		close(fd_client);
 	}
 	else
 	{

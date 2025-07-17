@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 18:43:17 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/14 19:59:14 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/17 18:45:55 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "numeric_reply.hpp"
 #include "command.hpp"
 
-int executeQuit(User &user, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User> &users, std::vector<struct pollfd>	tab)
+int executeQuit(User &user, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User> &users, std::vector<struct pollfd>	&tab)
 {
 	int							fd = user.getSocket();
 	std::map<User*, bool> 		userList;

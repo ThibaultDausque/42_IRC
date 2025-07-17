@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:21:20 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/14 19:30:14 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/17 18:46:13 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,6 @@ int executePing(User &user, std::string cmdline);
 int executeWho(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User> &users);
 int	executePass(User &user, std::string cmdline, std::string password);
 int executeMode(User &user, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User> &users);
-int executeQuit(User &user, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User> &users, std::vector<struct pollfd>	tab);
+int executeQuit(User &user, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User> &users, std::vector<struct pollfd>	&tab);
 
 #endif

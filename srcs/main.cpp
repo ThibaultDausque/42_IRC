@@ -6,7 +6,7 @@
 void	handle_signal(int sig)
 {
 	(void) sig;
-	throw std::runtime_error("* signal handled *");
+	exit(0);
 }
 
 int	main(int ac, char **av)
@@ -16,7 +16,7 @@ int	main(int ac, char **av)
 	unsigned int	server_port;
 	if (ac != 3)
 	{
-		std::cout << "* three arguments needed *" << std::endl;
+		std::cout << "* two arguments needed *" << std::endl;
 		return 0;
 	}
 	

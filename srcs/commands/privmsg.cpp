@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 13:53:41 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/14 18:47:54 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/17 17:31:05 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int executePrivmsg(User &origin, std::map<std::string, Channel> &channels, std::
 			else if (isReceiverAChannel(*receiverIt)) {
 				chan = getChannelPtr(channels, *receiverIt);
 
-				if (!chan->isUserConnected(user->getNickname())) {
+				if (!chan->isUserConnected(origin.getNickname())) {
 					errMsg = ERR_CANNOTSENDTOCHAN(origin.getNickname(), *receiverIt);
 					send(origin.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 				}
