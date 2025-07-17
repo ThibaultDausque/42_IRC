@@ -8,13 +8,14 @@ Server::Server(std::string _pwd, unsigned int _port)
 	this->_serverPwd = _pwd;
 	this->_port = _port;
 	this->_connected = 0;
+	this->_clients.reserve(1020);
 }
 
 Server::~Server()
 {
 	for (size_t i = 0; i < _tab.size(); i++)
 		close(_tab[i].fd);
-
+	close(this->_serverFd);
 }
 
 std::vector<struct pollfd>&	Server::getTab()
@@ -47,10 +48,10 @@ int	Server::initServer(void)
 	if (bind(_serverFd, (sockaddr *)&serverAddress, sizeof(serverAddress)))
 	{
 		close(_serverFd);
-		throw(std::runtime_error("Port is already in use"));
+		throw(std::runtime_error("Error: Port is already in use\n"));
 	}
 	// The Server listen on 5 port max
-	if (listen(_serverFd, 5))
+	if (listen(_serverFd, SOMAXCONN))
 		throw(std::runtime_error("Error: listen failed\n"));
 	return 0;
 }
@@ -58,9 +59,14 @@ int	Server::initServer(void)
 void	Server::acceptNewClient()
 {
 	struct sockaddr_in	cli;
-	struct pollfd	cli_fd;
-	int		accept_cli;
-	socklen_t	len = sizeof(cli);
+	struct pollfd		cli_fd;
+	int					accept_cli;
+	socklen_t			len = sizeof(cli);
+
+	if (_clients.size() == MAXCLI) {
+		std::cout << "Couldn't accept more client(s) (1020 maximum)" << std::endl;
+		return ;
+	}
 
 	accept_cli = accept(this->_serverFd, (sockaddr *)&(cli_fd), &len);
 	if (accept_cli <= 0)

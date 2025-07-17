@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 13:01:39 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/17 20:31:35 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/17 21:11:47 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ User::User(const User &copy)
 	_hostname = copy.getHostname();
 	_realname = copy.getRealname();
 	_socket = copy.getSocket();
-	_pwdEntered = true;
+	_pwdEntered = copy.isPwdEntered();
 }
 
 User	&User::operator=(const User &copy)
@@ -66,7 +66,7 @@ User	&User::operator=(const User &copy)
 		_hostname = copy.getHostname();
 		_realname = copy.getRealname();
 		_socket = copy.getSocket();
-		_pwdEntered = true;
+		_pwdEntered = copy.isPwdEntered();
 	}
 	return (*this);
 }
@@ -185,7 +185,7 @@ bool	User::isUserRegistered(void)
 	return (false);
 }
 
-bool	User::isPwdEntered(void)
+bool	User::isPwdEntered(void) const
 {
 	return this->_pwdEntered;
 }

@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 12:52:11 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/17 20:31:40 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/17 21:11:19 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ class User
 		bool		isUsernameRegistered(void);
 		bool		isNicknameRegistered(void);
 		bool		isUserRegistered(void);
-		bool		isPwdEntered(void);
+		bool		isPwdEntered(void) const ;
 		std::string	getFullName(void);
 
 		User &operator=(const User &copy);

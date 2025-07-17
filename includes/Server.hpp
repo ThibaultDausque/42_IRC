@@ -15,6 +15,8 @@
 # include <string.h>
 # include <fcntl.h>
 
+# define MAXCLI 1020
+
 class Server
 {
 	private:
