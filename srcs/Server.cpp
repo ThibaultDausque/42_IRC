@@ -89,24 +89,9 @@ std::string	Server::readMessage(int fd_client)
 
 	if (bytes <= 0)
 	{
-		for (size_t i = 0; i < this->_tab.size(); i++)
-		{
-			if (this->_tab[i].fd == fd_client)
-			{
-				this->_tab.erase(this->_tab.begin() + i);
-				break ;
-			}
-		}
-		for (size_t i = 0; i < this->_clients.size(); i++)
-		{
-			if (this->_clients[i].getSocket() == fd_client)
-			{
-				this->_clients.erase(this->_clients.begin() + i);
-				break ;
-			}
-		}
+		User	&user = getUserRfr(_clients, fd_client);
+		executeQuit(user, _channels, "QUIT", _clients, _tab);
 		std::cout << "* client " << fd_client << " disconnected *" << std::endl;
-		close(fd_client);
 	}
 	else
 	{

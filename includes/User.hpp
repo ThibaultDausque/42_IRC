@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 12:52:11 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/14 19:51:31 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/17 20:31:40 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ class User
 	public :
 		User(int socket);
 		User(std::string nn, std::string un, std::string hn, std::string rn, int socket);
+		User(const User &copy);
+		
 		std::string getNickname(void) const;
 		std::string getUsername(void) const;
 		std::string getHostname(void) const;
@@ -40,6 +42,7 @@ class User
 		void		setHostname(std::string &str);
 		void		setRealname(std::string &str);
 		void		setPassword(bool val);
+		
 		class HasInvalidCharacterException : public std::exception
 		{
 			public:
@@ -57,6 +60,7 @@ class User
 		bool		isPwdEntered(void);
 		std::string	getFullName(void);
 
+		User &operator=(const User &copy);
 		bool operator<(const User &other) const;
 
 		~User(void);

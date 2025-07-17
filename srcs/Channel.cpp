@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:56:40 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/14 17:52:59 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/17 20:42:50 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,53 +52,74 @@ Channel::Channel(std::string name, std::string topic, std::string modes, std::st
 	this->_creationTime = std::time(0);
 }
 
+Channel::Channel(const Channel &copy)
+{
+	*this = copy;
+}
+
+Channel	&Channel::operator=(const Channel &copy)
+{
+	if (this != &copy) {
+		this->_users = copy.getUsers();
+		this->_name = copy.getName();
+		this->_topic = copy.getTopic();
+		this->_modes = copy.getModes();
+		this->_key = copy.getKey();
+		this->_userLimit = copy.getUserLimit();
+		this->_lastTopicChange = copy.getLastTimeTopicChange();
+		this->_lastUserToChangeTopic = copy.getLastUserToChangeTopic();
+		this->_creationTime = copy.getCreationTime();
+	}
+	return (*this);
+}
+
 Channel::~Channel(void) {}
 
 /*-----
 GETTERS
 -------*/
 
-std::map<User*, bool> Channel::getUsers(void)
+std::map<User*, bool> Channel::getUsers(void) const
 {
 	return (this->_users);
 }
 
-std::string	Channel::getName(void)
+std::string	Channel::getName(void) const
 {
 	return (this->_name);
 }
 
-std::string	Channel::getTopic(void)
+std::string	Channel::getTopic(void) const
 {
 	return (this->_topic);
 }
 
-std::string	Channel::getModes(void)
+std::string	Channel::getModes(void) const
 {
 	return (this->_modes);
 }
 
-std::string	Channel::getKey(void)
+std::string	Channel::getKey(void) const
 {
 	return (this->_key);
 }
 
-int	Channel::getUserLimit(void)
+int	Channel::getUserLimit(void) const
 {
 	return (this->_userLimit);
 }
 
-std::time_t	Channel::getLastTimeTopicChange(void)
+std::time_t	Channel::getLastTimeTopicChange(void) const
 {
 	return (this->_lastTopicChange);
 }
 
-std::time_t	Channel::getCreationTime(void)
+std::time_t	Channel::getCreationTime(void) const
 {
 	return (this->_creationTime);
 }
 
-std::string	Channel::getLastUserToChangeTopic(void)
+std::string	Channel::getLastUserToChangeTopic(void) const
 {
 	return (this->_lastUserToChangeTopic);
 }

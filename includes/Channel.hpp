@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:49:41 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/14 18:47:54 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/17 20:42:07 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,18 @@ class   Channel
 	public :
 		Channel(std::string name);
 		Channel(std::string name, std::string topic, std::string modes, std::string key, int limit);
-
+		Channel(const Channel &copy);
+		
 		// GETTERS
-		std::map<User*, bool>	getUsers(void);
-		std::string				getName(void);
-		std::string				getTopic(void);
-		std::string				getModes(void);
-		std::string				getKey(void);
-		int						getUserLimit(void);
-		std::time_t				getLastTimeTopicChange(void);
-		std::time_t				getCreationTime(void);
-		std::string				getLastUserToChangeTopic(void);
+		std::map<User*, bool>	getUsers(void) const;
+		std::string				getName(void) const;
+		std::string				getTopic(void) const;
+		std::string				getModes(void) const;
+		std::string				getKey(void) const;
+		int						getUserLimit(void) const;
+		std::time_t				getLastTimeTopicChange(void) const;
+		std::time_t				getCreationTime(void) const;
+		std::string				getLastUserToChangeTopic(void) const;
 
 		// SETTERS
 		void					changeTopic(std::string newTopic, User newUser);
@@ -76,6 +77,8 @@ class   Channel
 		bool					doesChannelHaveATopic(void);
 		int						getChannelSize(void);
 		std::string				convertUNIXTimeToString(time_t time);
+
+		Channel &operator=(Channel const &copy);
 
 		~Channel(void);
 	private :

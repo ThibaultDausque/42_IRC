@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 13:01:39 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/14 19:51:19 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/07/17 20:31:35 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,29 @@ User::User(std::string nn, std::string un, std::string hn, std::string rn, int s
 	_realname = rn;
 	_socket = socket;
 	_pwdEntered = false;
+}
+
+User::User(const User &copy)
+{
+	_nickname = copy.getNickname();
+	_username = copy.getUsername();
+	_hostname = copy.getHostname();
+	_realname = copy.getRealname();
+	_socket = copy.getSocket();
+	_pwdEntered = true;
+}
+
+User	&User::operator=(const User &copy)
+{
+	if (this != &copy) {
+		_nickname = copy.getNickname();
+		_username = copy.getUsername();
+		_hostname = copy.getHostname();
+		_realname = copy.getRealname();
+		_socket = copy.getSocket();
+		_pwdEntered = true;
+	}
+	return (*this);
 }
 
 User::~User(void) {}
