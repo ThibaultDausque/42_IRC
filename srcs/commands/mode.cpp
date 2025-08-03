@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 17:14:46 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/14 18:47:54 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/08/03 03:01:52 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,11 @@
 #include "command.hpp"
 #include "User.hpp"
 
-
 static int ft_stoi(std::string limit)
 {
 	long int l = strtol(limit.c_str(), NULL, 10);
     if (errno || l > INT_MAX || l < INT_MIN)
-	return (-1);
+		return (-1);
     return (static_cast<int>(l));
 }
 
