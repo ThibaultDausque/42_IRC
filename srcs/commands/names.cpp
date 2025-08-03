@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 17:28:58 by tpipi             #+#    #+#             */
-/*   Updated: 2025/08/03 01:02:37 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/08/03 03:47:27 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	printUsersInChannel(User &origin, std::map<std::string, Channel> &channels,
 }
 
 int executeNames(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User> *users)
-	{
+{
 	std::string					chanName;
 	std::string					rplEndOfNames;
 	std::string					rplNamReply;

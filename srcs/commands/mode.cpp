@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 17:14:46 by tpipi             #+#    #+#             */
-/*   Updated: 2025/08/03 03:01:52 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/08/03 03:43:53 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ int executeMode(User &user, std::map<std::string, Channel> &channels, std::strin
 					}
 				}
 				else if (modeParam[index] == 'o') {
-					if (!userConnectedOnAnyChannel(channels, *getUserPtr(users, params[modeArgIndex]))) {
+					if (getUserPtr(users, params[modeArgIndex]) == NULL) {
 						errMsg = ERR_NOSUCHNICK(user.getNickname(), params[modeArgIndex]);
 						send(user.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 					}

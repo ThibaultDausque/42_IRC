@@ -2,7 +2,7 @@ CC = c++
 FLAGS = -Wall -Wextra -std=c++98 -g
 
 SRCS_MAIN =  $(addprefix srcs/, main.cpp User.cpp Server.cpp Channel.cpp)
-SRCS_COMMANDS = $(addprefix srcs/commands/, command_utils.cpp join.cpp names.cpp invite.cpp kick.cpp names.cpp nick.cpp part.cpp privmsg.cpp user.cpp ping.cpp who.cpp pass.cpp mode.cpp)
+SRCS_COMMANDS = $(addprefix srcs/commands/, command_utils.cpp join.cpp topic.cpp names.cpp invite.cpp kick.cpp nick.cpp part.cpp privmsg.cpp user.cpp ping.cpp who.cpp pass.cpp mode.cpp quit.cpp)
 SRCS = $(SRCS_MAIN) $(SRCS_COMMANDS)
 
 RM = rm -f
