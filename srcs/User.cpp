@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 13:01:39 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/17 21:11:47 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/08/03 02:11:05 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ User::User(int socket)
 	_realname = "";
 	_socket = socket;
 	_pwdEntered = false;
+	_textToSend = "";
 }
 
 User::User(std::string nn, std::string un, std::string hn, std::string rn, int socket)
@@ -46,6 +47,7 @@ User::User(std::string nn, std::string un, std::string hn, std::string rn, int s
 	_realname = rn;
 	_socket = socket;
 	_pwdEntered = false;
+	_textToSend = "";
 }
 
 User::User(const User &copy)
@@ -56,6 +58,7 @@ User::User(const User &copy)
 	_realname = copy.getRealname();
 	_socket = copy.getSocket();
 	_pwdEntered = copy.isPwdEntered();
+	_textToSend = copy.getTextToSend();
 }
 
 User	&User::operator=(const User &copy)
@@ -67,6 +70,7 @@ User	&User::operator=(const User &copy)
 		_realname = copy.getRealname();
 		_socket = copy.getSocket();
 		_pwdEntered = copy.isPwdEntered();
+		_textToSend = copy.getTextToSend();
 	}
 	return (*this);
 }
@@ -100,6 +104,11 @@ std::string User::getRealname(void) const
 int	User::getSocket(void) const
 {
 	return (this->_socket);
+}
+
+std::string	User::getTextToSend(void) const
+{
+	return (this->_textToSend);
 }
 
 void	User::setNickname(std::string &str)
@@ -194,6 +203,18 @@ std::string	User::getFullName(void)
 {
 	std::string fullname = this->getNickname()+"!"+this->getUsername()+"@"+this->getHostname();
 	return (fullname);
+}
+
+void	User::addTextToSend(std::string strToAdd)
+{
+	if (!(_textToSend.size() == 0 && strToAdd == "\r\n"))
+		_textToSend.append(strToAdd);
+}
+
+void	User::removeTextToSend(int index)
+{
+	if (index > 0)
+		_textToSend.erase(0, index);
 }
 
 bool User::operator<(const User &other) const

@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:21:20 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/17 18:46:13 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/08/03 00:05:20 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ bool						userConnectedOnAnyChannel(std::map<std::string, Channel> &channels, Us
 void						deleteEmptyChannel(std::map<std::string, Channel> &channels);
 void						createReason(std::vector<std::string> reasonVector, std::string *reason, size_t index);
 bool						isReceiverAChannel(std::string receiver);
+size_t	                    doesTextHaveCRLF(const std::string text);
 
 int executeJoin(User &origin, std::map<std::string, Channel> &channels, std::string cmdline);
 int executeNames(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User> *users);

@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 12:52:11 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/17 21:11:19 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/08/03 01:19:33 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ class User
 		std::string getHostname(void) const;
 		std::string getRealname(void) const;
 		int         getSocket(void) const;
+		std::string	getTextToSend(void) const;
 		
 		void		setNickname(std::string &str);
 		void		setUsername(std::string &str);
@@ -59,6 +60,8 @@ class User
 		bool		isUserRegistered(void);
 		bool		isPwdEntered(void) const ;
 		std::string	getFullName(void);
+		void		addTextToSend(std::string strToAdd);
+		void		removeTextToSend(int index);
 
 		User &operator=(const User &copy);
 		bool operator<(const User &other) const;
@@ -72,6 +75,7 @@ class User
 		int							_socket;
 		std::vector<std::string>	_inviteList;
 		bool						_pwdEntered;
+		std::string					_textToSend;
 };
 
 std::ostream &operator<<(std::ostream &os, const User &user);

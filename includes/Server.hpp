@@ -31,17 +31,17 @@ class Server
 
 	public:
 		Server(std::string _pwd, unsigned int _port);
+		Server(const Server &copy);
+		Server &operator=(const Server &copy);
 		~Server();
+
 		int							initServer(void);
-		void						acceptNewClient(void);
-		std::string					readMessage(int	fd_client);
-		void						runServer(void);
-		void						eraseClient(void);
-		void						signalHandler(int sig);
-		std::vector<struct pollfd>&	getTab();
-		pollfd&						getTabElement(size_t idx);
-		std::string					parseNick(const char* buff);
 		int							runCommands(std::string cmdline, int tabIndex);
+		void						acceptNewClient(void);
+		void						runServer(void);
+		std::string					readMessage(int	fd_client);
+		std::vector<struct pollfd>	&getTab(void);
+		pollfd&						getTabElement(size_t idx);
 };
 
 #endif

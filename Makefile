@@ -1,26 +1,10 @@
 CC = c++
 FLAGS = -Wall -Wextra -std=c++98 -g
-SRC	= srcs/User.cpp \
-		srcs/main.cpp \
-		srcs/Server.cpp \
-		srcs/Channel.cpp \
 
-SRC_COM = srcs/commands/command_utils.cpp \
-		srcs/commands/join.cpp \
-		srcs/commands/names.cpp \
-		srcs/commands/invite.cpp \
-		srcs/commands/kick.cpp \
-		srcs/commands/names.cpp \
-		srcs/commands/nick.cpp \
-		srcs/commands/part.cpp \
-		srcs/commands/privmsg.cpp \
-		srcs/commands/user.cpp \
-		srcs/commands/ping.cpp \
-		srcs/commands/who.cpp \
-		srcs/commands/pass.cpp \
-		srcs/commands/mode.cpp
+SRCS_MAIN =  $(addprefix srcs/, main.cpp User.cpp Server.cpp Channel.cpp)
+SRCS_COMMANDS = $(addprefix srcs/commands/, command_utils.cpp join.cpp names.cpp invite.cpp kick.cpp names.cpp nick.cpp part.cpp privmsg.cpp user.cpp ping.cpp who.cpp pass.cpp mode.cpp)
+SRCS = $(SRCS_MAIN) $(SRCS_COMMANDS)
 
-SRCS = $(wildcard srcs/**/*.cpp) $(wildcard srcs/*.cpp)
 RM = rm -f
 OBJS_DIR = obj
 INCLUDES = -Iincludes -Isrcs

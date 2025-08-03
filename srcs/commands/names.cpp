@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 17:28:58 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/14 18:47:54 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/08/03 01:02:37 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,16 @@ int executeNames(User &origin, std::map<std::string, Channel> &channels, std::st
 		for (std::map<std::string, Channel>::iterator it = channels.begin(); it != channels.end(); it++)
 			printUsersInChannel(origin, channels, it->first);
 		
+		
 		rplEndOfNames =  RPL_ENDOFNAMES(originNick, "*");
 		rplNamReply = RPL_NAMREPLY(originNick, "*");
-		for (std::vector<User>::iterator userIt = (*users).begin(); userIt != (*users).end(); userIt++) {
+		for (std::vector<User>::iterator userIt = users->begin(); userIt != users->end(); userIt++) {
 			if (!userConnectedOnAnyChannel(channels, *userIt)) {
-				rplNamReply.append((*userIt).getNickname());
-				if (userIt + 1 == (*users).end())
+				isAUserAlone = true;
+				rplNamReply.append(userIt->getNickname());
+				if (userIt + 1 == users->end())
 					break ;
 				rplNamReply.append(" ");
-				isAUserAlone = true;
 			}
 		}
 		rplNamReply.append("\r\n");

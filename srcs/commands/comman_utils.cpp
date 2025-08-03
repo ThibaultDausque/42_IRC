@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:27:00 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/14 18:45:01 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/08/03 00:05:07 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,4 +123,9 @@ bool	isReceiverAChannel(std::string receiver)
 	if (receiver.size() > 0 && (receiver[0] == '&' || receiver[0] == '#'))
 		return (true);
 	return (false);
+}
+
+size_t	doesTextHaveCRLF(const std::string text)
+{
+	return (text.find("\r\n"));
 }
