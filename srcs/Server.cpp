@@ -188,8 +188,10 @@ int	Server::runCommands(std::string cmdline, int tabIndex)
 				executeWho(user, _channels, cmdToRun, _clients);
 			else if (cmd == "MODE")
 				executeMode(user, _channels, cmdToRun, _clients);
-			else if (cmd == "QUIT")
+			else if (cmd == "QUIT") {
 				executeQuit(user, _channels, cmdToRun, _clients, _tab);
+				return (0);
+			}
 			else {
 				errMsg =  ERR_UNKNOWNCOMMAND(user.getNickname(), cmd);
 				send(fd, errMsg.c_str(), errMsg.size(), 0);
