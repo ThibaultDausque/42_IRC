@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 18:43:17 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/17 18:45:55 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/08/06 02:05:56 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,28 @@ int executeQuit(User &user, std::map<std::string, Channel> &channels, std::strin
 	std::vector<std::string>	params = getVector(cmdline, ' ');
 	std::string					reason;
 	std::string					quitMsg = ":"+user.getFullName()+" QUIT ";
+	Channel						*chanPtr;
 
 	createReason(params, &reason, 1);
 	quitMsg.append(reason);
 
 	for (std::map<std::string, Channel>::iterator chanIt = channels.begin(); chanIt != channels.end(); ++chanIt) {
 		if (chanIt->second.isUserConnected(user.getNickname())) {
-			chanIt->second.removeUser(user.getNickname());
 			userList = chanIt->second.getUsers();
 			
 			for (std::map<User*, bool>::iterator userIt = userList.begin(); userIt != userList.end(); ++userIt) {
-				usersSharingChannelFD.insert(userIt->first->getSocket());
+				if ((*userIt->first).getNickname() != user.getNickname())
+					usersSharingChannelFD.insert(userIt->first->getSocket());
 			}
 		}
 	}
+
+	for (std::map<std::string, Channel>::iterator chanIt = channels.begin(); chanIt != channels.end(); ++chanIt) {
+		chanPtr = getChannelPtr(channels, chanIt->second.getName());
+		if (chanPtr->isUserConnected(user.getNickname()))
+			chanPtr->removeUser(user.getNickname());
+	}
+
 	for (std::set<int>::iterator fdIt = usersSharingChannelFD.begin(); fdIt != usersSharingChannelFD.end(); ++fdIt)
 		send(*fdIt, quitMsg.c_str(), quitMsg.size(), 0);
 	deleteEmptyChannel(channels);
