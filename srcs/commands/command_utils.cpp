@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   comman_utils.cpp                                   :+:      :+:    :+:   */
+/*   command_utils.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 16:27:00 by tpipi             #+#    #+#             */
-/*   Updated: 2025/08/03 00:05:07 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/08/06 04:36:44 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,31 +32,31 @@ Channel	*getChannelPtr(std::map<std::string, Channel> &channels, std::string cha
 	return (NULL);
 }
 
-bool	doesClientExist(std::vector<User> &clients, std::string clientName)
+bool	doesClientExist(std::list<User> &clients, std::string clientName)
 {
-	for (std::vector<User>::iterator it = clients.begin(); it != clients.end(); ++it) {
+	for (std::list<User>::iterator it = clients.begin(); it != clients.end(); ++it) {
 		if (it->getNickname() == clientName)
 			return (true);
 	}
 	return (false);
 }
 
-User	*getUserPtr(std::vector<User> &clients, std::string clientName)
+User	*getUserPtr(std::list<User> &clients, std::string clientName)
 {
-	for (std::vector<User>::iterator it = clients.begin(); it != clients.end(); ++it) {
+	for (std::list<User>::iterator it = clients.begin(); it != clients.end(); ++it) {
 		if (it->getNickname() == clientName)
 			return (&(*it));
 	}
 	return (NULL);
 }
 
-User	&getUserRfr(std::vector<User> &clients, int fd)
+User	&getUserRfr(std::list<User> &clients, int fd)
 {
-	for (std::vector<User>::iterator it = clients.begin(); it != clients.end(); ++it) {
+	for (std::list<User>::iterator it = clients.begin(); it != clients.end(); ++it) {
 		if (it->getSocket() == fd)
 			return (*it);
 	}
-	return (clients[0]);
+	return (clients.front());
 }
 
 std::vector<std::string>	getVector(std::string strToSplit, char delimiter)

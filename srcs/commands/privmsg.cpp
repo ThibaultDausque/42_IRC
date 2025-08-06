@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 13:53:41 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/17 17:31:05 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/08/06 04:34:53 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "Channel.hpp"
 #include "numeric_reply.hpp"
 
-int executePrivmsg(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User> &users)
+int executePrivmsg(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::list<User> &users)
 {
 	std::map<User*, bool>		userList;
 	std::vector<std::string>	params = getVector(cmdline, ' ');

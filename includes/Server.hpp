@@ -7,15 +7,13 @@
 # include <cstdlib>
 # include <unistd.h>
 # include <poll.h>
-# include <vector>
+# include <list>
 # include "User.hpp"
 # include "command.hpp"
 # include "Channel.hpp"
 # include <map>
 # include <string.h>
 # include <fcntl.h>
-
-# define MAXCLI 1020
 
 class Server
 {
@@ -25,7 +23,7 @@ class Server
 		std::string						_serverPwd;
 		unsigned int					_port;
 		bool							_connected;
-		std::vector<User>				_clients;
+		std::list<User>					_clients;
 		std::vector<struct pollfd>		_tab;
 		std::map<std::string, Channel>	_channels;
 

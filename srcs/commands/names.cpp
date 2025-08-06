@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 17:28:58 by tpipi             #+#    #+#             */
-/*   Updated: 2025/08/03 03:47:27 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/08/06 04:42:55 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	printUsersInChannel(User &origin, std::map<std::string, Channel> &channels,
 	send(origin.getSocket(), rplEndOfNames.c_str(), rplEndOfNames.size(), 0);
 }
 
-int executeNames(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User> *users)
+int executeNames(User &origin, std::map<std::string, Channel> &channels, std::string cmdline, std::list<User> *users)
 {
 	std::string					chanName;
 	std::string					rplEndOfNames;
@@ -62,17 +62,16 @@ int executeNames(User &origin, std::map<std::string, Channel> &channels, std::st
 		
 		rplEndOfNames =  RPL_ENDOFNAMES(originNick, "*");
 		rplNamReply = RPL_NAMREPLY(originNick, "*");
-		for (std::vector<User>::iterator userIt = users->begin(); userIt != users->end(); userIt++) {
+		for (std::list<User>::iterator userIt = users->begin(); userIt != users->end(); userIt++) {
 			if (!userConnectedOnAnyChannel(channels, *userIt)) {
 				isAUserAlone = true;
 				rplNamReply.append(userIt->getNickname());
-				if (userIt + 1 == users->end())
-					break ;
 				rplNamReply.append(" ");
 			}
 		}
-		rplNamReply.append("\r\n");
 		if (isAUserAlone) {
+			rplNamReply.erase(rplNamReply.end() - 1);
+			rplNamReply.append("\r\n");
 			send(origin.getSocket(), rplNamReply.c_str(), rplNamReply.size(), 0);
 			send(origin.getSocket(), rplEndOfNames.c_str(), rplEndOfNames.size(), 0);
 		}

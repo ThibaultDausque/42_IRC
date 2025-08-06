@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 13:58:44 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/14 18:47:54 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/08/06 04:34:53 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "command.hpp"
 #include "User.hpp"
 
-int executeNick(User &user, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User> &users)
+int executeNick(User &user, std::map<std::string, Channel> &channels, std::string cmdline, std::list<User> &users)
 {
 	std::string 				oldNick = user.getNickname();
 	std::string 				errMsg;
@@ -40,7 +40,7 @@ int executeNick(User &user, std::map<std::string, Channel> &channels, std::strin
 			return (1);
 		}
 
-		for (std::vector<User>::iterator it = users.begin(); it != users.end(); ++it) {
+		for (std::list<User>::iterator it = users.begin(); it != users.end(); ++it) {
 			if (it->getNickname() == newNick) {
 				errMsg = ERR_NICKNAMEINUSE(oldNick, newNick);
 				send(user.getSocket(), errMsg.c_str(), errMsg.size(), 0);

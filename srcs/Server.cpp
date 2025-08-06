@@ -8,7 +8,6 @@ Server::Server(std::string _pwd, unsigned int _port)
 	this->_serverPwd = _pwd;
 	this->_port = _port;
 	this->_connected = 0;
-	this->_clients.reserve(MAXCLI);
 }
 
 Server::Server(const Server &copy)
@@ -89,11 +88,6 @@ void	Server::acceptNewClient()
 	struct pollfd		cli_fd;
 	int					accept_cli;
 	socklen_t			len = sizeof(cli);
-
-	if (_clients.size() == MAXCLI) {
-		std::cout << "Couldn't accept more client(s) (1020 maximum)" << std::endl;
-		return ;
-	}
 
 	accept_cli = accept(this->_serverFd, (sockaddr *)&(cli_fd), &len);
 	if (accept_cli <= 0)

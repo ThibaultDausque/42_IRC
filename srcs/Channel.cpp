@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:56:40 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/17 20:42:50 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/08/06 03:32:51 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,16 +190,12 @@ void	Channel::addUser(User &user, bool isOperator)
 
 void	Channel::removeUser(std::string userNickname)
 {
-	std::string 					nick;
-	std::map<User*, bool>::iterator	userToRemoveIter;
-	
 	for (std::map<User*, bool>::iterator it = _users.begin(); it != _users.end(); it++) {
-		nick = (*it->first).getNickname();
-
-		if (nick == userNickname)
-			userToRemoveIter = it;
+		if (it->first->getNickname() == userNickname) {
+			this->_users.erase(it);
+			return;
+		}
 	}
-	this->_users.erase(userToRemoveIter);
 }
 
 void	Channel::kickUser(std::string userNickname, std::string originFullname, std::string reason)

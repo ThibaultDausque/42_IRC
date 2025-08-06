@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 17:14:46 by tpipi             #+#    #+#             */
-/*   Updated: 2025/08/03 03:43:53 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/08/06 04:34:53 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static void	builtModeMsg(std::string &msg, char sign, char mode, char &lastSignS
 	lastSignSent = sign;
 }
 
-int executeMode(User &user, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User> &users)
+int executeMode(User &user, std::map<std::string, Channel> &channels, std::string cmdline, std::list<User> &users)
 {
 	int							modeArgIndex = 3;
 	char						sign = '+';

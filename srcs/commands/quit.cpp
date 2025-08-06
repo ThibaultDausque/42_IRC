@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 18:43:17 by tpipi             #+#    #+#             */
-/*   Updated: 2025/08/06 02:05:56 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/08/06 04:34:53 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "numeric_reply.hpp"
 #include "command.hpp"
 
-int executeQuit(User &user, std::map<std::string, Channel> &channels, std::string cmdline, std::vector<User> &users, std::vector<struct pollfd>	&tab)
+int executeQuit(User &user, std::map<std::string, Channel> &channels, std::string cmdline, std::list<User> &users, std::vector<struct pollfd>	&tab)
 {
 	int							fd = user.getSocket();
 	std::map<User*, bool> 		userList;
@@ -45,10 +45,10 @@ int executeQuit(User &user, std::map<std::string, Channel> &channels, std::strin
 	}
 
 	for (std::set<int>::iterator fdIt = usersSharingChannelFD.begin(); fdIt != usersSharingChannelFD.end(); ++fdIt)
-		send(*fdIt, quitMsg.c_str(), quitMsg.size(), 0);
+		send(*fdIt, quitMsg.c_str(), quitMsg.size(), MSG_NOSIGNAL);
 	deleteEmptyChannel(channels);
 
-	for (std::vector<User>::iterator userIt = users.begin(); userIt != users.end(); userIt++) {
+	for (std::list<User>::iterator userIt = users.begin(); userIt != users.end(); userIt++) {
 		if (userIt->getNickname() == user.getNickname()) {
 			users.erase(userIt);
 			break ;
