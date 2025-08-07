@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 03:46:33 by tpipi             #+#    #+#             */
-/*   Updated: 2025/07/14 18:47:54 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/08/07 18:23:45 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int executePing(User &user, std::string cmdline)
 		send(user.getSocket(), errMsg.c_str(), errMsg.size(), 0);
 	else {
 		std::string	token = params[1];
-		std::string	pingMsg = ":"SERVER_HOSTNAME" PONG "SERVER_HOSTNAME" :"+token;
+		std::string	pingMsg = ":"SERVER_HOSTNAME" PONG "SERVER_HOSTNAME" :"+token+"\r\n";
 		send(user.getSocket(), pingMsg.c_str(), pingMsg.size(), 0);
 	}
 	return (0);

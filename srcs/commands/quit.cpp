@@ -6,7 +6,7 @@
 /*   By: tpipi <tpipi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 18:43:17 by tpipi             #+#    #+#             */
-/*   Updated: 2025/08/06 04:34:53 by tpipi            ###   ########.fr       */
+/*   Updated: 2025/08/07 19:14:11 by tpipi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int executeQuit(User &user, std::map<std::string, Channel> &channels, std::strin
 	deleteEmptyChannel(channels);
 
 	for (std::list<User>::iterator userIt = users.begin(); userIt != users.end(); userIt++) {
-		if (userIt->getNickname() == user.getNickname()) {
+		if (userIt->getSocket() == user.getSocket()) {
 			users.erase(userIt);
 			break ;
 		}
